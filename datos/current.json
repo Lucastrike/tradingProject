@@ -1,0 +1,32 @@
+{
+	"instrument" : "EUR_USD",
+	"granularity" : "S5",
+	"candles" : [
+		{
+			"time" : "2017-03-24T09:35:35.000000Z",
+			"openBid" : 1.07973,
+			"openAsk" : 1.07985,
+			"highBid" : 1.07973,
+			"highAsk" : 1.07985,
+			"lowBid" : 1.07972,
+			"lowAsk" : 1.07984,
+			"closeBid" : 1.07972,
+			"closeAsk" : 1.07984,
+			"volume" : 4,
+			"complete" : true
+		},
+		{
+			"time" : "2017-03-24T09:35:40.000000Z",
+			"openBid" : 1.07973,
+			"openAsk" : 1.07985,
+			"highBid" : 1.07973,
+			"highAsk" : 1.07985,
+			"lowBid" : 1.07972,
+			"lowAsk" : 1.07984,
+			"closeBid" : 1.07973,
+			"closeAsk" : 1.07984,
+			"volume" : 3,
+			"complete" : false
+		}
+	]
+}

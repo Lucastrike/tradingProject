@@ -1,8 +1,31 @@
 $("document").ready(function() {
 
+// Manage the initial capital PopOver
+  $("#inputCapIni").on('focus', function(){
+    $('#inputCapIni').popover('hide');
+  });
+  $("#inputCapIni").on('blur', function(){
+    var capitalIni = $('#inputCapIni').val();
+    console.log(capitalIni);
+    if (capitalIni > 100000) {
+      $('#inputCapIni').popover('show');
+    }
+  });
+// ===================================================================//
+
+
+//  Gets the leverage from a bootstrap select
+  $('.selectpicker').change(function () {
+    var apalancamiento = $(this).find("option:selected").text();
+    console.log(apalancamiento);
+    });
+// ====================================================================//
+
+// Needed for "nombre" and "apellidos" inputs (onlyLetters)
   $.validator.addMethod("regx", function(value, element, regexpr) {
       return regexpr.test(value);
-  }, "Please enter a valid pasword.");
+  }, "");
+// ====================================================================//
 
   //===================================================================//
   //                             signUp                                //
@@ -33,7 +56,11 @@ $("document").ready(function() {
           capIni: {
             required: true,
             digits: true,
-            step: 10
+            step: 10,
+            range: [10, 100000]
+          },
+          apalancamiento: {
+            required: true
           },
           agree: "required"
       },
@@ -44,8 +71,9 @@ $("document").ready(function() {
         usuario: "Ups! has olvidado tu nombre de usuario.",
         password: "Ups! el password tiene que contener al menos 6 caracteres.",
         repassword: "Ups! has olvidado confirmar el password o es incorrecto.",
-        email: "Ups! has olvidado el email.",
-        capIni: "Ups! has olvidado introducir un capital inicial o no es multiplo de 10.",
+        email: "Ups! has olvidado el email o es incorrecto.",
+        capIni: "Ups! has olvidado introducir un capital inicial menor a 100.000€ o no es multiplo de 10.",
+        apalancamiento: "Ups! has olvidado seleccionar un apalancamiento.",
         agree: "Ups! has olvidado aceptar."
       },
       submitHandler: function() {

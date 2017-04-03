@@ -72,34 +72,51 @@ $("document").ready(function() {
         password: "Ups! el password tiene que contener al menos 6 caracteres.",
         repassword: "Ups! has olvidado confirmar el password o es incorrecto.",
         email: "Ups! has olvidado el email o es incorrecto.",
-        capIni: "Ups! has olvidado introducir un capital inicial menor a 100.000€ o no es multiplo de 10.",
+        capIni: "Ups! has olvidado introducir un capital inicial <= 100.000€ o no es múltiplo de 10.",
         apalancamiento: "Ups! has olvidado seleccionar un apalancamiento.",
         agree: "Ups! has olvidado aceptar."
       },
       submitHandler: function() {
         console.log("all ok");
-        //signup();
+        signup();
       }
   });
 
 function signup(){
-    var nameup = $("#nameup").val();
-    var emailup = $("#emailup").val();
-    var passwordup = $("#passwordup").val();
+    var nombre = $("#inputNombre").val();
+    var apellido = $("#inputApellido").val();
+    var email = $("#inputEmail").val();
+    var usuario = $("#inputUsuario").val();
+    var password = $("#inputRePassword").val();
+    var capIni = $("#inputCapIni").val();
+    var leverage = $("#inputApalancamiento").find("option:selected").text();
+
+    if (leverage == "1:10") {
+      var apalancamiento = 10;
+    } else if (leverage == "1:50") {
+      var apalancamiento = 50;
+    } else if (leverage == "1:100") {
+      var apalancamiento = 100;
+    } else if (leverage == "1:200") {
+      var apalancamiento = 200;
+    } else if (leverage == "1:500") {
+      var apalancamiento = 500;
+    }
 
     $.ajax({
-        type: '',
-        url: '',
+        type: 'POST',
+        url: 'php/register.php',
         data: {
-          name:nameup,
-          email:emailup,
-          password:passwordup
+          nombre: nombre,
+          apellido: apellido,
+          email: email,
+          usuario: usuario,
+          password: password,
+          capIni: capIni,
+          apalancamiento: apalancamiento
         },
-        success: function(response){
-          //alert("Welcome "+nameup);
-          $("#nameup").val("");
-          $("#emailup").val("");
-          $("#passwordup").val("");
+        success: function(data){
+          alert(data);
         },
         error: function(jqXHR, textStatus, errorThrown){
         if (jqXHR.status === 0) {
@@ -141,84 +158,76 @@ function signup(){
 //                             SignIn                                //
 //===================================================================//
 
-// $("#form-signin").validate({
-//     rules: {
-//         email: "required",
-//         password: {
-//         required: true,
-//         minlength: 5
-//       }
-//     },
-//     messages: {
-//       email: "Please enter a valid email address",
-//       password: {
-//         required: "Please provide a password",
-//         minlength: "Your password must be at least 5 characters long"
-//       }
-//     },
-//     submitHandler: function() {
-//       signin();
-//     }
-// });
-//
-// function signin(){
-//
-//   var emailin = $("#emailin").val();
-//   var passwordin = $("#passwordin").val();
-//
-//   $.ajax({
-//       type: 'POST',
-//       url: 'php/login.php',
-//       data: {
-//         email:emailin,
-//         password:passwordin
-//       },
-//       success: function(response){
-//         if (response==0) {
-//           alert("The email doesn't match our database");
-//         } else {
-//           //alert("Welcome " + response);
-//           $('<li><a class="home-icon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Hey '+response+' (^_^)</a></li>').insertBefore("#left-home");
-//           $("#logout").removeClass("hidden");
-//           $.magnificPopup.close();
-//         }
-//         $("#emailin").val("");
-//         $("#passwordin").val("");
-//       },
-//       error: function(jqXHR, textStatus, errorThrown){
-//       if (jqXHR.status === 0) {
-//
-//       alert('Not connect: Verify Network.');
-//
-//     } else if (jqXHR.status == 404) {
-//
-//       alert('Requested page not found [404]');
-//
-//     } else if (jqXHR.status == 500) {
-//
-//       alert('Internal Server Error [500].');
-//
-//     } else if (textStatus === 'parsererror') {
-//
-//       alert('Requested JSON parse failed.');
-//
-//     } else if (textStatus === 'timeout') {
-//
-//       alert('Time out error.');
-//
-//     } else if (textStatus === 'abort') {
-//
-//       alert('Ajax request aborted.');
-//
-//     } else {
-//
-//       alert('Uncaught Error: ' + jqXHR.responseText);
-//
-//     }
-//   }
-//
-// });
-//
-// }
+$("#form-signin").validate({
+    rules: {
+      email: {
+        required: true,
+        email: true
+      },
+        password: {
+        required: true,
+        minlength: 6
+      }
+    },
+    messages: {
+      email: "Ups! has olvidado el email o es incorrecto.",
+      password: "Ups! el password tiene que contener al menos 6 caracteres."
+    },
+    submitHandler: function() {
+      signin();
+    }
+});
+
+function signin(){
+
+  var email = $("#inputEmailin").val();
+  var password = $("#inputPasswordin").val();
+  console.log(password);
+
+  $.ajax({
+      type: 'POST',
+      url: 'php/login.php',
+      data: {
+        email: email,
+        password: password
+      },
+      success: function(data){
+        alert(data);
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+      if (jqXHR.status === 0) {
+
+      alert('Not connect: Verify Network.');
+
+    } else if (jqXHR.status == 404) {
+
+      alert('Requested page not found [404]');
+
+    } else if (jqXHR.status == 500) {
+
+      alert('Internal Server Error [500].');
+
+    } else if (textStatus === 'parsererror') {
+
+      alert('Requested JSON parse failed.');
+
+    } else if (textStatus === 'timeout') {
+
+      alert('Time out error.');
+
+    } else if (textStatus === 'abort') {
+
+      alert('Ajax request aborted.');
+
+    } else {
+
+      alert('Uncaught Error: ' + jqXHR.responseText);
+
+    }
+  }
+
+});
+
+}
 
 });

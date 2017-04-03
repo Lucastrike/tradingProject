@@ -40,9 +40,10 @@
             color: #1993bd;
             padding: 2%;
             border-radius: 5%;
+            margin-bottom: 5%;
         }
 
-        .form-control {
+        .form-control, .divCapIni {
             margin-bottom: 1%;
         }
 
@@ -67,7 +68,7 @@
 
     <div class="container-fluid col-xs-12">
 
-        <div class="container col-xs-5 col-xs-offset-1 leftSide boxes">
+        <div class="container col-xs-12 col-sm-5 col-sm-offset-1 leftSide boxes">
             <div>
                 <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
                 <h4>Integer at odio fringilla, mattis felis vel, efficitur ante. Integer sed pretium ipsum. Nullam quis sagittis enim.</h4>
@@ -84,7 +85,7 @@
             </div>
         </div>
 
-        <div class="container col-xs-4 col-xs-offset-1 rightSide boxes">
+        <div class="container col-xs-12 col-sm-4 col-sm-offset-1 rightSide boxes">
             <form id="form-signup">
                 <h2 class="form-signin-heading text-center register-label">Registrate!</h2>
                 <hr class="colorgraph"><br>
@@ -92,12 +93,14 @@
                 <input type="text" id="inputApellido" name="apellido" class="form-control" placeholder="Apellido">
                 <input type="text" id="inputEmail" name="email" class="form-control" placeholder="email">
                 <input type="text" id="inputUsuario" name="usuario" class="form-control" placeholder="Usuario">
-                <input type="text" id="inputPassword" name="password" class="form-control" placeholder="Password">
-                <input type="text" id="inputRePassword" name="repassword" class="form-control" placeholder="Confirmar password">
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password">
+                <input type="password" id="inputRePassword" name="repassword" class="form-control" placeholder="Confirmar password">
 
-                <input type="text" id="inputCapIni" name="capIni" class="form-control" placeholder="Capital inicial" data-toggle="popover" data-placement="top" data-content="Seamos serios, estás aquí para aprender... No tienes tanto dinero." data-trigger="manual">
+                <div class="input-group divCapIni col-xs-7">
+                  <input type="text" id="inputCapIni" name="capIni" class="form-control" placeholder="Capital inicial €" data-toggle="popover" data-placement="top" data-content="Seamos serios, estás aquí para aprender... No tienes tanto dinero." data-trigger="manual">
+                </div>
 
-                <select class="selectpicker show-tick" name="apalancamiento" title="Apalancamiento" data-width="auto">
+                <select class="selectpicker show-tick" id="inputApalancamiento" name="apalancamiento" title="Apalancamiento" data-width="auto">
                   <option style="background: rgb(0, 163, 255); color: #fff;">1:10</option>
                   <option style="background: rgb(255, 149, 25); color: #fff;">1:50</option>
                   <option>1:100</option>
@@ -118,12 +121,12 @@
         <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
-                    <div class="container-fluid boxes">
+                    <div class="container-fluid">
                         <form id="form-signin">
                             <h2 class="form-signin-heading text-center register-label">Login</h2>
                             <hr class="colorgraph"><br>
-                            <input type="text" id="inputEmail" name="email" class="form-control" placeholder="email" required="">
-                            <input type="text" id="inputPassword" name="password" class="form-control" placeholder="Password" required="">
+                            <input type="text" id="inputEmailin" name="email" class="form-control" placeholder="email">
+                            <input type="password" id="inputPasswordin" name="password" class="form-control" placeholder="Password">
                             <br>
                             <button class="btn btn-lg btn-success btn-block" type="submit">Login</button>
                             <br>

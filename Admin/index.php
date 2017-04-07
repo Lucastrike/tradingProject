@@ -18,9 +18,8 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <!-- bootstrap slider -->
+    <link rel="stylesheet" href="plugins/bootstrap-slider/slider.css">
 
     <!-- iCheck -->
     <!-- <link rel="stylesheet" href="plugins/iCheck/flat/blue.css"> -->
@@ -51,20 +50,32 @@
       padding-top: 6px;
     }
     .trade-box {
+      height: 500px;
       padding: 20px;
     }
     .divider-operaciones {
       height: 2px;
-      background-color: rgb(27, 124, 204)
+      background-color: rgb(27, 124, 204);
     }
     .register-label {
       margin: 0;
     }
-    button.btn.dropdown-toggle.bs-placeholder.btn-default, .form-control, .btn-lanzar-op {
+    button.btn.dropdown-toggle.bs-placeholder.btn-default, .form-control, .btn-lanzar-op, #lotes {
       margin-top: 5px;
     }
     .prueba {
       height: 100px;
+    }
+    #lotes {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    .slider-selection {
+    	background: #BABABA;
+    }
+    .btn-lanzar-op {
+      margin-top: 25px;
+      box-shadow: 3px 3px 6px 0px #2c8607;
     }
   </style>
 </head>
@@ -81,7 +92,7 @@
             <iframe frameborder="0" scrolling="no" height="62" width="100%" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/quotes_bar.php?force_lang=1&tab_1=1,2,3,4,6&tab_2=&tab_3=&curr-name-color=%230059B0&inner-text-color=%23666666&green-text-color=%23008000&red-text-color=%23FF0000"></iframe>
           </div>
 
-          <div class="col-xs-12 col-md-8 chartView">
+          <div class="col-xs-12 col-md-8 chartView well">
             <!-- TradingView Widget BEGIN -->
             <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
             <script type="text/javascript">
@@ -115,7 +126,10 @@
 
                 <input type="text" id="inputApellido" name="apellido" class="form-control" placeholder="Precio">
 
-                <!-- Aquí va el lotaje -->
+                <div class="text-center">
+                  <p>Lotes</p>
+                  <input id="lotes" type="text" data-slider-min="0" data-slider-max="5" data-slider-step="0.1" data-slider-value="0" style="display: none;" data-value="0" value="0">
+                </div>
 
                 <input type="text" id="inputEmail" name="email" class="form-control" placeholder="Total €">
 
@@ -196,8 +210,15 @@
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js"></script> -->
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <!-- Bootstrap slider -->
+    <script src="plugins/bootstrap-slider/bootstrap-slider.js"></script>
+    <script type="text/javascript">
+    $('#lotes').slider({
+      formatter: function(value) {
+        return value;
+      }
+      });
+    </script>
 
 </body>
 

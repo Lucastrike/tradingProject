@@ -1,12 +1,12 @@
 <?php
-  //error_reporting(E_ALL);
-  //ini_set("display_errors", "1");
+  // error_reporting(E_ALL);
+  // ini_set("display_errors", "1");
 
-  session_start();
   include ("connection.php");
+  session_start();
 
-  $email = $_POST["email"];
-  $password = $_POST["password"];
+  $email = $_POST["emailin"];
+  $password = $_POST["passwordin"];
   $md5password = md5($password);
 
   $rowQuery = "SELECT * FROM usuarios WHERE email='$email' AND password='$md5password'";
@@ -18,9 +18,10 @@
     $_SESSION['usuario']=$fila[1];
     // $_SESSION['nombre']=$fila[2];
     // $_SESSION['apellido']=$fila[3];
-    echo " (^_^) Bienvenido/a ".$fila[1]." (^_^)";
-    // header('location: ../index.html');
+    // echo " (^_^) Bienvenido/a ".$fila[1]." (^_^)";
+    //header('location: Admin/index.php');
+    echo 1;
   } else {
-    echo " (=_=) No cuela, registrate! (=_=)";
+    echo 0;
   }
  ?>

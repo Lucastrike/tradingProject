@@ -117,6 +117,7 @@ function signup(){
         },
         success: function(data){
           alert(data);
+          location.href="Admin/index.php";
         },
         error: function(jqXHR, textStatus, errorThrown){
         if (jqXHR.status === 0) {
@@ -180,19 +181,24 @@ $("#form-signin").validate({
 
 function signin(){
 
-  var email = $("#inputEmailin").val();
-  var password = $("#inputPasswordin").val();
-  console.log(password);
+  var emailin = $("#inputEmailin").val();
+  var passwordin = $("#inputPasswordin").val();
 
   $.ajax({
       type: 'POST',
       url: 'php/login.php',
       data: {
-        email: email,
-        password: password
+        emailin: emailin,
+        passwordin: passwordin
       },
       success: function(data){
-        alert(data);
+        console.log("data es " + data);
+        if (data == 1) {
+          location.href="Admin/index.php";
+        }
+        else if (data == 0) {
+          alert("(=_=) No cuela, registrate! (=_=)");
+        }
       },
       error: function(jqXHR, textStatus, errorThrown){
       if (jqXHR.status === 0) {

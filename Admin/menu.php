@@ -216,7 +216,7 @@
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                        <span class="hidden-xs">Alexander Pierce</span>
+                        <span class="hidden-xs"><?php echo $_SESSION['usuario']; ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
@@ -224,7 +224,7 @@
                             <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                             <p>
-                                Alexander Pierce - Web Developer
+                                <?php echo $_SESSION['usuario']; ?>
                                 <small>Member since Nov. 2012</small>
                             </p>
                         </li>
@@ -249,7 +249,7 @@
                                 <a href="#" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                <a href="php/close_session.php" class="btn btn-default btn-flat">Sign out</a>
                             </div>
                         </li>
                     </ul>
@@ -268,7 +268,7 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p><?php echo $_SESSION['usuario']; ?></p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
@@ -280,8 +280,8 @@
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                     <span class="pull-right-container">
-      <i class="fa fa-angle-left pull-right"></i>
-    </span>
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
                 </a>
                 <ul class="treeview-menu">
                     <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
@@ -293,7 +293,7 @@
                     <i class="fa fa-files-o"></i>
                     <span>Layout Options</span>
                     <span class="pull-right-container">
-      <span class="label label-primary pull-right">4</span>
+                      <span class="label label-primary pull-right">4</span>
                     </span>
                 </a>
                 <ul class="treeview-menu">
@@ -307,8 +307,8 @@
                 <a href="pages/widgets.html">
                     <i class="fa fa-th"></i> <span>Widgets</span>
                     <span class="pull-right-container">
-      <small class="label pull-right bg-green">new</small>
-    </span>
+                      <small class="label pull-right bg-green">new</small>
+                    </span>
                 </a>
             </li>
             <li class="treeview">

@@ -30,6 +30,8 @@ include ("php/check_active_session.php");
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
     <!-- bootstrap slider -->
     <link rel="stylesheet" href="plugins/bootstrap-slider/slider.css">
+    <!-- Latest compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css"> -->
 
     <!-- iCheck -->
     <!-- <link rel="stylesheet" href="plugins/iCheck/flat/blue.css"> -->
@@ -87,46 +89,72 @@ include ("php/check_active_session.php");
       margin-top: 25px;
       box-shadow: 3px 3px 6px 0px #2c8607;
     }
+    .pairs {
+      margin-top: -4px;
+      margin-bottom: 6px;
+    }
+
   </style>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini fixed">
-    <div class="wrapper">
 
-        <?php include "menu.php"; ?>
+  <div class="wrapper">
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+    <?php include "menu.php"; ?>
 
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+      <!-- Main content -->
+      <section class="content">
+        <!-- Small boxes (Stat box) -->
+
+        <!-- Main row -->
+        <div class="row">
           <div class="col-xs-12 header-index">
-            <iframe frameborder="0" scrolling="no" height="62" width="100%" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/quotes_bar.php?force_lang=1&tab_1=1,2,3,4,6&tab_2=&tab_3=&curr-name-color=%230059B0&inner-text-color=%23666666&green-text-color=%23008000&red-text-color=%23FF0000"></iframe>
+            <!-- <iframe frameborder="0" scrolling="no" height="62" width="100%" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/quotes_bar.php?force_lang=1&tab_1=1,2,3,4,6&tab_2=&tab_3=&curr-name-color=%230059B0&inner-text-color=%23666666&green-text-color=%23008000&red-text-color=%23FF0000"></iframe> -->
+            <!-- TradingView Widget BEGIN -->
+
+            <div style="margin-top: -45px; width: 100%; height: 130px; position: relative;">
+              <iframe scrolling="no" allowtransparency="true" frameborder="0" width="100%" height="153" src="https://s.tradingview.com/tickerswidgetembed/?locale=es#%7B%22symbols%22%3A%5B%7B%22description%22%3A%22Euro%20vs%20US%20dollar%22%2C%22proName%22%3A%22OANDA%3AEURUSD%22%7D%2C%7B%22description%22%3A%22GB%20pound%20vs%20US%20dollar%22%2C%22proName%22%3A%22OANDA%3AGBPUSD%22%7D%2C%7B%22description%22%3A%22US%20dollar%20vs%20Swiss%20franc%22%2C%22proName%22%3A%22OANDA%3AUSDCHF%22%7D%2C%7B%22description%22%3A%22US%20dollar%20vs%20Japanese%20yen%22%2C%22proName%22%3A%22OANDA%3AUSDJPY%22%7D%2C%7B%22description%22%3A%22Gold%20vs%20US%20dollar%22%2C%22proName%22%3A%22OANDA%3AXAUUSD%22%7D%2C%7B%22description%22%3A%22Brent%20crude%20oil%20vs%20US%20dollar%22%2C%22proName%22%3A%22OANDA%3ABCOUSD%22%7D%5D%2C%22timeframe%22%3A%221d%22%2C%22utm_source%22%3A%22lucassalinas.com.es%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22tickers%22%7D">
+              </iframe>
+            </div>
+            <!-- TradingView Widget END -- >
           </div>
 
-          <div class="col-xs-12 col-md-8 chartView well">
-            <!-- TradingView Widget BEGIN -->
-            <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
-            <script type="text/javascript">
-              new TradingView.widget({
-                "autosize": true,
-                "symbol": "OANDA:EURUSD",
-                "interval": "1",
-                "timezone": "Europe/Madrid",
-                "theme": "White",
-                "style": "1",
-                "locale": "es",
-                "toolbar_bg": "rgba(207, 226, 243, 1)",
-                "enable_publishing": true,
-                "hide_side_toolbar": false,
-                "hideideas": true
-              });
-            </script>
-            <!-- TradingView Widget END -->
+          <!-- <div class="col-xs-4 pairs">
+            <select class="selectpicker show-tick" id="inputApalancamiento" name="apalancamiento" title="Major Pairs" data-width="auto">
+              <option class="special" data-subtext="Euro vs US Dollar">EURUSD</option>
+              <option class="special" data-subtext="Great Britain Pound vs US Dollar">GBPUSD</option>
+              <option class="special" data-subtext="US Dollar vs Swiss Franc">USDCHF</option>
+              <option class="special" data-subtext="US Dollar vs Japanese Yen">USDJPY</option>
+            </select>
           </div>
+          <div class="col-xs-4 pairs">
+            <select class="selectpicker show-tick" id="inputApalancamiento" name="apalancamiento" title="Minor Pairs" data-width="auto">
+              <option class="special" data-subtext="Euro vs US Dollar">EURUSD</option>
+              <option class="special" data-subtext="Great Britain Pound vs US Dollar">GBPUSD</option>
+              <option class="special" data-subtext="US Dollar vs Swiss Franc">USDCHF</option>
+              <option class="special" data-subtext="US Dollar vs Japanese Yen">USDJPY</option>
+            </select>
+          </div>
+          <div class="col-xs-4 pairs">
+            <select class="selectpicker show-tick" id="inputApalancamiento" name="apalancamiento" title="Exotic Pairs" data-width="auto">
+              <option class="special" data-subtext="Euro vs US Dollar">EURUSD</option>
+              <option class="special" data-subtext="Great Britain Pound vs US Dollar">GBPUSD</option>
+              <option class="special" data-subtext="US Dollar vs Swiss Franc">USDCHF</option>
+              <option class="special" data-subtext="US Dollar vs Japanese Yen">USDJPY</option>
+            </select>
+          </div> -->
+
+          <div class="col-xs-12 col-md-8 chartView well" id="chartView"></div>
+
           <div class="col-xs-12 col-md-4 well trade-box">
             <h2 class="form-signin-heading text-center register-label">Panel de operaciones</h2>
-            <hr class="divider-operaciones"><br>
+            <hr class="divider-operaciones center-block"><br>
             <form id="form-signup">
-                <input type="text" id="inputNombre" name="nombre" class="form-control" placeholder="activo">
+                <input type="text" id="inputNombre" name="nombre" class="form-control" placeholder="activo" value="EURUSD">
 
                 <select class="form-control" id="inputApalancamiento" name="apalancamiento">
                   <option disabled selected hidden>Tipo de operación</option>
@@ -138,7 +166,7 @@ include ("php/check_active_session.php");
 
                 <div class="text-center">
                   <p>Lotes</p>
-                  <input id="lotes" type="text" data-slider-min="0" data-slider-max="5" data-slider-step="0.1" data-slider-value="0" style="display: none;" data-value="0" value="0">
+                  <input id="lotes" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.01" data-slider-value="0" style="display: none;" data-value="0" value="0">
                 </div>
 
                 <input type="text" id="inputEmail" name="email" class="form-control" placeholder="Total €">
@@ -149,23 +177,27 @@ include ("php/check_active_session.php");
             </form>
           </div>
 
-          <div class="row">
-            <div class="col-xs-12 well prueba">
+          <div class="col-xs-12 well prueba">
 
-            </div>
           </div>
 
         </div>
-      </div>
-        <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 1.0.0
-            </div>
-            <strong>Copyright &copy; 2017 <a href="http://lucassalinas.com.es">Lucas Salinas</a>.</strong> Todos los derechos reservados.
-        </footer>
+        <!-- /.row (main row) -->
 
-    <!-- ./wrapper -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0.0
+        </div>
+        <strong>Copyright &copy; 2017 <a href="http://lucassalinas.com.es">Lucas Salinas</a>.</strong> Todos los derechos reservados.
+    </footer>
+
+  </div>
+  <!-- ./wrapper -->
+
 
     <!-- jQuery 2.2.3 -->
     <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -220,15 +252,15 @@ include ("php/check_active_session.php");
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="dist/js/demo.js"></script> -->
 
+    <!-- Latest compiled and minified JavaScript -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
+
     <!-- Bootstrap slider -->
     <script src="plugins/bootstrap-slider/bootstrap-slider.js"></script>
-    <script type="text/javascript">
-    $('#lotes').slider({
-      formatter: function(value) {
-        return value;
-      }
-      });
-    </script>
+
+    <!-- TradingView Widget BEGIN -->
+    <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
+    <script type="text/javascript" src="js/operar.js"></script>
 
 </body>
 

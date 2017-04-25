@@ -93,6 +93,14 @@ include ("php/check_active_session.php");
       margin-top: -4px;
       margin-bottom: 6px;
     }
+    #inputPrice {
+      width: 80%;
+      display: inline-block;
+    }
+    .spread {
+      margin-top: 12px;
+      margin-right: 8%;
+    }
 
   </style>
 </head>
@@ -162,16 +170,17 @@ include ("php/check_active_session.php");
                   <option>Vender</option>
                 </select>
 
-                <input type="text" id="inputApellido" name="apellido" class="form-control" placeholder="Precio">
+                <input type="text" id="inputPrice" name="price" class="form-control" placeholder="Precio">
+                <span class="spread pull-right"></span>
 
                 <div class="text-center">
-                  <p>Lotes</p>
+                  <p>Lotes: <span id="spanLotes"></span></p>
                   <input id="lotes" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.01" data-slider-value="0" style="display: none;" data-value="0" value="0">
                 </div>
 
-                <input type="text" id="inputEmail" name="email" class="form-control" placeholder="Total €">
+                <input type="text" id="inputTotal" name="total" class="form-control" placeholder="Total €">
 
-                <textarea class="form-control" rows="3" id="inputUsuario" name="usuario" placeholder="Comentario"></textarea>
+                <textarea class="form-control" rows="3" id="inputcomment" name="comment" placeholder="Comentario"></textarea>
 
                 <button class="btn btn-lg btn-success btn-block btn-lanzar-op" type="submit">Lanzar operación</button>
             </form>
@@ -261,6 +270,7 @@ include ("php/check_active_session.php");
     <!-- TradingView Widget BEGIN -->
     <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
     <script type="text/javascript" src="js/operar.js"></script>
+    <script type="text/javascript" src="js/toeuros.js"></script>
 
 </body>
 

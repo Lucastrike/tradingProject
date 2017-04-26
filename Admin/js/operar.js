@@ -28,6 +28,9 @@ $("document").ready(function() {
     var closeBidprev;
     var closePrev;
 
+    var inEuros;
+    var total;
+
     // ============ Chart Load =============
     var activo = localStorage.getItem('activo');
     if (activo == null) {
@@ -70,6 +73,7 @@ $("document").ready(function() {
             "hideideas": true
         });
         $("#inputNombre").val(activo);
+        forexQuotes();
     });
 
     // =========== Initial call ==========
@@ -118,7 +122,7 @@ $("document").ready(function() {
 
             setTimeout(function(){
               forexQuotes();
-            }, 5000);
+            }, 60000);
           },
           completed: function(){
             console.log("completed");
@@ -158,18 +162,114 @@ $("document").ready(function() {
     }
 
     function numbersSettings(){
-    spread = (closeAsk - closeBid) / 2;
-    close = spread + closeBid;
-    roundedClose = close.toFixed(5);
-    localStorage.setItem("roundedClose", roundedClose);
-    $("#inputPrice").val(roundedClose);
-    // $("#inputPrice").val("1.06154");
+      spread = (closeAsk - closeBid) / 2;
+      close = spread + closeBid;
+      roundedClose = close.toFixed(5);
+      $("#inputPrice").val(roundedClose);
+      // $("#inputPrice").val("1.06154");
 
-    decimalPart = spread.toString().split(".")[1]; ///after
-    visualSpread = decimalPart.toString().substr(3, 2);
-    firstNumber = visualSpread.substr(0, 1);
-    secondNumber = visualSpread.substr(1, 1);
-    $(".spread").html(firstNumber + "." + secondNumber);
+      decimalPart = spread.toString().split(".")[1]; ///after
+      visualSpread = decimalPart.toString().substr(3, 2);
+      firstNumber = visualSpread.substr(0, 1);
+      secondNumber = visualSpread.substr(1, 1);
+      $(".spread").html(firstNumber + "." + secondNumber);
+
+
+      switch (activo) {
+        case "EURUSD":
+          inEuros = 1 / roundedClose;
+          break;
+          case "GBPUSD":
+          $.ajax({
+            type: 'GET',
+            beforeSend: function(request) {
+              request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+            },
+            url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_USD&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+            dataType: 'json',
+            success: function(data){
+              console.log("Segunda llamada");
+              console.log(data);
+
+              var EURUSDcloseAsk = data.candles[1].closeAsk;
+              var EURUSDcloseBid = data.candles[1].closeBid;
+              var EURUSDclose = ((EURUSDcloseAsk - EURUSDcloseBid) / 2) + EURUSDcloseBid;
+
+              inEuros = roundedClose / EURUSDclose;
+
+            },
+            completed: function(){
+              console.log("completed");
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              if (jqXHR.status === 0) {
+
+            alert('Not connect: Verify Network.');
+
+          } else if (jqXHR.status == 404) {
+
+            alert('Requested page not found [404]');
+
+          } else if (jqXHR.status == 500) {
+
+            alert('Internal Server Error [500].');
+
+          } else if (textStatus === 'parsererror') {
+
+            alert('Requested JSON parse failed.');
+
+          } else if (textStatus === 'timeout') {
+
+            alert('Time out error.');
+
+          } else if (textStatus === 'abort') {
+
+            alert('Ajax request aborted.');
+
+          } else {
+
+            alert('Uncaught Error: ' + jqXHR.responseText);
+
+          }
+            }
+          });
+            break;
+            case "USDCHF":
+              break;
+              case "USDJPY":
+
+                break;
+        default:
+          inEuros = 1 / roundedClose;
+      }
+
+      totalUpdate();
+    }
+
+
+    // ========== Lotes Slider ===========
+    var sliderLotes = $('#lotes').slider({
+        formatter: function(value) {
+            return value;
+        }
+    });
+
+    sliderLotes.on('change', function() {
+        value = sliderLotes.slider('getValue');
+        console.log(value);
+        $("#spanLotes").html(value);
+        totalUpdate();
+    });
+
+    function totalUpdate(){
+      if (isNaN(value)) {
+        value = 0;
+      }
+      console.log(value);
+      total = inEuros * value * 100000;
+
+      var roundedtotal = total.toFixed(2);
+      $("#inputTotal").val(roundedtotal+" €");
     }
 
 });

@@ -85,9 +85,13 @@ include ("php/check_active_session.php");
     .slider-selection {
     	background: #BABABA;
     }
-    .btn-lanzar-op {
+    .btn-comprar {
       margin-top: 25px;
-      box-shadow: 3px 3px 6px 0px #2c8607;
+      box-shadow: 3px 3px 6px 0px #00a65a;
+    }
+    .btn-vender {
+      margin-top: 25px;
+      box-shadow: 3px 3px 6px 0px #dd4b39;
     }
     .pairs {
       margin-top: -4px;
@@ -164,11 +168,11 @@ include ("php/check_active_session.php");
             <form id="form-signup">
                 <input type="text" id="inputNombre" name="nombre" class="form-control" placeholder="activo" value="EURUSD">
 
-                <select class="form-control" id="inputApalancamiento" name="apalancamiento">
+                <!-- <select class="form-control" id="inputApalancamiento" name="apalancamiento">
                   <option disabled selected hidden>Tipo de operación</option>
                   <option>Comprar</option>
                   <option>Vender</option>
-                </select>
+                </select> -->
 
                 <input type="text" id="inputPrice" name="price" class="form-control" placeholder="Precio">
                 <span class="spread pull-right"></span>
@@ -182,7 +186,8 @@ include ("php/check_active_session.php");
 
                 <textarea class="form-control" rows="3" id="inputcomment" name="comment" placeholder="Comentario"></textarea>
 
-                <button class="btn btn-lg btn-success btn-block btn-lanzar-op" type="submit">Lanzar operación</button>
+                <button class="btn btn-lg btn-success btn-comprar" type="submit" style="width: 48%;">Comprar</button>
+                <button class="btn btn-lg btn-danger btn-vender pull-right" type="submit" style="width: 48%;">Vender</button>
             </form>
           </div>
 
@@ -270,7 +275,6 @@ include ("php/check_active_session.php");
     <!-- TradingView Widget BEGIN -->
     <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
     <script type="text/javascript" src="js/operar.js"></script>
-    <script type="text/javascript" src="js/toeuros.js"></script>
 
 </body>
 

@@ -2,15 +2,15 @@ $("document").ready(function() {
 
     var roundedClose;
 
-    var value; //Lotes
+    var volume; //Lotes
 
-    var openBid;
-    var lowBid;
-    var highBid;
+    // var openBid;
+    // var lowBid;
+    // var highBid;
     var closeBid;
-    var openAsk;
-    var lowAsk;
-    var highAsk;
+    // var openAsk;
+    // var lowAsk;
+    // var highAsk;
     var closeAsk;
 
     var divisaBase;
@@ -28,8 +28,9 @@ $("document").ready(function() {
     var closeBidprev;
     var closePrev;
 
-    var inEuros;
-    var total;
+    var inEurosAsk;
+    var inEurosBid;
+    // var total;
 
     // ============ Chart Load =============
     var activo = localStorage.getItem('activo');
@@ -85,88 +86,58 @@ $("document").ready(function() {
         divisaBase = activo.substr(0, 3);
         divisaContraparte = activo.substr(3, 3);
 
-        $.ajax({
-          type: 'GET',
-          beforeSend: function(request) {
-            request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
-          },
-          // url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_USD&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-          url: 'https://api-fxtrade.oanda.com/v1/candles?instrument='+divisaBase+'_'+divisaContraparte+'&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-
-          // url: 'http://lucassalinas.com.es/tradingProject/data/current.json',
-          dataType: 'json',
-          success: function(data){
-            console.log(data);
-            for (var i=0; i<data.candles.length; i++) {
-              openAsk = data.candles[i].openAsk;
-              openBid = data.candles[i].openBid;
-              lowAsk = data.candles[i].lowAsk;
-              lowBid = data.candles[i].lowBid;
-              highAsk = data.candles[i].highAsk;
-              highBid = data.candles[i].highBid;
-              closeAsk = data.candles[i].closeAsk;
-              closeBid = data.candles[i].closeBid;
-            }
-
-            closeAskprev = data.candles[0].closeAsk;
-            closeBidprev = data.candles[0].closeBid;
-            closePrev = ((closeAskprev - closeBidprev) / 2) + closeBidprev;
-
-            if (close > closePrev) {
-              $("#inputPrice").css("color", "green");
-            }else if (close < closePrev) {
-              $("#inputPrice").css("color", "red");
-            }
-
-            numbersSettings();
-
-            setTimeout(function(){
-              forexQuotes();
-            }, 60000);
-          },
-          completed: function(){
-            console.log("completed");
-          },
-          error: function(jqXHR, textStatus, errorThrown){
-            if (jqXHR.status === 0) {
-
-          alert('Not connect: Verify Network.');
-
-        } else if (jqXHR.status == 404) {
-
-          alert('Requested page not found [404]');
-
-        } else if (jqXHR.status == 500) {
-
-          alert('Internal Server Error [500].');
-
-        } else if (textStatus === 'parsererror') {
-
-          alert('Requested JSON parse failed.');
-
-        } else if (textStatus === 'timeout') {
-
-          alert('Time out error.');
-
-        } else if (textStatus === 'abort') {
-
-          alert('Ajax request aborted.');
-
-        } else {
-
-          alert('Uncaught Error: ' + jqXHR.responseText);
-
-        }
-          }
-        });
+        // $.ajax({
+        //   type: 'GET',
+        //   beforeSend: function(request) {
+        //     request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+        //   },
+        //   // url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_USD&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+        //   url: 'https://api-fxtrade.oanda.com/v1/candles?instrument='+divisaBase+'_'+divisaContraparte+'&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+        //
+        //   // url: 'http://lucassalinas.com.es/tradingProject/data/current.json',
+        //   dataType: 'json',
+        //   success: function(data){
+        //     console.log(data);
+        //     for (var i=0; i<data.candles.length; i++) {
+        //       // openAsk = data.candles[i].openAsk;
+        //       // openBid = data.candles[i].openBid;
+        //       // lowAsk = data.candles[i].lowAsk;
+        //       // lowBid = data.candles[i].lowBid;
+        //       // highAsk = data.candles[i].highAsk;
+        //       // highBid = data.candles[i].highBid;
+        //       closeAsk = data.candles[i].closeAsk;
+        //       closeBid = data.candles[i].closeBid;
+        //     }
+        //
+        //     closeAskprev = data.candles[0].closeAsk;
+        //     closeBidprev = data.candles[0].closeBid;
+        //     closePrev = ((closeAskprev - closeBidprev) / 2) + closeBidprev;
+        //
+        //     if (close > closePrev) {
+        //       $("#inputPrice").css("color", "green");
+        //     }else if (close < closePrev) {
+        //       $("#inputPrice").css("color", "red");
+        //     }
+        //
+        //     numbersSettings();
+        //
+        //     setTimeout(function(){
+        //       forexQuotes();
+        //     }, 60000);
+        //   },
+        //   completed: function(){
+        //     console.log("completed");
+        //   },
+        //   error: function(jqXHR, textStatus, errorThrown){
+        //     errors();
+        //   }
+        // });
     }
 
     function numbersSettings(){
-      spread = (closeAsk - closeBid) / 2;
-      close = spread + closeBid;
-      roundedClose = close.toFixed(5);
-      $("#inputPrice").val(roundedClose);
-      // $("#inputPrice").val("1.06154");
+      spread = closeAsk - closeBid;
+      $("#inputPriceBid").val(closeBid);
+      $("#inputPriceAsk").val(closeAsk);
 
       decimalPart = spread.toString().split(".")[1]; ///after
       visualSpread = decimalPart.toString().substr(3, 2);
@@ -174,99 +145,115 @@ $("document").ready(function() {
       secondNumber = visualSpread.substr(1, 1);
       $(".spread").html(firstNumber + "." + secondNumber);
 
-
       switch (activo) {
         case "EURUSD":
-          inEuros = 1 / roundedClose;
+          inEurosAsk = 1 / closeAsk;
+          inEurosBid = 1 / closeBid;
           break;
           case "GBPUSD":
-          $.ajax({
-            type: 'GET',
-            beforeSend: function(request) {
-              request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
-            },
-            url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_USD&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-            dataType: 'json',
-            success: function(data){
-              console.log("Segunda llamada");
-              console.log(data);
-
-              var EURUSDcloseAsk = data.candles[1].closeAsk;
-              var EURUSDcloseBid = data.candles[1].closeBid;
-              var EURUSDclose = ((EURUSDcloseAsk - EURUSDcloseBid) / 2) + EURUSDcloseBid;
-
-              inEuros = roundedClose / EURUSDclose;
-
-            },
-            completed: function(){
-              console.log("completed");
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-              if (jqXHR.status === 0) {
-
-            alert('Not connect: Verify Network.');
-
-          } else if (jqXHR.status == 404) {
-
-            alert('Requested page not found [404]');
-
-          } else if (jqXHR.status == 500) {
-
-            alert('Internal Server Error [500].');
-
-          } else if (textStatus === 'parsererror') {
-
-            alert('Requested JSON parse failed.');
-
-          } else if (textStatus === 'timeout') {
-
-            alert('Time out error.');
-
-          } else if (textStatus === 'abort') {
-
-            alert('Ajax request aborted.');
-
-          } else {
-
-            alert('Uncaught Error: ' + jqXHR.responseText);
-
-          }
-            }
-          });
+            $.ajax({
+              type: 'GET',
+              beforeSend: function(request) {
+                request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+              },
+              url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_USD&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+              dataType: 'json',
+              success: function(data){
+                console.log("Segunda llamada");
+                var EURUSDcloseAsk = data.candles[1].closeAsk;
+                var EURUSDcloseBid = data.candles[1].closeBid;
+                inEurosAsk = closeAsk / EURUSDcloseAsk;
+                inEurosBid = closeBid / EURUSDcloseBid;
+              },
+              error: function(jqXHR, textStatus, errorThrown){
+                errors();
+              }
+            });
             break;
             case "USDCHF":
+              $.ajax({
+                type: 'GET',
+                beforeSend: function(request) {
+                  request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+                },
+                url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_CHF&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+                dataType: 'json',
+                success: function(data){
+                  console.log("Segunda llamada");
+                  var EURCHFcloseAsk = data.candles[1].closeAsk;
+                  var EURCHFcloseBid = data.candles[1].closeBid;
+
+                  inEurosAsk = closeAsk / EURCHFcloseAsk;
+                  inEurosBid = closeBid / EURCHFcloseBid;
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                  errors();
+                }
+              });
               break;
               case "USDJPY":
 
                 break;
         default:
-          inEuros = 1 / roundedClose;
+          inEurosAsk = 1 / closeAsk;
+          inEurosBid = 1 / closeBid;
       }
-
       totalUpdate();
+    }
+
+    function errors(){
+      if (jqXHR.status === 0) {
+
+        alert('Not connect: Verify Network.');
+
+      } else if (jqXHR.status == 404) {
+
+        alert('Requested page not found [404]');
+
+      } else if (jqXHR.status == 500) {
+
+        alert('Internal Server Error [500].');
+
+      } else if (textStatus === 'parsererror') {
+
+        alert('Requested JSON parse failed.');
+
+      } else if (textStatus === 'timeout') {
+
+        alert('Time out error.');
+
+      } else if (textStatus === 'abort') {
+
+        alert('Ajax request aborted.');
+
+      } else {
+
+        alert('Uncaught Error: ' + jqXHR.responseText);
+
+      }
     }
 
 
     // ========== Lotes Slider ===========
     var sliderLotes = $('#lotes').slider({
-        formatter: function(value) {
-            return value;
+        formatter: function(volume) {
+            return volume;
         }
     });
 
     sliderLotes.on('change', function() {
-        value = sliderLotes.slider('getValue');
-        console.log(value);
-        $("#spanLotes").html(value);
+        volume = sliderLotes.slider('getvalue');
+        console.log(volume);
+        $("#spanLotes").html(volume);
         totalUpdate();
     });
 
     function totalUpdate(){
-      if (isNaN(value)) {
-        value = 0;
+      if (isNaN(volume)) {
+        volume = 0;
       }
-      console.log(value);
-      total = inEuros * value * 100000;
+      console.log(volume);
+      total = inEuros * volume * 100000;
 
       var roundedtotal = total.toFixed(2);
       $("#inputTotal").val(roundedtotal+" €");

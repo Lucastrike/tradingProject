@@ -64,6 +64,7 @@ include ("php/check_active_session.php");
     .trade-box {
       height: 500px;
       padding: 20px;
+      background-color: #cfe2f3;
     }
     .divider-operaciones {
       height: 2px;
@@ -71,9 +72,6 @@ include ("php/check_active_session.php");
     }
     .register-label {
       margin: 0;
-    }
-    button.btn.dropdown-toggle.bs-placeholder.btn-default, .form-control, .btn-lanzar-op, #lotes {
-      margin-top: 5px;
     }
     .prueba {
       height: 100px;
@@ -93,17 +91,16 @@ include ("php/check_active_session.php");
       margin-top: 25px;
       box-shadow: 3px 3px 6px 0px #dd4b39;
     }
-    .pairs {
-      margin-top: -4px;
-      margin-bottom: 6px;
+    .volumen {
+      padding: 15px;
     }
-    #inputPrice {
-      width: 80%;
-      display: inline-block;
+    .controlOp, .comment {
+      margin-bottom: 10px;
     }
     .spread {
-      margin-top: 12px;
-      margin-right: 8%;
+      width: 20%;
+      height: 34px;
+      padding-top: 1%;
     }
 
   </style>
@@ -132,33 +129,8 @@ include ("php/check_active_session.php");
               <iframe scrolling="no" allowtransparency="true" frameborder="0" width="100%" height="153" src="https://s.tradingview.com/tickerswidgetembed/?locale=es#%7B%22symbols%22%3A%5B%7B%22description%22%3A%22Euro%20vs%20US%20dollar%22%2C%22proName%22%3A%22OANDA%3AEURUSD%22%7D%2C%7B%22description%22%3A%22GB%20pound%20vs%20US%20dollar%22%2C%22proName%22%3A%22OANDA%3AGBPUSD%22%7D%2C%7B%22description%22%3A%22US%20dollar%20vs%20Swiss%20franc%22%2C%22proName%22%3A%22OANDA%3AUSDCHF%22%7D%2C%7B%22description%22%3A%22US%20dollar%20vs%20Japanese%20yen%22%2C%22proName%22%3A%22OANDA%3AUSDJPY%22%7D%2C%7B%22description%22%3A%22Gold%20vs%20US%20dollar%22%2C%22proName%22%3A%22OANDA%3AXAUUSD%22%7D%2C%7B%22description%22%3A%22Brent%20crude%20oil%20vs%20US%20dollar%22%2C%22proName%22%3A%22OANDA%3ABCOUSD%22%7D%5D%2C%22timeframe%22%3A%221d%22%2C%22utm_source%22%3A%22lucassalinas.com.es%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22tickers%22%7D">
               </iframe>
             </div>
-            <!-- TradingView Widget END -- >
+            <!-- TradingView Widget END -->
           </div>
-
-          <!-- <div class="col-xs-4 pairs">
-            <select class="selectpicker show-tick" id="inputApalancamiento" name="apalancamiento" title="Major Pairs" data-width="auto">
-              <option class="special" data-subtext="Euro vs US Dollar">EURUSD</option>
-              <option class="special" data-subtext="Great Britain Pound vs US Dollar">GBPUSD</option>
-              <option class="special" data-subtext="US Dollar vs Swiss Franc">USDCHF</option>
-              <option class="special" data-subtext="US Dollar vs Japanese Yen">USDJPY</option>
-            </select>
-          </div>
-          <div class="col-xs-4 pairs">
-            <select class="selectpicker show-tick" id="inputApalancamiento" name="apalancamiento" title="Minor Pairs" data-width="auto">
-              <option class="special" data-subtext="Euro vs US Dollar">EURUSD</option>
-              <option class="special" data-subtext="Great Britain Pound vs US Dollar">GBPUSD</option>
-              <option class="special" data-subtext="US Dollar vs Swiss Franc">USDCHF</option>
-              <option class="special" data-subtext="US Dollar vs Japanese Yen">USDJPY</option>
-            </select>
-          </div>
-          <div class="col-xs-4 pairs">
-            <select class="selectpicker show-tick" id="inputApalancamiento" name="apalancamiento" title="Exotic Pairs" data-width="auto">
-              <option class="special" data-subtext="Euro vs US Dollar">EURUSD</option>
-              <option class="special" data-subtext="Great Britain Pound vs US Dollar">GBPUSD</option>
-              <option class="special" data-subtext="US Dollar vs Swiss Franc">USDCHF</option>
-              <option class="special" data-subtext="US Dollar vs Japanese Yen">USDJPY</option>
-            </select>
-          </div> -->
 
           <div class="col-xs-12 col-md-8 chartView well" id="chartView"></div>
 
@@ -168,23 +140,22 @@ include ("php/check_active_session.php");
             <form id="form-signup">
                 <input type="text" id="inputNombre" name="nombre" class="form-control" placeholder="activo" value="EURUSD">
 
-                <!-- <select class="form-control" id="inputApalancamiento" name="apalancamiento">
-                  <option disabled selected hidden>Tipo de operación</option>
-                  <option>Comprar</option>
-                  <option>Vender</option>
-                </select> -->
-
-                <input type="text" id="inputPrice" name="price" class="form-control" placeholder="Precio">
-                <span class="spread pull-right"></span>
-
-                <div class="text-center">
-                  <p>Lotes: <span id="spanLotes"></span></p>
+                <div class="text-center volumen">
+                  <p>Volumen: <span id="spanLotes"></span></p>
                   <input id="lotes" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.01" data-slider-value="0" style="display: none;" data-value="0" value="0">
                 </div>
 
-                <input type="text" id="inputTotal" name="total" class="form-control" placeholder="Total €">
+                <input type="text" id="inputStopLoss" name="stopLoss" class="form-control col-md-6 controlOp" placeholder="Stop Loss" style="width: 47%;">
+                <input type="text" id="inputTakeProfit" name="takeProfit" class="form-control col-md-6 pull-right controlOp" placeholder="Take Profit" style="width: 47%;">
 
-                <textarea class="form-control" rows="3" id="inputcomment" name="comment" placeholder="Comentario"></textarea>
+                <textarea class="form-control comment" rows="2" id="inputcomment" name="comment" placeholder="Comentario"></textarea>
+
+                <p class="col-xs-5 text-center" style="width: 40%; color: #00a65a;">ASK</p>
+                <p class="col-xs-5 text-center pull-right" style="width: 40%; color: #dd4b39;">BID</p>
+
+                <input type="text" id="inputPriceAsk" name="priceAsk" class="form-control col-xs-5" placeholder="Ask" style="width: 40%;">
+                <span class="spread col-xs-2 text-center"></span>
+                <input type="text" id="inputPriceBid" name="priceBid" class="form-control col-xs-5 pull-right" placeholder="Bid" style="width: 40%;">
 
                 <button class="btn btn-lg btn-success btn-comprar" type="submit" style="width: 48%;">Comprar</button>
                 <button class="btn btn-lg btn-danger btn-vender pull-right" type="submit" style="width: 48%;">Vender</button>

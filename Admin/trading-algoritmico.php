@@ -59,12 +59,20 @@
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini fixed">
-        <div class="wrapper">
 
-            <?php include "menu.php"; ?>
+      <div class="wrapper">
 
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
+        <?php include "menu.php"; ?>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+          <!-- Main content -->
+          <section class="content">
+            <!-- Small boxes (Stat box) -->
+
+            <!-- Main row -->
+            <div class="row">
 
               <div class="col-xs-12 col-sm-4 col-sm-offset-1 imgDiv">
                 <img src="dist\img\bulb.png" alt="idea">
@@ -74,6 +82,10 @@
               </div>
 
             </div>
+            <!-- /.row (main row) -->
+
+          </section>
+          <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
@@ -83,7 +95,12 @@
             <strong>Copyright &copy; 2017 <a href="http://lucassalinas.com.es">Lucas Salinas</a>.</strong> Todos los derechos reservados.
         </footer>
 
-        <!-- ./wrapper -->
+      </div>
+      <!-- ./wrapper -->
+
+
+        <!-- jQuery 2.2.3 -->
+        <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 
         <!-- jQuery UI 1.11.4 -->
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
@@ -98,14 +115,14 @@
 
         <!-- Morris.js charts -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="plugins/morris/morris.min.js"></script> -->
+        <script src="plugins/morris/morris.min.js"></script> -->
 
         <!-- Sparkline -->
         <!-- <script src="plugins/sparkline/jquery.sparkline.min.js"></script> -->
 
         <!-- jvectormap -->
         <!-- <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script> -->
+        <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script> -->
 
         <!-- jQuery Knob Chart -->
         <!-- <script src="plugins/knob/jquery.knob.js"></script> -->
@@ -138,7 +155,12 @@
         <!-- Latest compiled and minified JavaScript -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
 
-        <script type="text/javascript" src="js/gotooperar.js"></script>
+        <!-- Bootstrap slider -->
+        <script src="plugins/bootstrap-slider/bootstrap-slider.js"></script>
+
+        <!-- TradingView Widget BEGIN -->
+        <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
+        <script type="text/javascript" src="js/operar.js"></script>
 
     </body>
 

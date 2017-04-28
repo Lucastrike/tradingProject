@@ -146,6 +146,9 @@ $("document").ready(function() {
       $(".spread").html(firstNumber + "." + secondNumber);
 
       switch (activo) {
+
+        // MAJOR PAIRS
+
         case "EURUSD":
           inEurosAsk = 1 / closeAsk;
           inEurosBid = 1 / closeBid;
@@ -162,8 +165,12 @@ $("document").ready(function() {
                 console.log("Segunda llamada");
                 var EURUSDcloseAsk = data.candles[1].closeAsk;
                 var EURUSDcloseBid = data.candles[1].closeBid;
-                inEurosAsk = closeAsk / EURUSDcloseAsk;
-                inEurosBid = closeBid / EURUSDcloseBid;
+
+                var USDEURcloseAsk = 1 / EURUSDcloseAsk;
+                var USDEURcloseBid = 1 / EURUSDcloseBid;
+
+                inEurosAsk = closeAsk * USDEURcloseAsk;
+                inEurosBid = closeBid * USDEURcloseBid;
               },
               error: function(jqXHR, textStatus, errorThrown){
                 errors();
@@ -183,8 +190,11 @@ $("document").ready(function() {
                   var EURCHFcloseAsk = data.candles[1].closeAsk;
                   var EURCHFcloseBid = data.candles[1].closeBid;
 
-                  inEurosAsk = closeAsk / EURCHFcloseAsk;
-                  inEurosBid = closeBid / EURCHFcloseBid;
+                  var CHFEURcloseAsk = 1 / EURCHFcloseAsk;
+                  var CHFEURcloseBid = 1 / EURCHFcloseBid;
+
+                  inEurosAsk = closeAsk * CHFEURcloseAsk;
+                  inEurosBid = closeBid * CHFEURcloseBid;
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                   errors();
@@ -192,8 +202,56 @@ $("document").ready(function() {
               });
               break;
               case "USDJPY":
+                $.ajax({
+                  type: 'GET',
+                  beforeSend: function(request) {
+                    request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+                  },
+                  url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_JPY&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+                  dataType: 'json',
+                  success: function(data){
+                    console.log("Segunda llamada");
+                    var EURJPYcloseAsk = data.candles[1].closeAsk;
+                    var EURJPYcloseBid = data.candles[1].closeBid;
 
+                    var JPYEURcloseAsk = 1 / EURJPYcloseAsk;
+                    var JPYEURcloseBid = 1 / EURJPYcloseBid;
+
+                    inEurosAsk = closeAsk * JPYEURcloseAsk;
+                    inEurosBid = closeBid * JPYEURcloseBid;
+                  },
+                  error: function(jqXHR, textStatus, errorThrown){
+                    errors();
+                  }
+                });
                 break;
+
+                // MINOR PAIRS
+
+                case "AUDCAD":
+                  $.ajax({
+                    type: 'GET',
+                    beforeSend: function(request) {
+                      request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+                    },
+                    url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_CAD&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+                    dataType: 'json',
+                    success: function(data){
+                      console.log("Segunda llamada");
+                      var EURJPYcloseAsk = data.candles[1].closeAsk;
+                      var EURJPYcloseBid = data.candles[1].closeBid;
+
+                      var JPYEURcloseAsk = 1 / EURJPYcloseAsk;
+                      var JPYEURcloseBid = 1 / EURJPYcloseBid;
+
+                      inEurosAsk = closeAsk * JPYEURcloseAsk;
+                      inEurosBid = closeBid * JPYEURcloseBid;
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                      errors();
+                    }
+                  });
+                  break;
         default:
           inEurosAsk = 1 / closeAsk;
           inEurosBid = 1 / closeBid;

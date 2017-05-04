@@ -1,4 +1,11 @@
+<?php
 
+include ("php/connection.php");
+session_start();
+
+include ("php/check_active_session.php");
+
+ ?>
     <!DOCTYPE html>
     <html>
 
@@ -54,6 +61,7 @@
           }
           .textDiv {
             margin-top: 17%;
+            margin-bottom: 17%;
           }
         </style>
     </head>
@@ -65,7 +73,7 @@
         <?php include "menu.php"; ?>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="min-height: 600px;">
 
           <!-- Main content -->
           <section class="content">
@@ -75,10 +83,12 @@
             <div class="row">
 
               <div class="col-xs-12 col-sm-4 col-sm-offset-1 imgDiv">
-                <img src="dist\img\bulb.png" alt="idea">
+                <img src="dist\img\bulb.png" class="img-responsive center-block" alt="idea">
               </div>
-              <div class="col-xs-12 col-sm-6 textDiv">
-                <h1>We are currently working on something awesome. Stay tuned!</h1>
+              <div class="col-xs-12 col-sm-6 textDiv text-center">
+                <h1>We are currently working on something awesome.<p class="text-primary">
+                  Stay tuned!
+                </p></h1>
               </div>
 
             </div>
@@ -160,7 +170,7 @@
 
         <!-- TradingView Widget BEGIN -->
         <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
-        <script type="text/javascript" src="js/operar.js"></script>
+        <script type="text/javascript" src="js/gotooperar.js"></script>
 
     </body>
 

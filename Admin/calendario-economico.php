@@ -1,4 +1,11 @@
+<?php
 
+include ("php/connection.php");
+session_start();
+
+include ("php/check_active_session.php");
+
+ ?>
     <!DOCTYPE html>
     <html>
 
@@ -46,8 +53,11 @@
   <![endif]-->
 
         <style media="screen">
-          .well {
-            height: 500px;
+          iframe {
+            padding-bottom: 0px;
+          }
+          .contenido {
+            height: 520px;
           }
         </style>
     </head>
@@ -58,23 +68,29 @@
             <?php include "menu.php"; ?>
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
+            <div class="content-wrapper" style="min-height: 600px;">
 
-              <div class="col-xs-12 col-md-6 well">
-                <!-- TradingView Widget BEGIN -->
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js">
-                {
-                  "width": "100%",
-                  "height": "100%",
-                  "importanceFilter": "-1,0,1",
-                  "currencyFilter": "EUR,USD,JPY,GBP,CHF,AUD,CAD,NZD,CNY"
-                }
-                </script>
-                <!-- TradingView Widget END -->
-              </div>
-              <div class="col-xs-12 col-md-6 well">
+              <!-- Main content -->
+              <section class="content">
+                <!-- Small boxes (Stat box) -->
 
-              </div>
+                <!-- Main row -->
+                <div class="row">
+
+                  <div class="col-xs-12 col-md-6 well contenido" style="padding-top: 53px;">
+                    <!-- TradingView Widget BEGIN -->
+                    <iframe scrolling="no" allowtransparency="true" frameborder="0" width="100%" height="100%" src="https://s.tradingview.com/eventswidgetembed/#importanceFilter=-1%2C0%2C1&amp;currencyFilter=EUR%2CUSD%2CJPY%2CGBP%2CCHF%2CAUD%2CCAD%2CNZD%2CCNY&amp;utm_source=lucassalinas.com.es&amp;utm_medium=widget&amp;utm_campaign=events"></iframe>
+                    <!-- TradingView Widget END -->
+                  </div>
+                  <div class="col-xs-12 col-md-6 well contenido">
+                    <iframe src="https://www.tradingview.com/chatwidgetembed/?utm_source=es.tradingview.com&amp;utm_medium=widget&amp;utm_campaign=chat-embed&amp;locale=es#forex" width="100%" height="100%" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+                  </div>
+
+                </div>
+                <!-- /.row (main row) -->
+
+              </section>
+              <!-- /.content -->
 
             </div>
         </div>

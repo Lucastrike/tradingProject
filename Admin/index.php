@@ -73,9 +73,6 @@ include ("php/check_active_session.php");
     .register-label {
       margin: 0;
     }
-    .prueba {
-      height: 100px;
-    }
     #lotes {
       padding-top: 20px;
       padding-bottom: 20px;
@@ -101,6 +98,16 @@ include ("php/check_active_session.php");
       width: 20%;
       height: 34px;
       padding-top: 1%;
+    }
+    .terminal {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+    .box {
+      border-top: 0px;
+    }
+    textarea {
+      resize: none;
     }
 
   </style>
@@ -138,88 +145,70 @@ include ("php/check_active_session.php");
             <h2 class="form-signin-heading text-center register-label">Panel de operaciones</h2>
             <hr class="divider-operaciones center-block"><br>
             <form id="form-signup">
-                <input type="text" id="inputNombre" name="nombre" class="form-control" placeholder="activo" value="EURUSD">
+                <input type="text" id="inputNombre" name="nombre" class="form-control" placeholder="activo" value="EURUSD" readonly>
 
                 <div class="text-center volumen">
                   <p>Volumen: <span id="spanLotes"></span></p>
                   <input id="lotes" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.01" data-slider-value="0" style="display: none;" data-value="0" value="0">
                 </div>
 
-                <input type="text" id="inputStopLoss" name="stopLoss" class="form-control col-md-6 controlOp" placeholder="Stop Loss" style="width: 47%;">
-                <input type="text" id="inputTakeProfit" name="takeProfit" class="form-control col-md-6 pull-right controlOp" placeholder="Take Profit" style="width: 47%;">
+                <input type="text" id="inputStopLoss" name="stopLoss" class="form-control col-xs-6 controlOp" placeholder="Stop Loss" style="width: 47%;">
+                <input type="text" id="inputTakeProfit" name="takeProfit" class="form-control col-xs-6 pull-right controlOp" placeholder="Take Profit" style="width: 47%;">
 
                 <textarea class="form-control comment" rows="2" id="inputcomment" name="comment" placeholder="Comentario"></textarea>
 
                 <p class="col-xs-5 text-center" style="width: 40%; color: #00a65a;">ASK</p>
                 <p class="col-xs-5 text-center pull-right" style="width: 40%; color: #dd4b39;">BID</p>
 
-                <input type="text" id="inputPriceAsk" name="priceAsk" class="form-control col-xs-5" placeholder="Ask" style="width: 40%;">
+                <input type="text" id="inputPriceAsk" name="priceAsk" class="form-control col-xs-5" placeholder="Ask" style="width: 40%;" readonly>
                 <span class="spread col-xs-2 text-center"></span>
-                <input type="text" id="inputPriceBid" name="priceBid" class="form-control col-xs-5 pull-right" placeholder="Bid" style="width: 40%;">
-
+                <input type="text" id="inputPriceBid" name="priceBid" class="form-control col-xs-5 pull-right" placeholder="Bid" style="width: 40%;" readonly>
+</form>
                 <button class="btn btn-lg btn-success btn-comprar" type="submit" style="width: 48%;">Comprar</button>
                 <button class="btn btn-lg btn-danger btn-vender pull-right" type="submit" style="width: 48%;">Vender</button>
-            </form>
+
           </div>
 
-          <div class="col-xs-12 well prueba">
+          <div class="col-xs-12 terminal">
+
             <div class="box">
               <div class="box-header">
-                <h3 class="box-title">Responsive Hover Table</h3>
+                <h3 class="box-title">Operaciones abiertas</h3>
 
-                <div class="box-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
-                    <div class="input-group-btn">
-                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                    </div>
-                  </div>
-                </div>
               </div>
               <!-- /.box-header -->
               <div class="box-body table-responsive no-padding">
                 <table class="table table-hover">
-                  <tr>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Reason</th>
+                  <tr id="terminal-head">
+                    <th>Orden</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Volumen</th>
+                    <th>Símbolo</th>
+                    <th>Precio</th>
+                    <th>S/L</th>
+                    <th>T/P</th>
+                    <th>Profit</th>
+                    <th>Comentario</th>
                   </tr>
-                  <tr>
-                    <td>183</td>
-                    <td>John Doe</td>
-                    <td>11-7-2014</td>
-                    <td><span class="label label-success">Approved</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                  </tr>
-                  <tr>
-                    <td>219</td>
-                    <td>Alexander Pierce</td>
-                    <td>11-7-2014</td>
-                    <td><span class="label label-warning">Pending</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                  </tr>
-                  <tr>
-                    <td>657</td>
-                    <td>Bob Doe</td>
-                    <td>11-7-2014</td>
-                    <td><span class="label label-primary">Approved</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                  </tr>
-                  <tr>
-                    <td>175</td>
-                    <td>Mike Doe</td>
-                    <td>11-7-2014</td>
-                    <td><span class="label label-danger">Denied</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                  <tr id="terminal-footer">
+                    <th>Balance:</th>
+                    <th>Patrimonio:</th>
+                    <th>Margen:</th>
+                    <th>Margen libre:</th>
+                    <th>Nivel de margen:</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <th>138.27</th>
+                    <td></td>
                   </tr>
                 </table>
               </div>
               <!-- /.box-body -->
             </div>
             <!-- /.box -->
+
           </div>
 
         </div>

@@ -1,6 +1,7 @@
 $("document").ready(function() {
 
-    var volume; //Lotes
+    var volume = 0.01; //Lotes
+    $("#spanLotes").html(volume);
 
     // var openBid;
     // var lowBid;
@@ -221,28 +222,28 @@ $("document").ready(function() {
     }
 
      function secondCall() {
-    //     $.ajax({
-    //         type: 'GET',
-    //         beforeSend: function(request) {
-    //             request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
-    //         },
-    //         url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaContraparte + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-    //         dataType: 'json',
-    //         success: function(data) {
-    //             console.log("Segunda llamada");
-    //             console.log(data);
-    //             var XcloseAsk = data.candles[1].closeAsk;
-    //             var XcloseBid = data.candles[1].closeBid;
-    //
-    //             var EURcloseAsk = 1 / XcloseAsk;
-    //             var EURcloseBid = 1 / XcloseBid;
-    //
-    //             inEurosAsk = closeAsk * EURcloseAsk;
-    //             inEurosBid = closeBid * EURcloseBid;
-    //
-    //             totalUpdate();
-    //         }
-    //     });
+        // $.ajax({
+        //     type: 'GET',
+        //     beforeSend: function(request) {
+        //         request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+        //     },
+        //     url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaContraparte + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+        //     dataType: 'json',
+        //     success: function(data) {
+        //         console.log("Segunda llamada");
+        //         console.log(data);
+        //         var XcloseAsk = data.candles[1].closeAsk;
+        //         var XcloseBid = data.candles[1].closeBid;
+        //
+        //         var EURcloseAsk = 1 / XcloseAsk;
+        //         var EURcloseBid = 1 / XcloseBid;
+        //
+        //         inEurosAsk = closeAsk * EURcloseAsk;
+        //         inEurosBid = closeBid * EURcloseBid;
+        //
+        //         totalUpdate();
+        //     }
+        // });
     }
 
     // ========== Lotes Slider ===========
@@ -272,30 +273,68 @@ $("document").ready(function() {
     }
 
     $(".btn-comprar, .btn-vender").on('click', function(){
-      stopLoss = $("#inputStopLoss").val();
-      takeProfit = $("#inputTakeProfit").val();
-      comentario = $("#inputcomment").val();
-      var operacion = $(this).text();
-
-      $.ajax({
-          type: 'POST',
-          url: 'php/lanzar_operacion.php',
-          data: {
-            activo: activo,
-            volume: volume,
-            closeAsk: closeAsk,
-            closeBid: closeBid,
-            stopLoss: stopLoss,
-            takeProfit: takeProfit,
-            comentario: comentario,
-            operacion: operacion
-          },
-          success: function(data) {
-            console.log(data);
-            terminal();
-          }
-      });
+      // AQUI PROGRAMAR LA VALIDACION DE LA OPERACION
+      $("#form-operation").submit();
+      //
     });
+
+    // Needed for "stopLoss" and "takeprofit" inputs (decimal values)
+     $.validator.addMethod("regx", function(value) {
+       var expression = /^\d+\.\d\d\d\d\d$/;
+       if (expression.test(value) || value == "")
+           return true;
+       else
+           return false;
+     }, "");
+   $("#form-operation").validate({
+       rules: {
+           stopLoss: {
+             number: true,
+             regx: true
+           },
+           takeProfit: {
+             number: true,
+             regx: true
+           }
+       },
+       messages: {
+         volumen: "volumen",
+         stopLoss: "stopLoss",
+         takeProfit: "takeProfit",
+         comentario: "comentario"
+       },
+       submitHandler: function() {
+         console.log("all ok");
+         lanzar_operacion();
+       }
+   });
+
+      function lanzar_operacion(){
+        stopLoss = $("#inputStopLoss").val();
+        takeProfit = $("#inputTakeProfit").val();
+        comentario = $("#inputcomment").val();
+
+        var operacion = $(this).text();
+
+        $.ajax({
+            type: 'POST',
+            url: 'php/lanzar_operacion.php',
+            data: {
+              activo: activo,
+              volume: volume,
+              closeAsk: closeAsk,
+              closeBid: closeBid,
+              stopLoss: stopLoss,
+              takeProfit: takeProfit,
+              comentario: comentario,
+              operacion: operacion
+            },
+            success: function(data) {
+              console.log(data);
+              terminal();
+            }
+        });
+      }
 
     $.ajaxSetup({
 

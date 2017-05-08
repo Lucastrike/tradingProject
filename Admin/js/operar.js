@@ -36,6 +36,8 @@ $("document").ready(function() {
     var roundedTotalAsk;
     var roundedTotalBid;
 
+    var operacion;
+
     terminal();
 
     function terminal(){
@@ -46,6 +48,8 @@ $("document").ready(function() {
           dataType: 'json',
           success: function(data) {
             console.log(data);
+            var balance = data[0].balance;
+            $("Balance: "+balance).appendTo("#balance");
             for (var i = 0; i < data.length; i++) {
               $("<tr class='linea-operacion'>\
                 <td>"+data[i].id+"</td>\
@@ -273,9 +277,8 @@ $("document").ready(function() {
     }
 
     $(".btn-comprar, .btn-vender").on('click', function(){
-      // AQUI PROGRAMAR LA VALIDACION DE LA OPERACION
+      operacion = $(this).text();
       $("#form-operation").submit();
-      //
     });
 
     // Needed for "stopLoss" and "takeprofit" inputs (decimal values)
@@ -297,11 +300,16 @@ $("document").ready(function() {
              regx: true
            }
        },
+       errorPlacement: function(error, element) {
+        if (element.attr("name") == "stopLoss") {
+          error.appendTo(".errorStopLoss");
+        } else {
+          error.appendTo(".errorTakeProfit");
+        }
+       },
        messages: {
-         volumen: "volumen",
-         stopLoss: "stopLoss",
-         takeProfit: "takeProfit",
-         comentario: "comentario"
+         stopLoss: "Añade 5 decimales",
+         takeProfit: "Añade 5 decimales"
        },
        submitHandler: function() {
          console.log("all ok");
@@ -310,11 +318,11 @@ $("document").ready(function() {
    });
 
       function lanzar_operacion(){
+
+        console.log("Entra lanzar_operacion");
         stopLoss = $("#inputStopLoss").val();
         takeProfit = $("#inputTakeProfit").val();
         comentario = $("#inputcomment").val();
-
-        var operacion = $(this).text();
 
         $.ajax({
             type: 'POST',

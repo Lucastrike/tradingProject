@@ -155,6 +155,9 @@ include ("php/check_active_session.php");
                 <input type="text" id="inputStopLoss" name="stopLoss" class="form-control col-xs-6 controlOp" placeholder="Stop Loss" style="width: 47%;">
                 <input type="text" id="inputTakeProfit" name="takeProfit" class="form-control col-xs-6 pull-right controlOp" placeholder="Take Profit" style="width: 47%;">
 
+                <div class="errorStopLoss col-xs-6 controlOp" style="color: #dd4b39; width: 47%;"></div>
+                <div class="errorTakeProfit col-xs-6 pull-right controlOp" style="color: #dd4b39; width: 47%;"></div>
+
                 <textarea class="form-control comment" rows="2" id="inputcomment" name="comentario" placeholder="Comentario" maxlength="140"></textarea>
 
                 <p class="col-xs-5 text-center" style="width: 40%; color: #00a65a;">ASK</p>
@@ -164,8 +167,8 @@ include ("php/check_active_session.php");
                 <span class="spread col-xs-2 text-center"></span>
                 <input type="text" id="inputPriceBid" name="priceBid" class="form-control col-xs-5 pull-right" placeholder="Bid" style="width: 40%;" readonly>
 
-                <button class="btn btn-lg btn-success btn-comprar" style="width: 48%;">Comprar</button>
-                <button class="btn btn-lg btn-danger btn-vender pull-right" style="width: 48%;">Vender</button>
+                <button class="btn btn-lg btn-success btn-comprar" type="button" style="width: 48%;">Comprar</button>
+                <button class="btn btn-lg btn-danger btn-vender pull-right" type="button" style="width: 48%;">Vender</button>
             </form>
 
           </div>
@@ -193,7 +196,7 @@ include ("php/check_active_session.php");
                     <th>Comentario</th>
                   </tr>
                   <tr id="terminal-footer">
-                    <th>Balance:</th>
+                    <th id="balance"></th>
                     <th>Patrimonio:</th>
                     <th>Margen:</th>
                     <th>Margen libre:</th>

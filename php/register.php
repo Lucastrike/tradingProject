@@ -17,7 +17,7 @@
   $query = mysqli_query($connection,"SELECT email FROM usuarios WHERE email='$email';");
 
   if (mysqli_num_rows($query) == 0) {
-  mysqli_query($connection, "INSERT INTO usuarios (`usuario`, `nombre`, `apellido`, `email`, `password`, `cap_inicial`, `cap_actual`, `apalancamiento`) VALUES ('$usuario','$nombre','$apellido','$email','$md5password','$capIni','$capIni','$apalancamiento');");
+  mysqli_query($connection, "INSERT INTO usuarios (`usuario`, `nombre`, `apellido`, `email`, `password`, `cap_inicial`, `balance`, `apalancamiento`) VALUES ('$usuario','$nombre','$apellido','$email','$md5password','$capIni','$capIni','$apalancamiento');");
   echo " Bienvenido"." ".$nombre." ".$apellido;
   //mkdir("clientes/$username", 0755);
   } else {

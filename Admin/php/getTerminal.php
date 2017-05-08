@@ -8,12 +8,14 @@
   //$userID = $_SESSION['userID'];
   $arrayOperaciones=array();
 
-  $rowQuery = "SELECT o.id, t.operacion, o.volumen, o.date, o.simbolo, o.precio, o.stopLoss, o.takeProfit, o.comentario
+  $rowQuery = "SELECT o.id, t.operacion, o.volumen, o.date, o.simbolo, o.precio, o.stopLoss, o.takeProfit, o.comentario, u.balance, u.apalancamiento
   FROM operacion o
-  JOIN tipo_operacion t
+  LEFT JOIN tipo_operacion t
   ON o.id_tipo_operacion = t.id
-  JOIN estado e
+  LEFT JOIN estado e
   ON o.id_estado = e.id
+  LEFT JOIN usuarios u
+  ON o.id_usuario = u.id
   WHERE id_usuario = '4'
   AND e.estado ='abierto'
   ORDER BY o.id";

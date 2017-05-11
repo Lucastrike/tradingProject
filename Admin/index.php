@@ -192,20 +192,18 @@ include ("php/check_active_session.php");
                     <th>Precio</th>
                     <th>S/L</th>
                     <th>T/P</th>
-                    <th>Profit</th>
                     <th>Comentario</th>
+                    <th>Profit</th>
                   </tr>
+                </table>
+                <table class="table table-hover">
                   <tr id="terminal-footer">
                     <th id="balance"></th>
-                    <th>Patrimonio:</th>
-                    <th>Margen:</th>
-                    <th>Margen libre:</th>
-                    <th>Nivel de margen:</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <th>138.27</th>
-                    <td></td>
+                    <th id="patrimonio">Patrimonio:</th>
+                    <th id="margin"></th>
+                    <th id="freeMargin">Margen libre:</th>
+                    <th id="marginLevel">Nivel de margen:</th>
+                    <th id="profit" style="padding-right: 18px;"></th>
                   </tr>
                 </table>
               </div>

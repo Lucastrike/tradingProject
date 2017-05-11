@@ -38,6 +38,20 @@ $("document").ready(function() {
 
     var operacion;
 
+    var balance;
+    var apalancamiento;
+
+    var totalMargin = 0;
+    var totalMarginFixed;
+    var divisaC;
+    var precio;
+    // var inEURAsk;
+    // var inEURBid;
+    var tipoOperacion;
+    var simboloOperacion;
+    var volumen;
+    var profitLoss;
+
     terminal();
 
     function terminal(){
@@ -48,8 +62,9 @@ $("document").ready(function() {
           dataType: 'json',
           success: function(data) {
             console.log(data);
-            var balance = data[0].balance;
-            $("Balance: "+balance).appendTo("#balance");
+            balance = data[0].balance;
+            apalancamiento = data[0].apalancamiento;
+            $("#balance").html("Balance: "+balance+" €");
             for (var i = 0; i < data.length; i++) {
               $("<tr class='linea-operacion'>\
                 <td>"+data[i].id+"</td>\
@@ -60,14 +75,68 @@ $("document").ready(function() {
                 <td>"+data[i].precio+"</td>\
                 <td>"+data[i].stopLoss+"</td>\
                 <td>"+data[i].takeProfit+"</td>\
-                <td></td>\
                 <td>"+data[i].comentario+"</td>\
+                <td></td>\
                 <td class='text-center'><i class='fa fa-close text-red close-operation' data="+data[i].id+" role='button'></i></td>\
-              </tr>").insertBefore("#terminal-footer");
+              </tr>").insertAfter("#terminal-head");
+
+                totalMargin = totalMargin + parseFloat(data[i].margin);
+                totalMarginFixed = totalMargin.toFixed(2);
+
+              volumen = data[i].volumen;
+              tipoOperacion = data[i].tipo;
+              simboloOperacion = data[i].simbolo;
+              precio = data[i].precio;
+              var divisaB = simboloOperacion.substr(0, 3);
+              divisaC = simboloOperacion.substr(4, 6);
+              console.log("divisaC = "+divisaC);
+
+              if (divisaB == "EUR") {
+                if (tipoOperacion == "compra") {
+                  var precioEnEURAsk = 1/precio;
+                  profitLoss = precioEnEURAsk - "precio en euros original";
+                } else {
+                  var precioEnEURBid = 1/precio;
+                  profitLoss = precioEnEURBid - "precio en euros original";
+                }
+              } else {
+                profitLossSecondCall();
+              }
+
+              console.log("Profit/Loss = "+profitLoss);
+
             }
+            $("#margin").html("Margen: "+totalMarginFixed);
+          }
+      });
+    }
 
-            //AQUI SE PROGRAMA EL CALCULO DE GANANCIA/PERDIDA DE LA OPERACION
+    function profitLossSecondCall(){
+      $.ajax({
+          type: 'GET',
+          beforeSend: function(request) {
+              request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+          },
+          url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaC + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+          dataType: 'json',
+          success: function(data) {
+            console.log("porfitLoss llamada");
+              console.log(data);
+              var XAsk = data.candles[1].closeAsk;
+              var XBid = data.candles[1].closeBid;
 
+              var EURAsk = 1 / XAsk;
+              var EURBid = 1 / XBid;
+
+              inEURAsk = precio * EURAsk;
+              inEURBid = precio * EURBid;
+
+              if (tipoOperacion == "compra") {
+                profitLoss = inEURAsk - "precio en euros original";
+              } else {
+                profitLoss = inEURBid - "precio en euros original";
+              }
+              console.log("Profit/Loss = "+profitLoss);
           }
       });
     }
@@ -144,50 +213,50 @@ $("document").ready(function() {
         divisaBase = activo.substr(0, 3);
         divisaContraparte = activo.substr(3, 3);
 
-        // $.ajax({
-        //     type: 'GET',
-        //     beforeSend: function(request) {
-        //         request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
-        //     },
-        //     // url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_USD&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-        //     url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=' + divisaBase + '_' + divisaContraparte + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-        //
-        //     // url: 'http://lucassalinas.com.es/tradingProject/data/current.json',
-        //     dataType: 'json',
-        //     success: function(data) {
-        //         console.log(data);
-        //         for (var i = 0; i < data.candles.length; i++) {
-        //             // openAsk = data.candles[i].openAsk;
-        //             // openBid = data.candles[i].openBid;
-        //             // lowAsk = data.candles[i].lowAsk;
-        //             // lowBid = data.candles[i].lowBid;
-        //             // highAsk = data.candles[i].highAsk;
-        //             // highBid = data.candles[i].highBid;
-        //             closeAsk = data.candles[i].closeAsk;
-        //             closeBid = data.candles[i].closeBid;
-        //         }
-        //
-        //         closeAskprev = data.candles[0].closeAsk;
-        //         closeBidprev = data.candles[0].closeBid;
-        //
-        //         if (closeAsk > closeAskprev) {
-        //             $("#inputPriceBid").css("color", "green");
-        //             $("#inputPriceAsk").css("color", "green");
-        //         } else if (closeAsk < closeAskprev) {
-        //             $("#inputPriceBid").css("color", "red");
-        //             $("#inputPriceAsk").css("color", "red");
-        //         }
-        //
-        //         numbersSettings();
-        //
-        //         setTimeout(function() {
-        //             forexQuotes();
-        //         }, 600000);
-        //     },
-        //     completed: function() {
-        //         console.log("completed");
-        //     }
-        // });
+        $.ajax({
+            type: 'GET',
+            beforeSend: function(request) {
+                request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+            },
+            // url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_USD&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+            url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=' + divisaBase + '_' + divisaContraparte + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+
+            // url: 'http://lucassalinas.com.es/tradingProject/data/current.json',
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+                for (var i = 0; i < data.candles.length; i++) {
+                    // openAsk = data.candles[i].openAsk;
+                    // openBid = data.candles[i].openBid;
+                    // lowAsk = data.candles[i].lowAsk;
+                    // lowBid = data.candles[i].lowBid;
+                    // highAsk = data.candles[i].highAsk;
+                    // highBid = data.candles[i].highBid;
+                    closeAsk = data.candles[i].closeAsk;
+                    closeBid = data.candles[i].closeBid;
+                }
+
+                closeAskprev = data.candles[0].closeAsk;
+                closeBidprev = data.candles[0].closeBid;
+
+                if (closeAsk > closeAskprev) {
+                    $("#inputPriceBid").css("color", "green");
+                    $("#inputPriceAsk").css("color", "green");
+                } else if (closeAsk < closeAskprev) {
+                    $("#inputPriceBid").css("color", "red");
+                    $("#inputPriceAsk").css("color", "red");
+                }
+
+                numbersSettings();
+
+                setTimeout(function() {
+                    forexQuotes();
+                }, 600000);
+            },
+            completed: function() {
+                console.log("completed");
+            }
+        });
     }
 
     function numbersSettings() {
@@ -206,48 +275,37 @@ $("document").ready(function() {
         if (divisaBase == "EUR") {
             inEurosAsk = 1 / closeAsk;
             inEurosBid = 1 / closeBid;
+            totalUpdate();
         } else {
             secondCall();
         }
 
-        totalUpdate();
-
-        // switch (activo) {
-        //     // EXOTIC PAIRS
-        //     case "GBPHKD":
-        //         //HACE FALTA MAS DE UNA LLAMADA AJAX
-        //         break;
-        //     case "USDCNH":
-        //         //HACE FALTA MAS DE UNA LLAMADA AJAX
-        //         break;
-        //     case "USDHKD":
-        //         break;
-        // }
     }
 
      function secondCall() {
-        // $.ajax({
-        //     type: 'GET',
-        //     beforeSend: function(request) {
-        //         request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
-        //     },
-        //     url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaContraparte + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-        //     dataType: 'json',
-        //     success: function(data) {
-        //         console.log("Segunda llamada");
-        //         console.log(data);
-        //         var XcloseAsk = data.candles[1].closeAsk;
-        //         var XcloseBid = data.candles[1].closeBid;
-        //
-        //         var EURcloseAsk = 1 / XcloseAsk;
-        //         var EURcloseBid = 1 / XcloseBid;
-        //
-        //         inEurosAsk = closeAsk * EURcloseAsk;
-        //         inEurosBid = closeBid * EURcloseBid;
-        //
-        //         totalUpdate();
-        //     }
-        // });
+        $.ajax({
+            type: 'GET',
+            beforeSend: function(request) {
+                request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+            },
+            url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaContraparte +
+            '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+            dataType: 'json',
+            success: function(data) {
+                console.log("Segunda llamada");
+                console.log(data);
+                var XcloseAsk = data.candles[1].closeAsk;
+                var XcloseBid = data.candles[1].closeBid;
+
+                var EURcloseAsk = 1 / XcloseAsk;
+                var EURcloseBid = 1 / XcloseBid;
+
+                inEurosAsk = closeAsk * EURcloseAsk;
+                inEurosBid = closeBid * EURcloseBid;
+
+                totalUpdate();
+            }
+        });
     }
 
     // ========== Lotes Slider ===========
@@ -265,10 +323,10 @@ $("document").ready(function() {
 
     function totalUpdate() {
         if (isNaN(volume)) {
-            volume = 0;
+            volume = 0.01;
         }
-        totalAsk = inEurosAsk * volume * 100000;
-        totalBid = inEurosBid * volume * 100000;
+        totalAsk = (inEurosAsk * volume * 100000) / apalancamiento;
+        totalBid = (inEurosBid * volume * 100000) / apalancamiento;
 
         roundedTotalAsk = totalAsk.toFixed(2);
         roundedTotalBid = totalBid.toFixed(2);
@@ -324,18 +382,27 @@ $("document").ready(function() {
         takeProfit = $("#inputTakeProfit").val();
         comentario = $("#inputcomment").val();
 
+        var inEurosAskFixed = inEurosAsk.toFixed(5);
+        var inEurosBidFixed = inEurosBid.toFixed(5);
+
+        var activo2 = divisaBase+"_"+divisaContraparte;
+
         $.ajax({
             type: 'POST',
             url: 'php/lanzar_operacion.php',
             data: {
-              activo: activo,
+              activo2: activo2,
               volume: volume,
               closeAsk: closeAsk,
               closeBid: closeBid,
               stopLoss: stopLoss,
               takeProfit: takeProfit,
               comentario: comentario,
-              operacion: operacion
+              operacion: operacion,
+              totalAsk: totalAsk,
+              totalBid: totalBid,
+              inEurosAskFixed: inEurosAskFixed,
+              inEurosBidFixed: inEurosBidFixed
             },
             success: function(data) {
               console.log(data);

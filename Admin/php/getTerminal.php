@@ -8,7 +8,7 @@
   //$userID = $_SESSION['userID'];
   $arrayOperaciones=array();
 
-  $rowQuery = "SELECT o.id, t.operacion, o.volumen, o.date, o.simbolo, o.precio, o.stopLoss, o.takeProfit, o.comentario, u.balance, u.apalancamiento
+  $rowQuery = "SELECT o.id, t.operacion, o.volumen, o.date, o.simbolo, o.precio, o.stopLoss, o.takeProfit, o.comentario, u.balance, u.apalancamiento, o.margin
   FROM operacion o
   LEFT JOIN tipo_operacion t
   ON o.id_tipo_operacion = t.id

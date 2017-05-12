@@ -43,6 +43,7 @@ $("document").ready(function() {
 
     var totalMargin = 0;
     var totalMarginFixed;
+    var divisaB;
     var divisaC;
     var precio;
     // var inEURAsk;
@@ -51,6 +52,13 @@ $("document").ready(function() {
     var simboloOperacion;
     var volumen;
     var profitLoss;
+
+    var enEuros;
+    var contador = 0;
+    var profitLossFixed;
+
+    var EURAsk;
+    var EURBid;
 
     terminal();
 
@@ -76,34 +84,26 @@ $("document").ready(function() {
                 <td>"+data[i].stopLoss+"</td>\
                 <td>"+data[i].takeProfit+"</td>\
                 <td>"+data[i].comentario+"</td>\
-                <td></td>\
+                <td id='profitLoss"+contador+"'></td>\
                 <td class='text-center'><i class='fa fa-close text-red close-operation' data="+data[i].id+" role='button'></i></td>\
               </tr>").insertAfter("#terminal-head");
 
-                totalMargin = totalMargin + parseFloat(data[i].margin);
-                totalMarginFixed = totalMargin.toFixed(2);
+              totalMargin = totalMargin + parseFloat(data[i].margin);
+              totalMarginFixed = totalMargin.toFixed(2);
 
               volumen = data[i].volumen;
               tipoOperacion = data[i].tipo;
               simboloOperacion = data[i].simbolo;
               precio = data[i].precio;
-              var divisaB = simboloOperacion.substr(0, 3);
+              divisaB = simboloOperacion.substr(0, 3);
               divisaC = simboloOperacion.substr(4, 6);
-              console.log("divisaC = "+divisaC);
+              enEuros = data[i].enEuros;
 
-              if (divisaB == "EUR") {
-                if (tipoOperacion == "compra") {
-                  var precioEnEURAsk = 1/precio;
-                  profitLoss = precioEnEURAsk - "precio en euros original";
-                } else {
-                  var precioEnEURBid = 1/precio;
-                  profitLoss = precioEnEURBid - "precio en euros original";
-                }
-              } else {
-                profitLossSecondCall();
-              }
+              profitLossSecondCall();
 
-              console.log("Profit/Loss = "+profitLoss);
+              profitLossFixed = profitLoss.toFixed(2);
+              $("#profitLoss"+contador+"").html(profitLossFixed);
+              contador = contador + 1;
 
             }
             $("#margin").html("Margen: "+totalMarginFixed);
@@ -125,18 +125,27 @@ $("document").ready(function() {
               var XAsk = data.candles[1].closeAsk;
               var XBid = data.candles[1].closeBid;
 
-              var EURAsk = 1 / XAsk;
-              var EURBid = 1 / XBid;
+              EURAsk = 1 / XAsk;
+              EURBid = 1 / XBid;
 
-              inEURAsk = precio * EURAsk;
-              inEURBid = precio * EURBid;
-
-              if (tipoOperacion == "compra") {
-                profitLoss = inEURAsk - "precio en euros original";
+              if (divisaB == "EUR") {
+                if (tipoOperacion == "compra") {
+                  profitLoss = EURAsk - enEuros;
+                } else {
+                  profitLoss = EURBid - enEuros;
+                }
               } else {
-                profitLoss = inEURBid - "precio en euros original";
+
+                inEURAsk = precio * EURAsk;
+                inEURBid = precio * EURBid;
+
+                if (tipoOperacion == "compra") {
+                  profitLoss = inEURAsk - enEuros;
+                } else {
+                  profitLoss = inEURBid - enEuros;
+                }
               }
-              console.log("Profit/Loss = "+profitLoss);
+
           }
       });
     }

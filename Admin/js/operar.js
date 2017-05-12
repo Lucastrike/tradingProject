@@ -1,126 +1,119 @@
 $("document").ready(function() {
 
-    var volume = 0.01; //Lotes
-    $("#spanLotes").html(volume);
+  var volume = 0.01; //Lotes
+  $("#spanLotes").html(volume);
 
-    // var openBid;
-    // var lowBid;
-    // var highBid;
-    var closeBid;
-    // var openAsk;
-    // var lowAsk;
-    // var highAsk;
-    var closeAsk;
+  // var openBid;
+  // var lowBid;
+  // var highBid;
+  var closeBid;
+  // var openAsk;
+  // var lowAsk;
+  // var highAsk;
+  var closeAsk;
 
-    var divisaBase;
-    var divisaContraparte;
+  var divisaBase;
+  var divisaContraparte;
 
-    var spread;
-    var close;
+  var spread;
+  var close;
 
-    var decimalPart;
-    var visualSpread;
-    var firstNumber;
-    var secondNumber;
+  var decimalPart;
+  var visualSpread;
+  var firstNumber;
+  var secondNumber;
 
-    var closeAskprev;
-    var closeBidprev;
-    var closePrev;
+  var closeAskprev;
+  var closeBidprev;
+  var closePrev;
 
-    var inEurosAsk;
-    var inEurosBid;
+  var inEurosAsk;
+  var inEurosBid;
 
-    var stopLoss;
-    var takeProfit;
-    var comentario;
-    var roundedTotalAsk;
-    var roundedTotalBid;
+  var stopLoss;
+  var takeProfit;
+  var comentario;
+  var roundedTotalAsk;
+  var roundedTotalBid;
 
-    var operacion;
+  var operacion;
 
-    var balance;
-    var apalancamiento;
+  var balance;
+  var apalancamiento;
 
-    var totalMargin = 0;
-    var totalMarginFixed;
-    var divisaB;
-    var divisaC;
-    var precio;
-    // var inEURAsk;
-    // var inEURBid;
-    var tipoOperacion;
-    var simboloOperacion;
-    var volumen;
-    var profitLoss;
+  var totalMargin = 0;
+  var totalMarginFixed;
+  var divisaB;
+  var divisaC;
+  var precio;
+  // var inEURAsk;
+  // var inEURBid;
+  var tipoOperacion;
+  var simboloOperacion;
+  var volumen;
+  var profitLoss;
 
-    var enEuros;
-    var contador = 0;
-    var profitLossFixed;
+  var enEuros;
+  var contador = 0;
+  var profitLossFixed;
 
-    var EURAsk;
-    var EURBid;
+  var EURAsk;
+  var EURBid;
 
-    terminal();
+  terminal();
 
-    function terminal(){
-      $(".linea-operacion").remove();
-      $.ajax({
-          type: 'GET',
-          url: 'php/getTerminal.php',
-          dataType: 'json',
-          success: function(data) {
-            console.log(data);
-            balance = data[0].balance;
-            apalancamiento = data[0].apalancamiento;
-            $("#balance").html("Balance: "+balance+" €");
-            for (var i = 0; i < data.length; i++) {
-              $("<tr class='linea-operacion'>\
-                <td>"+data[i].id+"</td>\
-                <td>"+data[i].date+"</td>\
-                <td>"+data[i].operacion+"</td>\
-                <td>"+data[i].volumen+"</td>\
-                <td>"+data[i].simbolo+"</td>\
-                <td>"+data[i].precio+"</td>\
-                <td>"+data[i].stopLoss+"</td>\
-                <td>"+data[i].takeProfit+"</td>\
-                <td>"+data[i].comentario+"</td>\
-                <td id='profitLoss"+contador+"'></td>\
-                <td class='text-center'><i class='fa fa-close text-red close-operation' data="+data[i].id+" role='button'></i></td>\
+  function terminal() {
+    $(".linea-operacion").remove();
+    $.ajax({
+      type: 'GET',
+      url: 'php/getTerminal.php',
+      dataType: 'json',
+      success: function(data) {
+        console.log(data);
+        balance = data[0].balance;
+        apalancamiento = data[0].apalancamiento;
+        $("#balance").html("Balance: " + balance + " €");
+        for (var i = 0; i < data.length; i++) {
+          $("<tr class='linea-operacion'>\
+                <td>" + data[i].id + "</td>\
+                <td>" + data[i].date + "</td>\
+                <td>" + data[i].operacion + "</td>\
+                <td>" + data[i].volumen + "</td>\
+                <td>" + data[i].simbolo + "</td>\
+                <td>" + data[i].precio + "</td>\
+                <td>" + data[i].stopLoss + "</td>\
+                <td>" + data[i].takeProfit + "</td>\
+                <td>" + data[i].comentario + "</td>\
+                <td id='profitLoss" + contador + "'></td>\
+                <td class='text-center'><i class='fa fa-close text-red close-operation' data=" + data[i].id + " role='button'></i></td>\
               </tr>").insertAfter("#terminal-head");
 
-              totalMargin = totalMargin + parseFloat(data[i].margin);
-              totalMarginFixed = totalMargin.toFixed(2);
+          totalMargin = totalMargin + parseFloat(data[i].margin);
+          totalMarginFixed = totalMargin.toFixed(2);
 
-              volumen = data[i].volumen;
-              tipoOperacion = data[i].tipo;
-              simboloOperacion = data[i].simbolo;
-              precio = data[i].precio;
-              divisaB = simboloOperacion.substr(0, 3);
-              divisaC = simboloOperacion.substr(4, 6);
-              enEuros = data[i].enEuros;
+          volumen = data[i].volumen;
+          tipoOperacion = data[i].tipo;
+          simboloOperacion = data[i].simbolo;
+          precio = data[i].precio;
+          divisaB = simboloOperacion.substr(0, 3);
+          divisaC = simboloOperacion.substr(4, 6);
+          enEuros = data[i].enEuros;
 
-              profitLossSecondCall();
+          profitLossSecondCall();
 
-              profitLossFixed = profitLoss.toFixed(2);
-              $("#profitLoss"+contador+"").html(profitLossFixed);
-              contador = contador + 1;
+        }
 
-            }
-            $("#margin").html("Margen: "+totalMarginFixed);
-          }
-      });
-    }
-
-    function profitLossSecondCall(){
-      $.ajax({
-          type: 'GET',
-          beforeSend: function(request) {
+        function profitLossSecondCall() {
+          $.ajax({
+            type: 'GET',
+            async: false,
+            beforeSend: function(request) {
               request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
-          },
-          url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaC + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-          dataType: 'json',
-          success: function(data) {
-            console.log("porfitLoss llamada");
+            },
+            url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaC + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+            dataType: 'json',
+            success: function(data) {
+              console.log("porfitLoss llamada");
               console.log(data);
               var XAsk = data.candles[1].closeAsk;
               var XBid = data.candles[1].closeBid;
@@ -146,315 +139,324 @@ $("document").ready(function() {
                 }
               }
 
-          }
-      });
-    }
+              profitLossFixed = profitLoss.toFixed(2);
+              $("#profitLoss" + contador).html(profitLossFixed);
+              contador = contador + 1;
 
-    $(document).on('click', '.close-operation', function(){
-      var ordenId = $(this).attr("data");
+            }
+          });
 
-      // AQUI SE PROGRAMA EL CALCULO DE GANANCIA/PERDIDA DE LA OPERACION SOBRE EL PATRIMONIO
-
-      $.ajax({
-          type: 'POST',
-          url: 'php/closeOperation.php',
-          data: {
-            ordenId:ordenId
-          },
-          success: function(data) {
-            console.log(data);
-            terminal();
-          }
-      });
+        }
+        $("#margin").html("Margen: " + totalMarginFixed);
+      }
     });
+  }
 
-    // ============ Chart Load =============
-    var activo = localStorage.getItem('activo');
-    if (activo == null) {
-        activo = "EURUSD";
-        localStorage.setItem('activo', 'EURUSD');
-    }
+  $(document).on('click', '.close-operation', function() {
+    var ordenId = $(this).attr("data");
+
+    // AQUI SE PROGRAMA EL CALCULO DE GANANCIA/PERDIDA DE LA OPERACION SOBRE EL PATRIMONIO
+
+    $.ajax({
+      type: 'POST',
+      url: 'php/closeOperation.php',
+      data: {
+        ordenId: ordenId
+      },
+      success: function(data) {
+        console.log(data);
+        terminal();
+      }
+    });
+  });
+
+  // ============ Chart Load =============
+  var activo = localStorage.getItem('activo');
+  if (activo == null) {
+    activo = "EURUSD";
+    localStorage.setItem('activo', 'EURUSD');
+  }
+  new TradingView.widget({
+    "autosize": true,
+    "symbol": "OANDA:" + activo,
+    "interval": "5",
+    "timezone": "Europe/Madrid",
+    "container_id": "chartView",
+    "theme": "White",
+    "style": "1",
+    "locale": "es",
+    "toolbar_bg": "rgba(207, 226, 243, 1)",
+    "enable_publishing": true,
+    "hide_side_toolbar": false,
+    "hideideas": true
+  });
+  $("#inputNombre").val(activo);
+
+  // ============ Load new chart =============
+  $(".activo").on('click', function() {
+    activo = $(this).text();
+    console.log(activo);
+    localStorage.setItem("activo", activo);
     new TradingView.widget({
-        "autosize": true,
-        "symbol": "OANDA:" + activo,
-        "interval": "5",
-        "timezone": "Europe/Madrid",
-        "container_id": "chartView",
-        "theme": "White",
-        "style": "1",
-        "locale": "es",
-        "toolbar_bg": "rgba(207, 226, 243, 1)",
-        "enable_publishing": true,
-        "hide_side_toolbar": false,
-        "hideideas": true
+      "autosize": true,
+      "symbol": "OANDA:" + activo,
+      "interval": "5",
+      "timezone": "Europe/Madrid",
+      "container_id": "chartView",
+      "theme": "White",
+      "style": "1",
+      "locale": "es",
+      "toolbar_bg": "rgba(207, 226, 243, 1)",
+      "enable_publishing": true,
+      "hide_side_toolbar": false,
+      "hideideas": true
     });
     $("#inputNombre").val(activo);
-
-    // ============ Load new chart =============
-    $(".activo").on('click', function() {
-        activo = $(this).text();
-        console.log(activo);
-        localStorage.setItem("activo", activo);
-        new TradingView.widget({
-            "autosize": true,
-            "symbol": "OANDA:" + activo,
-            "interval": "5",
-            "timezone": "Europe/Madrid",
-            "container_id": "chartView",
-            "theme": "White",
-            "style": "1",
-            "locale": "es",
-            "toolbar_bg": "rgba(207, 226, 243, 1)",
-            "enable_publishing": true,
-            "hide_side_toolbar": false,
-            "hideideas": true
-        });
-        $("#inputNombre").val(activo);
-        forexQuotes();
-    });
-
-    // =========== Initial call ==========
     forexQuotes();
+  });
 
-    // ============ API Ajax call ==============
-    function forexQuotes() {
+  // =========== Initial call ==========
+  forexQuotes();
 
-        divisaBase = activo.substr(0, 3);
-        divisaContraparte = activo.substr(3, 3);
+  // ============ API Ajax call ==============
+  function forexQuotes() {
 
-        $.ajax({
-            type: 'GET',
-            beforeSend: function(request) {
-                request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
-            },
-            // url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_USD&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-            url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=' + divisaBase + '_' + divisaContraparte + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+    divisaBase = activo.substr(0, 3);
+    divisaContraparte = activo.substr(3, 3);
 
-            // url: 'http://lucassalinas.com.es/tradingProject/data/current.json',
-            dataType: 'json',
-            success: function(data) {
-                console.log(data);
-                for (var i = 0; i < data.candles.length; i++) {
-                    // openAsk = data.candles[i].openAsk;
-                    // openBid = data.candles[i].openBid;
-                    // lowAsk = data.candles[i].lowAsk;
-                    // lowBid = data.candles[i].lowBid;
-                    // highAsk = data.candles[i].highAsk;
-                    // highBid = data.candles[i].highBid;
-                    closeAsk = data.candles[i].closeAsk;
-                    closeBid = data.candles[i].closeBid;
-                }
+    $.ajax({
+      type: 'GET',
+      beforeSend: function(request) {
+        request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+      },
+      // url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_USD&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+      url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=' + divisaBase + '_' + divisaContraparte + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
 
-                closeAskprev = data.candles[0].closeAsk;
-                closeBidprev = data.candles[0].closeBid;
-
-                if (closeAsk > closeAskprev) {
-                    $("#inputPriceBid").css("color", "green");
-                    $("#inputPriceAsk").css("color", "green");
-                } else if (closeAsk < closeAskprev) {
-                    $("#inputPriceBid").css("color", "red");
-                    $("#inputPriceAsk").css("color", "red");
-                }
-
-                numbersSettings();
-
-                setTimeout(function() {
-                    forexQuotes();
-                }, 600000);
-            },
-            completed: function() {
-                console.log("completed");
-            }
-        });
-    }
-
-    function numbersSettings() {
-        spread = closeAsk - closeBid;
-        $("#inputPriceBid").val(closeBid);
-        $("#inputPriceAsk").val(closeAsk);
-        console.log("SPREAD*** "+spread);
-
-        decimalPart = spread.toString().split(".")[1]; ///after
-        visualSpread = decimalPart.toString().substr(3, 2);
-        firstNumber = visualSpread.substr(0, 1);
-        secondNumber = visualSpread.substr(1, 1);
-        $(".spread").html(firstNumber + "." + secondNumber);
-
-
-        if (divisaBase == "EUR") {
-            inEurosAsk = 1 / closeAsk;
-            inEurosBid = 1 / closeBid;
-            totalUpdate();
-        } else {
-            secondCall();
+      // url: 'http://lucassalinas.com.es/tradingProject/data/current.json',
+      dataType: 'json',
+      success: function(data) {
+        console.log(data);
+        for (var i = 0; i < data.candles.length; i++) {
+          // openAsk = data.candles[i].openAsk;
+          // openBid = data.candles[i].openBid;
+          // lowAsk = data.candles[i].lowAsk;
+          // lowBid = data.candles[i].lowBid;
+          // highAsk = data.candles[i].highAsk;
+          // highBid = data.candles[i].highBid;
+          closeAsk = data.candles[i].closeAsk;
+          closeBid = data.candles[i].closeBid;
         }
 
-    }
+        closeAskprev = data.candles[0].closeAsk;
+        closeBidprev = data.candles[0].closeBid;
 
-     function secondCall() {
-        $.ajax({
-            type: 'GET',
-            beforeSend: function(request) {
-                request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
-            },
-            url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaContraparte +
-            '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-            dataType: 'json',
-            success: function(data) {
-                console.log("Segunda llamada");
-                console.log(data);
-                var XcloseAsk = data.candles[1].closeAsk;
-                var XcloseBid = data.candles[1].closeBid;
-
-                var EURcloseAsk = 1 / XcloseAsk;
-                var EURcloseBid = 1 / XcloseBid;
-
-                inEurosAsk = closeAsk * EURcloseAsk;
-                inEurosBid = closeBid * EURcloseBid;
-
-                totalUpdate();
-            }
-        });
-    }
-
-    // ========== Lotes Slider ===========
-    var sliderLotes = $('#lotes').slider({
-        formatter: function(volume) {
-            return volume;
-            totalUpdate();
+        if (closeAsk > closeAskprev) {
+          $("#inputPriceBid").css("color", "green");
+          $("#inputPriceAsk").css("color", "green");
+        } else if (closeAsk < closeAskprev) {
+          $("#inputPriceBid").css("color", "red");
+          $("#inputPriceAsk").css("color", "red");
         }
+
+        numbersSettings();
+
+        setTimeout(function() {
+          forexQuotes();
+        }, 600000);
+      },
+      completed: function() {
+        console.log("completed");
+      }
     });
+  }
 
-    sliderLotes.on('change', function() {
-        volume = sliderLotes.slider('getValue');
-        $("#spanLotes").html(volume);
-    });
+  function numbersSettings() {
+    spread = closeAsk - closeBid;
+    $("#inputPriceBid").val(closeBid);
+    $("#inputPriceAsk").val(closeAsk);
+    console.log("SPREAD*** " + spread);
 
-    function totalUpdate() {
-        if (isNaN(volume)) {
-            volume = 0.01;
-        }
-        totalAsk = (inEurosAsk * volume * 100000) / apalancamiento;
-        totalBid = (inEurosBid * volume * 100000) / apalancamiento;
+    decimalPart = spread.toString().split(".")[1]; ///after
+    visualSpread = decimalPart.toString().substr(3, 2);
+    firstNumber = visualSpread.substr(0, 1);
+    secondNumber = visualSpread.substr(1, 1);
+    $(".spread").html(firstNumber + "." + secondNumber);
 
-        roundedTotalAsk = totalAsk.toFixed(2);
-        roundedTotalBid = totalBid.toFixed(2);
-        console.log("Total ask" + roundedTotalAsk);
-        console.log("Total bid" + roundedTotalBid);
+
+    if (divisaBase == "EUR") {
+      inEurosAsk = 1 / closeAsk;
+      inEurosBid = 1 / closeBid;
+      totalUpdate();
+    } else {
+      secondCall();
     }
 
-    $(".btn-comprar, .btn-vender").on('click', function(){
-      operacion = $(this).text();
-      $("#form-operation").submit();
+  }
+
+  function secondCall() {
+    $.ajax({
+      type: 'GET',
+      beforeSend: function(request) {
+        request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+      },
+      url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaContraparte +
+        '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+      dataType: 'json',
+      success: function(data) {
+        console.log("Segunda llamada");
+        console.log(data);
+        var XcloseAsk = data.candles[1].closeAsk;
+        var XcloseBid = data.candles[1].closeBid;
+
+        var EURcloseAsk = 1 / XcloseAsk;
+        var EURcloseBid = 1 / XcloseBid;
+
+        inEurosAsk = closeAsk * EURcloseAsk;
+        inEurosBid = closeBid * EURcloseBid;
+
+        totalUpdate();
+      }
     });
+  }
 
-    // Needed for "stopLoss" and "takeprofit" inputs (decimal values)
-     $.validator.addMethod("regx", function(value) {
-       var expression = /^\d+\.\d\d\d\d\d$/;
-       if (expression.test(value) || value == "")
-           return true;
-       else
-           return false;
-     }, "");
-   $("#form-operation").validate({
-       rules: {
-           stopLoss: {
-             number: true,
-             regx: true
-           },
-           takeProfit: {
-             number: true,
-             regx: true
-           }
-       },
-       errorPlacement: function(error, element) {
-        if (element.attr("name") == "stopLoss") {
-          error.appendTo(".errorStopLoss");
-        } else {
-          error.appendTo(".errorTakeProfit");
-        }
-       },
-       messages: {
-         stopLoss: "Añade 5 decimales",
-         takeProfit: "Añade 5 decimales"
-       },
-       submitHandler: function() {
-         console.log("all ok");
-         lanzar_operacion();
-       }
-   });
+  // ========== Lotes Slider ===========
+  var sliderLotes = $('#lotes').slider({
+    formatter: function(volume) {
+      return volume;
+      totalUpdate();
+    }
+  });
 
-      function lanzar_operacion(){
+  sliderLotes.on('change', function() {
+    volume = sliderLotes.slider('getValue');
+    $("#spanLotes").html(volume);
+  });
 
-        console.log("Entra lanzar_operacion");
-        stopLoss = $("#inputStopLoss").val();
-        takeProfit = $("#inputTakeProfit").val();
-        comentario = $("#inputcomment").val();
+  function totalUpdate() {
+    if (isNaN(volume)) {
+      volume = 0.01;
+    }
+    totalAsk = (inEurosAsk * volume * 100000) / apalancamiento;
+    totalBid = (inEurosBid * volume * 100000) / apalancamiento;
 
-        var inEurosAskFixed = inEurosAsk.toFixed(5);
-        var inEurosBidFixed = inEurosBid.toFixed(5);
+    roundedTotalAsk = totalAsk.toFixed(2);
+    roundedTotalBid = totalBid.toFixed(2);
+    console.log("Total ask" + roundedTotalAsk);
+    console.log("Total bid" + roundedTotalBid);
+  }
 
-        var activo2 = divisaBase+"_"+divisaContraparte;
+  $(".btn-comprar, .btn-vender").on('click', function() {
+    operacion = $(this).text();
+    $("#form-operation").submit();
+  });
 
-        $.ajax({
-            type: 'POST',
-            url: 'php/lanzar_operacion.php',
-            data: {
-              activo2: activo2,
-              volume: volume,
-              closeAsk: closeAsk,
-              closeBid: closeBid,
-              stopLoss: stopLoss,
-              takeProfit: takeProfit,
-              comentario: comentario,
-              operacion: operacion,
-              totalAsk: totalAsk,
-              totalBid: totalBid,
-              inEurosAskFixed: inEurosAskFixed,
-              inEurosBidFixed: inEurosBidFixed
-            },
-            success: function(data) {
-              console.log(data);
-              terminal();
-            }
-        });
+  // Needed for "stopLoss" and "takeprofit" inputs (decimal values)
+  $.validator.addMethod("regx", function(value) {
+    var expression = /^\d+\.\d\d\d\d\d$/;
+    if (expression.test(value) || value == "")
+      return true;
+    else
+      return false;
+  }, "");
+  $("#form-operation").validate({
+    rules: {
+      stopLoss: {
+        number: true,
+        regx: true
+      },
+      takeProfit: {
+        number: true,
+        regx: true
+      }
+    },
+    errorPlacement: function(error, element) {
+      if (element.attr("name") == "stopLoss") {
+        error.appendTo(".errorStopLoss");
+      } else {
+        error.appendTo(".errorTakeProfit");
+      }
+    },
+    messages: {
+      stopLoss: "Añade 5 decimales",
+      takeProfit: "Añade 5 decimales"
+    },
+    submitHandler: function() {
+      console.log("all ok");
+      lanzar_operacion();
+    }
+  });
+
+  function lanzar_operacion() {
+
+    console.log("Entra lanzar_operacion");
+    stopLoss = $("#inputStopLoss").val();
+    takeProfit = $("#inputTakeProfit").val();
+    comentario = $("#inputcomment").val();
+
+    var inEurosAskFixed = inEurosAsk.toFixed(5);
+    var inEurosBidFixed = inEurosBid.toFixed(5);
+
+    var activo2 = divisaBase + "_" + divisaContraparte;
+
+    $.ajax({
+      type: 'POST',
+      url: 'php/lanzar_operacion.php',
+      data: {
+        activo2: activo2,
+        volume: volume,
+        closeAsk: closeAsk,
+        closeBid: closeBid,
+        stopLoss: stopLoss,
+        takeProfit: takeProfit,
+        comentario: comentario,
+        operacion: operacion,
+        totalAsk: totalAsk,
+        totalBid: totalBid,
+        inEurosAskFixed: inEurosAskFixed,
+        inEurosBidFixed: inEurosBidFixed
+      },
+      success: function(data) {
+        console.log(data);
+        terminal();
+      }
+    });
+  }
+
+  $.ajaxSetup({
+
+    error: function(jqXHR, textStatus, errorThrown) {
+
+      if (jqXHR.status === 0) {
+
+        alert('Not connect: Verify Network.');
+
+      } else if (jqXHR.status == 404) {
+
+        alert('Requested page not found [404]');
+
+      } else if (jqXHR.status == 500) {
+
+        alert('Internal Server Error [500].');
+
+      } else if (textStatus === 'parsererror') {
+
+        alert('Requested JSON parse failed.');
+
+      } else if (textStatus === 'timeout') {
+
+        alert('Time out error.');
+
+      } else if (textStatus === 'abort') {
+
+        alert('Ajax request aborted.');
+
+      } else {
+
+        alert('Uncaught Error: ' + jqXHR.responseText);
+
       }
 
-    $.ajaxSetup({
-
-        error: function(jqXHR, textStatus, errorThrown) {
-
-            if (jqXHR.status === 0) {
-
-                alert('Not connect: Verify Network.');
-
-            } else if (jqXHR.status == 404) {
-
-                alert('Requested page not found [404]');
-
-            } else if (jqXHR.status == 500) {
-
-                alert('Internal Server Error [500].');
-
-            } else if (textStatus === 'parsererror') {
-
-                alert('Requested JSON parse failed.');
-
-            } else if (textStatus === 'timeout') {
-
-                alert('Time out error.');
-
-            } else if (textStatus === 'abort') {
-
-                alert('Ajax request aborted.');
-
-            } else {
-
-                alert('Uncaught Error: ' + jqXHR.responseText);
-
-            }
-
-        }
-    });
+    }
+  });
 
 });

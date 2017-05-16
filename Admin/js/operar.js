@@ -46,8 +46,8 @@ $("document").ready(function() {
   var divisaB;
   var divisaC;
   var precio;
-  // var inEURAsk;
-  // var inEURBid;
+  var inEURAsk;
+  var inEURBid;
   var tipoOperacion;
   var simboloOperacion;
   var volumen;
@@ -60,18 +60,31 @@ $("document").ready(function() {
   var EURAsk;
   var EURBid;
 
+  var profitLossTotal = 0;
+  var profitLossTotalFixed;
+
   terminal();
 
   function terminal() {
     $(".linea-operacion").remove();
+    $("#margin").html();
+    $("#patrimonio").html();
+    $("#freeMargin").html();
+    $("#marginLevel").html();
+    totalMargin = 0;
+    profitLossTotal = 0;
     $.ajax({
       type: 'GET',
       url: 'php/getTerminal.php',
       dataType: 'json',
       success: function(data) {
         console.log(data);
-        balance = data[0].balance;
+        if (!$.trim(data)) {
+          nonOp();
+        } else {
+        balance = parseFloat(data[0].balance);
         apalancamiento = data[0].apalancamiento;
+        $("#balance").html();
         $("#balance").html("Balance: " + balance + " €");
         for (var i = 0; i < data.length; i++) {
           $("<tr class='linea-operacion'>\
@@ -92,7 +105,7 @@ $("document").ready(function() {
           totalMarginFixed = totalMargin.toFixed(2);
 
           volumen = data[i].volumen;
-          tipoOperacion = data[i].tipo;
+          tipoOperacion = data[i].operacion;
           simboloOperacion = data[i].simbolo;
           precio = data[i].precio;
           divisaB = simboloOperacion.substr(0, 3);
@@ -100,57 +113,99 @@ $("document").ready(function() {
           enEuros = data[i].enEuros;
 
           profitLossSecondCall();
-
-        }
-
-        function profitLossSecondCall() {
-          $.ajax({
-            type: 'GET',
-            async: false,
-            beforeSend: function(request) {
-              request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
-            },
-            url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaC + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-            dataType: 'json',
-            success: function(data) {
-              console.log("porfitLoss llamada");
-              console.log(data);
-              var XAsk = data.candles[1].closeAsk;
-              var XBid = data.candles[1].closeBid;
-
-              EURAsk = 1 / XAsk;
-              EURBid = 1 / XBid;
-
-              if (divisaB == "EUR") {
-                if (tipoOperacion == "compra") {
-                  profitLoss = EURAsk - enEuros;
-                } else {
-                  profitLoss = EURBid - enEuros;
-                }
-              } else {
-
-                inEURAsk = precio * EURAsk;
-                inEURBid = precio * EURBid;
-
-                if (tipoOperacion == "compra") {
-                  profitLoss = inEURAsk - enEuros;
-                } else {
-                  profitLoss = inEURBid - enEuros;
-                }
-              }
-
-              profitLossFixed = profitLoss.toFixed(2);
-              $("#profitLoss" + contador).html(profitLossFixed);
-              contador = contador + 1;
-
-            }
-          });
+          //evasrozinzki
+          console.log(profitLossTotalFixed);
 
         }
         $("#margin").html("Margen: " + totalMarginFixed);
+        var patrimonio = balance + parseFloat(profitLossTotalFixed);
+        $("#patrimonio").html("Patrimonio: " + patrimonio);
+        var margenLibre = patrimonio - totalMarginFixed;
+        var margenLibreFixed = margenLibre.toFixed(2);
+        $("#freeMargin").html("Margen libre: " + margenLibreFixed);
+        var nivelMargen = (patrimonio / totalMarginFixed) * 100;
+        var nivelMargenFixed = nivelMargen.toFixed(2);
+        $("#marginLevel").html("Nivel de margen: " + nivelMargenFixed + "%");
+      }
+    }
+    });
+  }
+
+  function nonOp(){
+    console.log("ENTRA NONOP");
+    $("#margin").html();
+    $("#freeMargin").html();
+    $("#marginLevel").html();
+    $.ajax({
+      type: 'GET',
+      url: 'php/getTerminalBasic.php',
+      dataType: 'json',
+      success: function(data) {
+
+        balance = parseFloat(data[0].balance);
+        apalancamiento = data[0].apalancamiento;
+
+        $("#balance").html("Balance: " + balance + " €");
+        $("#patrimonio").html("Patrimonio: " + balance);
+        $("#freeMargin").html("Margen libre: " + balance);
       }
     });
   }
+
+  function profitLossSecondCall() {
+    if (divisaC == "") {
+      return false;
+    } else {
+    $.ajax({
+      type: 'GET',
+      async: false,
+      beforeSend: function(request) {
+        request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+      },
+      url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=EUR_' + divisaC + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+      dataType: 'json',
+      success: function(data) {
+        console.log("porfitLoss llamada");
+        console.log(data);
+        var XAsk = data.candles[1].closeAsk;
+        var XBid = data.candles[1].closeBid;
+
+        EURAsk = 1 / XAsk;
+        EURBid = 1 / XBid;
+
+        EURAskFixed = EURAsk.toFixed(5);
+        EURBidFixed = EURBid.toFixed(5);
+
+        if (divisaB == "EUR") {
+          if (tipoOperacion == "compra") {
+            console.log("Entra EUR/compra");
+            profitLoss = (enEuros * volumen * 100000) - (EURAskFixed * volumen * 100000);
+          } else {
+            console.log("Entra EUR/venta");
+            profitLoss = (EURBidFixed * volumen * 100000) - (enEuros * volumen * 100000);
+          }
+        } else {
+          inEURAsk = precio * EURAskFixed;
+          inEURBid = precio * EURBidFixed;
+          if (tipoOperacion == "compra") {
+            console.log("Entra X/compra");
+            profitLoss = (inEURAsk * volumen * 100000) - (enEuros * volumen * 100000);
+          } else {
+            console.log("Entra X/venta");
+            profitLoss = (enEuros * volumen * 100000) - (inEURBid * volumen * 100000);
+          }
+        }
+
+        profitLossFixed = profitLoss.toFixed(2);
+        $("#profitLoss" + contador).html(profitLossFixed);
+        contador = contador + 1;
+
+      }
+    });
+  profitLossTotal = profitLossTotal + profitLoss;
+  profitLossTotalFixed = profitLossTotal.toFixed(2);
+  }
+}
 
   $(document).on('click', '.close-operation', function() {
     var ordenId = $(this).attr("data");
@@ -259,10 +314,11 @@ $("document").ready(function() {
         }
 
         numbersSettings();
+        profitLossSecondCall();
 
         setTimeout(function() {
           forexQuotes();
-        }, 600000);
+        }, 60000);
       },
       completed: function() {
         console.log("completed");

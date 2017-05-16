@@ -5,7 +5,7 @@
   include ("connection.php");
   session_start();
 
-  //$userID = $_SESSION['userID'];
+  $userID = $_SESSION['userID'];
   $arrayOperaciones=array();
 
   $rowQuery = "SELECT o.id, t.operacion, o.volumen, o.date, o.simbolo, o.precio, o.stopLoss, o.takeProfit, o.comentario, u.balance, u.apalancamiento, o.margin, o.enEuros
@@ -16,7 +16,7 @@
   ON o.id_estado = e.id
   LEFT JOIN usuarios u
   ON o.id_usuario = u.id
-  WHERE id_usuario = '4'
+  WHERE id_usuario = '$userID'
   AND e.estado ='abierto'
   ORDER BY o.id";
 

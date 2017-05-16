@@ -199,10 +199,10 @@ include ("php/check_active_session.php");
                 <table class="table table-hover">
                   <tr id="terminal-footer">
                     <th id="balance"></th>
-                    <th id="patrimonio">Patrimonio:</th>
+                    <th id="patrimonio"></th>
                     <th id="margin"></th>
-                    <th id="freeMargin">Margen libre:</th>
-                    <th id="marginLevel">Nivel de margen:</th>
+                    <th id="freeMargin"></th>
+                    <th id="marginLevel"></th>
                     <th id="profit" style="padding-right: 18px;"></th>
                   </tr>
                 </table>

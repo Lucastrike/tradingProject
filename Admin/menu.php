@@ -236,6 +236,16 @@
                     <i class="fa fa-institution"></i> <span>Trading algorítmico</span>
                 </a>
             </li>
+            <?php if ($_SESSION['userID'] == 4) {
+              echo '
+              <li class="header">DESARROLLA</li>
+              <li class="treeview">
+                  <a href="admin.php">
+                      <i class="fa fa-heartbeat"></i> <span>Administrador</span>
+                  </a>
+              </li>';
+            }
+            ?>
 
         </ul>
     </section>

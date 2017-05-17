@@ -66,11 +66,13 @@ $("document").ready(function() {
   terminal();
 
   function terminal() {
+    console.log("entra terminal");
     $(".linea-operacion").remove();
-    $("#margin").html();
-    $("#patrimonio").html();
-    $("#freeMargin").html();
-    $("#marginLevel").html();
+    $("#balance").html("");
+    $("#margin").html("");
+    $("#patrimonio").html("");
+    $("#freeMargin").html("");
+    $("#marginLevel").html("");
     totalMargin = 0;
     profitLossTotal = 0;
     $.ajax({
@@ -98,7 +100,7 @@ $("document").ready(function() {
                 <td>" + data[i].takeProfit + "</td>\
                 <td>" + data[i].comentario + "</td>\
                 <td id='profitLoss" + contador + "'></td>\
-                <td class='text-center'><i class='fa fa-close text-red close-operation' data=" + data[i].id + " role='button'></i></td>\
+                <td class='text-center'><i class='fa fa-close text-red close-operation "+contador+"' data=" + data[i].id + " role='button'></i></td>\
               </tr>").insertAfter("#terminal-head");
 
           totalMargin = totalMargin + parseFloat(data[i].margin);
@@ -114,7 +116,6 @@ $("document").ready(function() {
 
           profitLossSecondCall();
           //evasrozinzki
-          console.log(profitLossTotalFixed);
 
         }
         $("#margin").html("Margen: " + totalMarginFixed);
@@ -133,29 +134,30 @@ $("document").ready(function() {
 
   function nonOp(){
     console.log("ENTRA NONOP");
-    $("#margin").html();
-    $("#freeMargin").html();
-    $("#marginLevel").html();
     $.ajax({
       type: 'GET',
       url: 'php/getTerminalBasic.php',
       dataType: 'json',
       success: function(data) {
+        if (!$.trim(data)) {
+          return false;
+        } else {
+          balance = parseFloat(data[0].balance);
+          apalancamiento = data[0].apalancamiento;
 
-        balance = parseFloat(data[0].balance);
-        apalancamiento = data[0].apalancamiento;
-
-        $("#balance").html("Balance: " + balance + " €");
-        $("#patrimonio").html("Patrimonio: " + balance);
-        $("#freeMargin").html("Margen libre: " + balance);
+          $("#balance").html("Balance: " + balance + " €");
+          $("#patrimonio").html("Patrimonio: " + balance);
+          $("#freeMargin").html("Margen libre: " + balance);
+        }
       }
     });
   }
 
   function profitLossSecondCall() {
-    if (divisaC == "") {
+    if (divisaC == null) {
       return false;
     } else {
+      console.log("AQUI");
     $.ajax({
       type: 'GET',
       async: false,
@@ -179,10 +181,10 @@ $("document").ready(function() {
         if (divisaB == "EUR") {
           if (tipoOperacion == "compra") {
             console.log("Entra EUR/compra");
-            profitLoss = (enEuros * volumen * 100000) - (EURAskFixed * volumen * 100000);
+            profitLoss = (enEuros * volumen * 100000) - (EURBidFixed * volumen * 100000);
           } else {
             console.log("Entra EUR/venta");
-            profitLoss = (EURBidFixed * volumen * 100000) - (enEuros * volumen * 100000);
+            profitLoss = (EURAskFixed * volumen * 100000) - (enEuros * volumen * 100000);
           }
         } else {
           inEURAsk = precio * EURAskFixed;
@@ -198,6 +200,7 @@ $("document").ready(function() {
 
         profitLossFixed = profitLoss.toFixed(2);
         $("#profitLoss" + contador).html(profitLossFixed);
+        $("."+contador+"").attr('profitLoss', profitLossFixed);
         contador = contador + 1;
 
       }
@@ -209,8 +212,8 @@ $("document").ready(function() {
 
   $(document).on('click', '.close-operation', function() {
     var ordenId = $(this).attr("data");
-
-    // AQUI SE PROGRAMA EL CALCULO DE GANANCIA/PERDIDA DE LA OPERACION SOBRE EL PATRIMONIO
+    var singleProfitLoss = parseFloat($(this).attr("profitLoss"));
+    console.log(singleProfitLoss);
 
     $.ajax({
       type: 'POST',
@@ -218,12 +221,30 @@ $("document").ready(function() {
       data: {
         ordenId: ordenId
       },
+      dataType: 'json',
+      success: function(data) {
+        console.log(data);
+        var marginOp = parseFloat(data[0].margin);
+        totalMargin = totalMargin - marginOp;
+        balance = balance + singleProfitLoss;
+
+        updateBalance();
+      }
+    });
+  });
+  function updateBalance(){
+    $.ajax({
+      type: 'POST',
+      url: 'php/updateBalance.php',
+      data: {
+        balance: balance
+      },
       success: function(data) {
         console.log(data);
         terminal();
       }
     });
-  });
+  }
 
   // ============ Chart Load =============
   var activo = localStorage.getItem('activo');

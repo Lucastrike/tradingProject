@@ -32,6 +32,9 @@ include ("php/check_active_session.php");
         <!-- jQuery 2.2.3 -->
         <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+
         <!-- iCheck -->
         <!-- <link rel="stylesheet" href="plugins/iCheck/flat/blue.css"> -->
         <!-- Morris chart -->
@@ -82,27 +85,86 @@ include ("php/check_active_session.php");
             <!-- Main row -->
             <div class="row">
 
-
               <div>
-
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
-                  <li role="presentation" class="active"><a href="#operacion" class="tabla" id="operacion" aria-controls="operacion" role="tab" data-toggle="tab">Operaciones</a></li>
-                  <li role="presentation"><a href="#usuarios" class="tabla" id="usuarios" aria-controls="usuarios" role="tab" data-toggle="tab">Usuarios</a></li>
+                  <li role="presentation" class="active"><a href="#usuarios" class="tabla" aria-controls="home" role="tab" data-toggle="tab">Usuarios</a></li>
+                  <li role="presentation"><a href="#operaciones" class="tabla" aria-controls="profile" role="tab" data-toggle="tab">Operaciones</a></li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                  <div role="tabpanel" class="tab-pane fade active" id="operacion"></div>
-                  <div role="tabpanel" class="tab-pane fade" id="usuarios"></div>
+                  <div role="tabpanel" class="tab-pane active" id="usuarios"><table class="table table-hover" id="tableUsuarios">
+                    <thead>
+                      <th>id</th>
+                      <th>usuarios</th>
+                      <th>nombre</th>
+                      <th>apellido</th>
+                      <th>email</th>
+                      <th>password</th>
+                      <th>cap_inicial</th>
+                      <th>balance</th>
+                      <th>apalancamiento</th>
+                    </thead>
+                    <tfoot>
+                      <td><input type="text" id="inputId" name="id" class="form-control" placeholder="id" readonly></td>
+                      <td><input type="text" id="inputUsuario" name="usuario" class="form-control" placeholder="usuario"></td>
+                      <td><input type="text" id="inputNombre" name="nombre" class="form-control" placeholder="nombre"></td>
+                      <td><input type="text" id="inputApellido" name="apellido" class="form-control" placeholder="apellido"></td>
+                      <td><input type="text" id="inputEmail" name="email" class="form-control" placeholder="email"></td>
+                      <td><input type="text" id="inputPassword" name="password" class="form-control" placeholder="password"></td>
+                      <td><input type="text" id="inputCap_inicial" name="cap_inicial" class="form-control" placeholder="cap_inicial"></td>
+                      <td><input type="text" id="inputBalanace" name="balance" class="form-control" placeholder="balance"></td>
+                      <td><input type="text" id="inputApalancamiento" name="apalancamiento" class="form-control" placeholder="apalancamiento"></td>
+                      <td style="padding-top: 14px;"><i class='fa fa-fw fa-check text-green checkUsuario' role='button'></i></td>
+                    </tfoot>
+                  </table></div>
+                  <div role="tabpanel" class="tab-pane" id="operaciones"><table class="table table-hover" id="tableOperaciones">
+                    <thead>
+                      <th>id</th>
+                      <th>id_usuario</th>
+                      <th>id_tipo_operacion</th>
+                      <th>volumen</th>
+                      <th>fecha</th>
+                      <th>símbolo</th>
+                      <th>precio</th>
+                      <th>stopLoss</th>
+                      <th>takeProfit</th>
+                      <th>comentario</th>
+                      <th>margen</th>
+                      <th>en €</th>
+                      <th>id_estado</th>
+                    </thead>
+                    <tfoot>
+                      <td><input type="text" id="inputIdOp" name="id" class="form-control" placeholder="id" readonly style="width: 50px;"></td>
+                      <td><select class="selectpicker show-tick" id="inputIdUsuarioOp" name="idUsuario" title="id_usuario" data-width="75px">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                      </select></td>
+                      <td><select class="selectpicker show-tick" id="inputIdTipoOperacion" name="IdTipoOperacion" title="id_tipo_operacion" data-width="115px">
+                        <option>1</option>
+                        <option>2</option>
+                      </select></td>
+                      <td><input type="text" id="inputVolumen" name="Volumen" class="form-control" placeholder="Volumen"></td>
+                      <td><input type="text" id="inputFecha" name="Fecha" class="form-control" placeholder="Fecha" readonly></td>
+                      <td><input type="text" id="inputSimbolo" name="Simbolo" class="form-control" placeholder="Simbolo"></td>
+                      <td><input type="text" id="inputPrecio" name="Precio" class="form-control" placeholder="Precio"></td>
+                      <td><input type="text" id="inputStopLoss" name="StopLoss" class="form-control" placeholder="StopLoss"></td>
+                      <td><input type="text" id="inputTakeProfit" name="TakeProfit" class="form-control" placeholder="TakeProfit"></td>
+                      <td><input type="text" id="inputComentario" name="Comentario" class="form-control" placeholder="Comentario"></td>
+                      <td><input type="text" id="inputMargen" name="Margen" class="form-control" placeholder="Margen"></td>
+                      <td><input type="text" id="inputEnEuros" name="EnEuros" class="form-control" placeholder="EnEuros"></td>
+                      <td><select class="selectpicker show-tick" id="inputIdEstado" name="IdEstado" title="id_estado" data-width="90px">
+                        <option>1</option>
+                        <option>2</option>
+                      </select></td>
+                      <td style="padding-top: 14px;"><i class='fa fa-fw fa-check text-green checkUsuario' role='button'></i></td>
+                    </tfoot>
+                  </table></div>
                 </div>
-
               </div>
-              <!-- <div class="box-body table-responsive no-padding">
-                <table class="table table-hover">
-
-                </table>
-              </div> -->
 
             </div>
             <!-- /.row (main row) -->
@@ -180,6 +242,9 @@ include ("php/check_active_session.php");
 
         <!-- Bootstrap slider -->
         <script src="plugins/bootstrap-slider/bootstrap-slider.js"></script>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 
         <!-- TradingView Widget BEGIN -->
         <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>

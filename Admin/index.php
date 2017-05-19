@@ -2,7 +2,6 @@
 <?php
 
 include ("php/connection.php");
-session_start();
 
 include ("php/check_active_session.php");
 

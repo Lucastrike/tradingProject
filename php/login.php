@@ -16,10 +16,10 @@
     $_SESSION['loggedin']=true;
     $_SESSION['userID']=$fila[0];
     $_SESSION['usuario']=$fila[1];
-    // $_SESSION['nombre']=$fila[2];
-    // $_SESSION['apellido']=$fila[3];
-    // echo " (^_^) Bienvenido/a ".$fila[1]." (^_^)";
-    //header('location: Admin/index.php');
+    $_SESSION['isAdmin']=false;
+    if ($fila[9] == 1) {
+      $_SESSION['isAdmin']=true;
+    }
     echo 1;
   } else {
     echo 0;

@@ -145,6 +145,7 @@ $("document").ready(function() {
           },
           success: function(data) {
               console.log(data);
+              tableCall();
           }
       });
     });
@@ -161,8 +162,8 @@ $("document").ready(function() {
           success: function(data) {
               console.log(data);
               $("#inputIdOp").val(data[0].id);
-              $("#inputIdUsuarioOp").text(data[0].id_usuario);
-              $("#inputIdTipoOperacion").val(data[0].id_tipo_operacion);
+              $("#inputIdUsuarioOp").selectpicker('val', data[0].id_usuario);
+              $("#inputIdTipoOperacion").selectpicker('val', data[0].id_tipo_operacion);
               $("#inputVolumen").val(data[0].volumen);
               $("#inputFecha").val(data[0].date);
               $("#inputSimbolo").val(data[0].simbolo);
@@ -172,7 +173,98 @@ $("document").ready(function() {
               $("#inputComentario").val(data[0].comentario);
               $("#inputMargen").val(data[0].margin);
               $("#inputEnEuros").val(data[0].enEuros);
-              $("#inputIdEstado").val(data[0].id_estado);
+              $("#inputIdEstado").selectpicker('val', data[0].id_estado);
+          }
+      });
+    });
+
+    $(document).on('click', '.modificarUsuario', function(){
+      var idUsuario = $(this).attr('data');
+      $.ajax({
+          type: 'POST',
+          url: 'php/getUsuario.php',
+          data: {
+            idUsuario: idUsuario
+          },
+          dataType: 'json',
+          success: function(data) {
+              console.log(data);
+              $("#inputId").val(data[0].id);
+              $("#inputUsuario").val(data[0].usuario);
+              $("#inputNombre").val(data[0].nombre);
+              $("#inputApellido").val(data[0].apellido);
+              $("#inputEmail").val(data[0].email);
+              $("#inputPassword").val(data[0].password);
+              $("#inputCap_inicial").val(data[0].cap_inicial);
+              $("#inputBalanace").val(data[0].balance);
+              $("#inputApalancamiento").val(data[0].apalancamiento);
+          }
+      });
+    });
+
+    $(document).on('click', '.checkOperacion', function(){
+      var idOp = $("#inputIdOp").val();
+      var idUsuarioOp = $("#inputIdUsuarioOp").selectpicker('val');
+      var idTipoOperacion = $("#inputIdTipoOperacion").selectpicker('val');
+      var volumen = $("#inputVolumen").val();
+      var simbolo = $("#inputSimbolo").val();
+      var precio = $("#inputPrecio").val();
+      var stopLoss = $("#inputStopLoss").val();
+      var takeProfit = $("#inputTakeProfit").val();
+      var comentario = $("#inputComentario").val();
+      var margen = $("#inputMargen").val();
+      var enEuros = $("#inputEnEuros").val();
+      var idEstado = $("#inputIdEstado").selectpicker('val');
+
+      $.ajax({
+          type: 'POST',
+          url: 'php/modificarOperacion.php',
+          data: {
+            idOp: idOp,
+            idUsuarioOp: idUsuarioOp,
+            idTipoOperacion: idTipoOperacion,
+            volumen: volumen,
+            simbolo: simbolo,
+            precio: precio,
+            stopLoss: stopLoss,
+            takeProfit: takeProfit,
+            comentario: comentario,
+            margen: margen,
+            enEuros: enEuros,
+            idEstado: idEstado
+          },
+          success: function(data) {
+              console.log(data);
+              tableCall();
+              $("#inputIdOp").val("");
+              $("#inputIdUsuarioOp").selectpicker('val', '');
+              $("#inputIdTipoOperacion").selectpicker('val', '');
+              $("#inputVolumen").val("");
+              $("#inputSimbolo").val("");
+              $("#inputPrecio").val("");
+              $("#inputStopLoss").val("");
+              $("#inputTakeProfit").val("");
+              $("#inputComentario").val("");
+              $("#inputMargen").val("");
+              $("#inputComentario").val("");
+              $("#inputMargen").val("");
+              $("#inputEnEuros").val("");
+              $("#inputIdEstado").selectpicker('val', '');
+          }
+      });
+    });
+
+    $(document).on('click', '.borrarOperacion', function(){
+      var idOperacion = $(this).attr('data');
+      $.ajax({
+          type: 'POST',
+          url: 'php/borrarOperacion.php',
+          data: {
+            idOperacion: idOperacion
+          },
+          success: function(data) {
+              console.log(data);
+              tableCall();
           }
       });
     });

@@ -7,7 +7,7 @@
 
   $idUsuario = $_POST["idUsuario"];
 
-  $rowQuery = "DELETE * FROM usuarios WHERE id='$idUsuario'";
+  $rowQuery = "DELETE FROM usuarios WHERE id='$idUsuario'";
 
   if ($query = mysqli_query($connection, $rowQuery)) {
     echo 1;

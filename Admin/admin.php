@@ -4,8 +4,10 @@ include ("php/connection.php");
 session_start();
 
 include ("php/check_active_session.php");
+include ("php/check_active_admin.php");
 
- ?>
+?>
+
     <!DOCTYPE html>
     <html>
 
@@ -160,7 +162,7 @@ include ("php/check_active_session.php");
                         <option>1</option>
                         <option>2</option>
                       </select></td>
-                      <td style="padding-top: 14px;"><i class='fa fa-fw fa-check text-green checkUsuario' role='button'></i></td>
+                      <td style="padding-top: 14px;"><i class='fa fa-fw fa-check text-green checkOperacion' role='button'></i></td>
                     </tfoot>
                   </table></div>
                 </div>

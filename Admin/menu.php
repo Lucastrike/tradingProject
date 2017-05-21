@@ -35,16 +35,16 @@
 
                             <p>
                                 <?php echo $_SESSION['usuario']; ?>
-                                <small>Member since Nov. 2012</small>
+                                <small>Member since Mar. 2017</small>
                             </p>
                         </li>
                         <!-- Menu Body -->
-                        <li class="user-body" style="border-bottom: 0px; border-top: 0px;">
+                        <!-- <li class="user-body" style="border-bottom: 0px; border-top: 0px;">
                               <h6 style="margin-top: 0px";>Progreso<small class="pull-right">20%</small></h6>
                               <div class="progress xs" style="margin-bottom: 0px";>
                                   <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
-                        </li>
+                        </li> -->
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
@@ -71,9 +71,9 @@
             <div class="pull-left image">
                 <img src="dist/img/avatar.png" class="img-circle" alt="User Image">
             </div>
-            <div class="pull-left info">
+            <div class="info" style="margin-top: 10px;">
                 <p><?php echo $_SESSION['usuario']; ?></p>
-                <a href="#"><i class="fa fa-trophy text-yellow"></i> Gold</a>
+                <!-- <a href="#"><i class="fa fa-trophy text-yellow"></i> Gold</a> -->
             </div>
         </div>
 
@@ -238,7 +238,7 @@
             </li>
             <?php if ($_SESSION['userID'] == 4) {
               echo '
-              <li class="header">DESARROLLA</li>
+              <li class="header">Hola admin!</li>
               <li class="treeview">
                   <a href="admin.php">
                       <i class="fa fa-heartbeat"></i> <span>Administrador</span>

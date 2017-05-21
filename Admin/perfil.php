@@ -55,7 +55,9 @@
   <![endif]-->
 
   <style media="screen">
-
+    textarea {
+      resize: none;
+    }
   </style>
 </head>
 
@@ -87,25 +89,28 @@
 
                     <h3 class="profile-username text-center"><?php echo $_SESSION['usuario']; ?></h3>
 
-                    <p class="text-muted text-center">Desarrollador web</p>
+                    <!-- <p class="text-muted text-center">Desarrollador web</p> -->
 
-                    <!-- <ul class="list-group list-group-unbordered">
-                      <li class="list-group-item">
-                        <b>Followers</b> <a class="pull-right">1,322</a>
-                      </li>
-                      <li class="list-group-item">
-                        <b>Following</b> <a class="pull-right">543</a>
-                      </li>
-                      <li class="list-group-item">
-                        <b>Friends</b> <a class="pull-right">13,287</a>
-                      </li>
-                    </ul> -->
-
-                    <a href="#" class="btn btn-danger btn-block"><b>Resetear cuenta</b></a>
+                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target=".bs-example-modal-sm"><b>Resetear cuenta</b></button>
                   </div>
                   <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
+
+                <!-- Small modal -->
+                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="container-fluid">
+                                <form id="form-signin">
+                                    <h2 class="form-signin-heading text-center" style="color: #00c0ef;">Capital inicial</h2>
+                                    <input type="text" id="inputCap_inicial" name="email" class="form-control" placeholder="Capital inicial">
+                                    <br>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- About Me Box -->
                 <div class="box box-primary">
@@ -116,33 +121,22 @@
                   <div class="box-body">
                     <strong><i class="fa fa-book margin-r-5"></i> Educación</strong>
 
-                    <p class="text-muted">
+                    <p class="text-muted" id="educacion">
                       Desarrollador de aplicaciones web, SOLVAM.
                     </p>
+                    <textarea class="hidden" id="educacionText" name="educacion" rows="3" style="width: 100%;" maxlength="140"></textarea>
 
                     <hr>
 
                     <strong><i class="fa fa-map-marker margin-r-5"></i> Localización</strong>
 
-                    <p class="text-muted">Valencia, España</p>
+                    <p class="text-muted" id="localizacion">
+                      Valencia, España
+                    </p>
+                    <textarea class="hidden" id="localizacionText" name="educacion" rows="3" style="width: 100%;" maxlength="40"></textarea>
 
                     <hr>
 
-                    <!-- <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-
-                    <p>
-                      <span class="label label-danger">UI Design</span>
-                      <span class="label label-success">Coding</span>
-                      <span class="label label-info">Javascript</span>
-                      <span class="label label-warning">PHP</span>
-                      <span class="label label-primary">Node.js</span>
-                    </p>
-
-                    <hr> -->
-
-                    <!-- <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p> -->
                   </div>
                   <!-- /.box-body -->
                 </div>
@@ -152,227 +146,63 @@
               <div class="col-md-9">
                 <div class="nav-tabs-custom">
                   <ul class="nav nav-tabs">
-                    <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
-                    <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
-                    <li><a href="#settings" data-toggle="tab">Settings</a></li>
+                    <li class="active"><a href="#actividad" data-toggle="tab">Actividad</a></li>
+                    <li><a href="#estadisticas" data-toggle="tab">Estadísticas</a></li>
+                    <!-- <li><a href="#settings" data-toggle="tab">Settings</a></li> -->
                   </ul>
                   <div class="tab-content">
-                    <div class="active tab-pane" id="activity">
+                    <div class="active tab-pane" id="actividad">
+
+                      <table class="table table-hover" id="tableOperaciones">
+                      <thead>
+                        <th>id</th>
+                        <th>operacion</th>
+                        <th>volumen</th>
+                        <th>fecha</th>
+                        <th>símbolo</th>
+                        <th>precio</th>
+                        <th>stopLoss</th>
+                        <th>takeProfit</th>
+                        <th>comentario</th>
+                      </thead>
+                    </table>
+
+                  </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="estadisticas">
 
                       <div class="box box-info">
-                      <div class="box-header with-border">
-                        <h3 class="box-title">Balance</h3>
-
-                        <div class="box-tools pull-right">
-                          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <div class="box-header with-border">
+                          <h3 class="box-title">Balance</h3>
+                          <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                          </div>
+                        </div>
+                        <div class="box-body">
+                          <div class="chart">
+                            <canvas id="lineChart" height="250" width="511"></canvas>
+                          </div>
                         </div>
                       </div>
-                      <div class="box-body">
-                        <div class="chart">
-                          <canvas id="lineChart" style="height: 250px; width: 511px;" height="250" width="511"></canvas>
+
+                      <div class="box box-info">
+                        <div class="box-header with-border">
+                          <h3 class="box-title">Exposición</h3>
+                          <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                          </div>
+                        </div>
+                        <div class="box-body">
+                          <div class="chart">
+                            <canvas id="donutChart" height="250" width="511"></canvas>
+                          </div>
                         </div>
                       </div>
-                      <!-- /.box-body -->
-                    </div>
 
-                      <!-- Post -->
-                      <!-- <div class="post">
-                        <div class="user-block">
-                          <img class="img-circle img-bordered-sm" src="dist/img/user1-128x128.jpg" alt="user image">
-                              <span class="username">
-                                <a href="#">Jonathan Burke Jr.</a>
-                                <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                              </span>
-                          <span class="description">Shared publicly - 7:30 PM today</span>
-                        </div>
-                        <p>
-                          Lorem ipsum represents a long-held tradition for designers,
-                          typographers and the like. Some people hate it and argue for
-                          its demise, but others ignore the hate as they create awesome
-                          tools to help create filler text for everyone from bacon lovers
-                          to Charlie Sheen fans.
-                        </p>
-                        <ul class="list-inline">
-                          <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-                          <li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a>
-                          </li>
-                          <li class="pull-right">
-                            <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments
-                              (5)</a></li>
-                        </ul>
-
-                        <input class="form-control input-sm" type="text" placeholder="Type a comment">
-                      </div>
-
-                      <div class="post clearfix">
-                        <div class="user-block">
-                          <img class="img-circle img-bordered-sm" src="dist/img/user7-128x128.jpg" alt="User Image">
-                              <span class="username">
-                                <a href="#">Sarah Ross</a>
-                                <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                              </span>
-                          <span class="description">Sent you a message - 3 days ago</span>
-                        </div>
-                        <p>
-                          Lorem ipsum represents a long-held tradition for designers,
-                          typographers and the like. Some people hate it and argue for
-                          its demise, but others ignore the hate as they create awesome
-                          tools to help create filler text for everyone from bacon lovers
-                          to Charlie Sheen fans.
-                        </p>
-
-                        <form class="form-horizontal">
-                          <div class="form-group margin-bottom-none">
-                            <div class="col-sm-9">
-                              <input class="form-control input-sm" placeholder="Response">
-                            </div>
-                            <div class="col-sm-3">
-                              <button type="submit" class="btn btn-danger pull-right btn-block btn-sm">Send</button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-
-                      <div class="post">
-                        <div class="user-block">
-                          <img class="img-circle img-bordered-sm" src="dist/img/user6-128x128.jpg" alt="User Image">
-                              <span class="username">
-                                <a href="#">Adam Jones</a>
-                                <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                              </span>
-                          <span class="description">Posted 5 photos - 5 days ago</span>
-                        </div>
-                        <div class="row margin-bottom">
-                          <div class="col-sm-6">
-                            <img class="img-responsive" src="dist/img/photo1.png" alt="Photo">
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <img class="img-responsive" src="dist/img/photo2.png" alt="Photo">
-                                <br>
-                                <img class="img-responsive" src="dist/img/photo3.jpg" alt="Photo">
-                              </div>
-                              <div class="col-sm-6">
-                                <img class="img-responsive" src="dist/img/photo4.jpg" alt="Photo">
-                                <br>
-                                <img class="img-responsive" src="dist/img/photo1.png" alt="Photo">
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <ul class="list-inline">
-                          <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-                          <li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a>
-                          </li>
-                          <li class="pull-right">
-                            <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments
-                              (5)</a></li>
-                        </ul>
-
-                        <input class="form-control input-sm" type="text" placeholder="Type a comment">
-                      </div> -->
-                      <!-- /.post -->
-                    </div>
-                    <!-- /.tab-pane -->
-                    <div class="tab-pane" id="timeline">
-                      <!-- The timeline -->
-                      <ul class="timeline timeline-inverse">
-                        <!-- timeline time label -->
-                        <li class="time-label">
-                              <span class="bg-red">
-                                10 Feb. 2014
-                              </span>
-                        </li>
-                        <!-- /.timeline-label -->
-                        <!-- timeline item -->
-                        <li>
-                          <i class="fa fa-envelope bg-blue"></i>
-
-                          <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                            <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-
-                            <div class="timeline-body">
-                              Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                              weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                              jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                              quora plaxo ideeli hulu weebly balihoo...
-                            </div>
-                            <div class="timeline-footer">
-                              <a class="btn btn-primary btn-xs">Read more</a>
-                              <a class="btn btn-danger btn-xs">Delete</a>
-                            </div>
-                          </div>
-                        </li>
-                        <!-- END timeline item -->
-                        <!-- timeline item -->
-                        <li>
-                          <i class="fa fa-user bg-aqua"></i>
-
-                          <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
-
-                            <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
-                            </h3>
-                          </div>
-                        </li>
-                        <!-- END timeline item -->
-                        <!-- timeline item -->
-                        <li>
-                          <i class="fa fa-comments bg-yellow"></i>
-
-                          <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-
-                            <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                            <div class="timeline-body">
-                              Take me to your leader!
-                              Switzerland is small and neutral!
-                              We are more like Germany, ambitious and misunderstood!
-                            </div>
-                            <div class="timeline-footer">
-                              <a class="btn btn-warning btn-flat btn-xs">View comment</a>
-                            </div>
-                          </div>
-                        </li>
-                        <!-- END timeline item -->
-                        <!-- timeline time label -->
-                        <li class="time-label">
-                              <span class="bg-green">
-                                3 Jan. 2014
-                              </span>
-                        </li>
-                        <!-- /.timeline-label -->
-                        <!-- timeline item -->
-                        <li>
-                          <i class="fa fa-camera bg-purple"></i>
-
-                          <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
-
-                            <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                            <div class="timeline-body">
-                              <img src="http://placehold.it/150x100" alt="..." class="margin">
-                              <img src="http://placehold.it/150x100" alt="..." class="margin">
-                              <img src="http://placehold.it/150x100" alt="..." class="margin">
-                              <img src="http://placehold.it/150x100" alt="..." class="margin">
-                            </div>
-                          </div>
-                        </li>
-                        <!-- END timeline item -->
-                        <li>
-                          <i class="fa fa-clock-o bg-gray"></i>
-                        </li>
-                      </ul>
                     </div>
                     <!-- /.tab-pane -->
 
-                    <div class="tab-pane" id="settings">
+                    <!-- <div class="tab-pane" id="settings">
                       <form class="form-horizontal">
                         <div class="form-group">
                           <label for="inputName" class="col-sm-2 control-label">Name</label>
@@ -424,7 +254,7 @@
                           </div>
                         </div>
                       </form>
-                    </div>
+                    </div> -->
                     <!-- /.tab-pane -->
                   </div>
                   <!-- /.tab-content -->
@@ -462,73 +292,11 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Chart js -->
-    <script src="plugins/chartjs/Chart.min.js"></script>
-    <script type="text/javascript">
+    <!-- <script src="plugins/chartjs/Chart.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-    var areaChartData = {
-      labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-      datasets: [
-        {
-          label: "Digital Goods",
-          fillColor: "rgba(60,141,188,0.9)",
-          strokeColor: "rgba(60,141,188,0.8)",
-          pointColor: "#3b8bba",
-          pointStrokeColor: "rgba(60,141,188,1)",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "rgba(60,141,188,1)",
-          data: [28, 48, 40, 19, 86, 27, 90, 120, 105, 135, 170]
-        }
-      ]
-    };
-
-    var areaChartOptions = {
-      //Boolean - If we should show the scale at all
-      showScale: true,
-      //Boolean - Whether grid lines are shown across the chart
-      scaleShowGridLines: false,
-      //String - Colour of the grid lines
-      scaleGridLineColor: "rgba(0,0,0,.05)",
-      //Number - Width of the grid lines
-      scaleGridLineWidth: 1,
-      //Boolean - Whether to show horizontal lines (except X axis)
-      scaleShowHorizontalLines: true,
-      //Boolean - Whether to show vertical lines (except Y axis)
-      scaleShowVerticalLines: true,
-      //Boolean - Whether the line is curved between points
-      bezierCurve: true,
-      //Number - Tension of the bezier curve between points
-      bezierCurveTension: 0.3,
-      //Boolean - Whether to show a dot for each point
-      pointDot: false,
-      //Number - Radius of each point dot in pixels
-      pointDotRadius: 4,
-      //Number - Pixel width of point dot stroke
-      pointDotStrokeWidth: 1,
-      //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-      pointHitDetectionRadius: 20,
-      //Boolean - Whether to show a stroke for datasets
-      datasetStroke: true,
-      //Number - Pixel width of dataset stroke
-      datasetStrokeWidth: 2,
-      //Boolean - Whether to fill the dataset with a color
-      datasetFill: true,
-      //String - A legend template
-      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-      //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-      maintainAspectRatio: true,
-      //Boolean - whether to make the chart responsive to window resizing
-      responsive: true
-    };
-
-    //-------------
-    //- LINE CHART -
-    //--------------
-    var lineChartCanvas = $("#lineChart").get(0).getContext("2d");
-    var lineChart = new Chart(lineChartCanvas);
-    var lineChartOptions = areaChartOptions;
-    lineChartOptions.datasetFill = false;
-    lineChart.Line(areaChartData, lineChartOptions);
-    </script>
+    <script type="text/javascript" src="js/perfil.js"></script>
 
     <!-- Morris.js charts -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
@@ -573,6 +341,54 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
 
     <script type="text/javascript" src="js/gotooperar.js"></script>
+    <script type="text/javascript">
+    // DONUT CHART
+
+    var operacion = [];
+    var compra = 0;
+    var venta = 0;
+
+    $.ajax({
+      type: 'GET',
+      url: 'php/getExposure.php',
+      dataType: 'json',
+      success: function(data) {
+        console.log(data);
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].operacion == "compra") {
+            compra = compra + 1;
+          } else {
+            venta = venta + 1;
+          }
+        }
+        operacion.push(compra);
+        operacion.push(venta);
+      }
+    });
+
+    var data = {
+        labels: [
+            "Largo",
+            "Corto"
+        ],
+        datasets: [{
+                data: operacion,
+                backgroundColor: [
+                    "#36A2EB",
+                    "#FF6384"
+                ],
+                hoverBackgroundColor: [
+                    "#36A2EB",
+                    "#FF6384"
+                ]
+            }]
+    };
+    var ctx2 = $("#donutChart");
+    var myDoughnutChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: data
+    });
+    </script>
 
 </body>
 

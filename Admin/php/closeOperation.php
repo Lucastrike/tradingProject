@@ -7,11 +7,12 @@
   session_start();
 
   $ordenID = $_POST["ordenId"];
+  $singleProfitLoss = $_POST['singleProfitLoss'];
   $userID = $_SESSION['userID'];
 
   $arrayMargin=array();
 
-  if ($query = mysqli_query($connection,"UPDATE `operacion` SET `id_estado`='2' WHERE id='$ordenID' AND id_usuario='$userID';")) {
+  if ($query = mysqli_query($connection,"UPDATE `operacion` SET `id_estado`='2', `profitLoss`='$singleProfitLoss' WHERE id='$ordenID' AND id_usuario='$userID';")) {
 
     $query2 = mysqli_query($connection,"SELECT margin FROM `operacion` WHERE id_usuario='$userID' AND id='$ordenID'");
     while ($row = mysqli_fetch_assoc($query2)) {

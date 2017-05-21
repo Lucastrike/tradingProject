@@ -96,7 +96,8 @@ include ("php/check_active_admin.php");
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                  <div role="tabpanel" class="tab-pane active" id="usuarios"><table class="table table-hover" id="tableUsuarios">
+                  <div role="tabpanel" class="tab-pane active" id="usuarios">
+                    <table class="table table-hover" id="tableUsuarios">
                     <thead>
                       <th>id</th>
                       <th>usuarios</th>
@@ -121,7 +122,8 @@ include ("php/check_active_admin.php");
                       <td style="padding-top: 14px;"><i class='fa fa-fw fa-check text-green checkUsuario' role='button'></i></td>
                     </tfoot>
                   </table></div>
-                  <div role="tabpanel" class="tab-pane" id="operaciones"><table class="table table-hover" id="tableOperaciones">
+                  <div role="tabpanel" class="tab-pane" id="operaciones">
+                    <table class="table table-hover" id="tableOperaciones">
                     <thead>
                       <th>id</th>
                       <th>id_usuario</th>

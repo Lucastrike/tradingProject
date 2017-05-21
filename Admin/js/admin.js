@@ -32,6 +32,7 @@ $("document").ready(function() {
                       <td>"+ data[i].cap_inicial +"</td>\
                       <td>"+ data[i].balance +"</td>\
                       <td>"+ data[i].apalancamiento +"</td>\
+                      <td>"+ data[i].admin +"</td>\
                       <td><i class='fa fa-fw fa-pencil text-yellow modificarUsuario' role='button' data='"+data[i].id+"'></i></td>\
                       <td><i class='fa fa-fw fa-remove text-red borrarUsuario' role='button' data='"+data[i].id+"'></i></td>\
                     </tr>").appendTo("#tableUsuarios");

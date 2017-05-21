@@ -219,7 +219,8 @@ $("document").ready(function() {
       type: 'POST',
       url: 'php/closeOperation.php',
       data: {
-        ordenId: ordenId
+        ordenId: ordenId,
+        singleProfitLoss: singleProfitLoss
       },
       dataType: 'json',
       success: function(data) {

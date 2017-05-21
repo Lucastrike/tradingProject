@@ -116,8 +116,10 @@ function signup(){
           apalancamiento: apalancamiento
         },
         success: function(data){
-          alert(data);
-          location.href="Admin/index.php";
+          //alert(data);
+          if (data == 1) {
+            location.href="Admin/index.php";
+          }
         },
         error: function(jqXHR, textStatus, errorThrown){
         if (jqXHR.status === 0) {
@@ -197,7 +199,7 @@ function signin(){
           location.href="Admin/index.php";
         }
         else if (data == 0) {
-          alert("(=_=) No cuela, registrate! (=_=)");
+          alert("(T_T) No cuela, registrate! (T_T)");
         }
       },
       error: function(jqXHR, textStatus, errorThrown){

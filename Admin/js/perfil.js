@@ -41,10 +41,10 @@ $("document").ready(function() {
 
   $("#localizacion").on('dblclick', function(){
     var descLoc = $("#localizacion").text();
-    var descLocTrim = descEdu.trim();
+    var descLocTrim = descLoc.trim();
     $("#localizacion").addClass(' hidden');
     $("#localizacionText").removeClass('hidden');
-    $("#educacionText").text(descLocTrim);
+    $("#localizacionText").text(descLocTrim);
     $("#localizacionText").focus();
   });
   $("#localizacionText").on('blur', function(){
@@ -69,6 +69,7 @@ $("document").ready(function() {
         } else {
           for (var i = 0; i < data.length; i++) {
             profitLoss.push(balance + parseFloat(data[i].profitLoss));
+            console.log(balance);
           }
           for (var a = 0; a < profitLoss.length+4; a++) {
             labelsArray.push(a);
@@ -124,6 +125,56 @@ $("document").ready(function() {
                 }]
             }
         }
+    });
+  }
+
+  // DONUT CHART
+
+  var operacion = [];
+  var compra = 0;
+  var venta = 0;
+
+  $.ajax({
+    type: 'GET',
+    url: 'php/getExposure.php',
+    dataType: 'json',
+    success: function(data) {
+      console.log(data);
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].operacion == "compra") {
+          compra = compra + 1;
+        } else {
+          venta = venta + 1;
+        }
+      }
+      operacion.push(compra);
+      operacion.push(venta);
+      createDonutChart();
+    }
+  });
+
+  function createDonutChart(){
+    var data = {
+        labels: [
+            "Largo",
+            "Corto"
+        ],
+        datasets: [{
+                data: operacion,
+                backgroundColor: [
+                    "#36A2EB",
+                    "#FF6384"
+                ],
+                hoverBackgroundColor: [
+                    "#36A2EB",
+                    "#FF6384"
+                ]
+            }]
+    };
+    var ctx2 = $("#donutChart");
+    var myDoughnutChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: data
     });
   }
 

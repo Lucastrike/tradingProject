@@ -121,18 +121,15 @@
                   <div class="box-body">
                     <strong><i class="fa fa-book margin-r-5"></i> Educación</strong>
 
-                    <p class="text-muted" id="educacion">
-                      Desarrollador de aplicaciones web, SOLVAM.
-                    </p>
+                    <p class="text-muted" id="educacion"></p>
+
                     <textarea class="hidden" id="educacionText" name="educacion" rows="3" style="width: 100%;" maxlength="140"></textarea>
 
                     <hr>
 
                     <strong><i class="fa fa-map-marker margin-r-5"></i> Localización</strong>
 
-                    <p class="text-muted" id="localizacion">
-                      Valencia, España
-                    </p>
+                    <p class="text-muted" id="localizacion">Donde estas?</p>
                     <textarea class="hidden" id="localizacionText" name="educacion" rows="3" style="width: 100%;" maxlength="40"></textarea>
 
                     <hr>
@@ -296,8 +293,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-    <script type="text/javascript" src="js/perfil.js"></script>
-
     <!-- Morris.js charts -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="plugins/morris/morris.min.js"></script> -->
@@ -341,54 +336,8 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
 
     <script type="text/javascript" src="js/gotooperar.js"></script>
-    <script type="text/javascript">
-    // DONUT CHART
 
-    var operacion = [];
-    var compra = 0;
-    var venta = 0;
-
-    $.ajax({
-      type: 'GET',
-      url: 'php/getExposure.php',
-      dataType: 'json',
-      success: function(data) {
-        console.log(data);
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].operacion == "compra") {
-            compra = compra + 1;
-          } else {
-            venta = venta + 1;
-          }
-        }
-        operacion.push(compra);
-        operacion.push(venta);
-      }
-    });
-
-    var data = {
-        labels: [
-            "Largo",
-            "Corto"
-        ],
-        datasets: [{
-                data: operacion,
-                backgroundColor: [
-                    "#36A2EB",
-                    "#FF6384"
-                ],
-                hoverBackgroundColor: [
-                    "#36A2EB",
-                    "#FF6384"
-                ]
-            }]
-    };
-    var ctx2 = $("#donutChart");
-    var myDoughnutChart = new Chart(ctx2, {
-        type: 'doughnut',
-        data: data
-    });
-    </script>
+    <script type="text/javascript" src="js/perfil.js"></script>
 
 </body>
 

@@ -63,6 +63,10 @@ $("document").ready(function() {
   var profitLossTotal = 0;
   var profitLossTotalFixed;
 
+  var higherId;
+  var higherLoss;
+  var marginC;
+
   terminal();
 
   function terminal() {
@@ -120,6 +124,11 @@ $("document").ready(function() {
         }
         $("#margin").html("Margen: " + totalMarginFixed);
         var patrimonio = balance + parseFloat(profitLossTotalFixed);
+        var marginCall = patrimonio * 0.25;
+        if (patrimonio <= marginCall) {
+          getHigherOp();
+        }
+
         $("#patrimonio").html("Patrimonio: " + patrimonio);
         var margenLibre = patrimonio - totalMarginFixed;
         var margenLibreFixed = margenLibre.toFixed(2);
@@ -129,6 +138,39 @@ $("document").ready(function() {
         $("#marginLevel").html("Nivel de margen: " + nivelMargenFixed + "%");
       }
     }
+    });
+  }
+
+  function getHigherOp(){
+    $.ajax({
+      type: 'GET',
+      url: 'php/getHigherOp.php',
+      dataType: 'json',
+      success: function(data) {
+          console.log(data);
+          higherId = data[0].id;
+          higherLoss = data[0].higherLoss;
+          marginC = parseFloat(data[0].margin);
+          closehigherOp();
+      }
+    });
+  }
+  function closehigherOp(){
+    $.ajax({
+      type: 'POST',
+      url: 'php/closeHigherOp.php',
+      data: {
+        higherId: higherId,
+        higherLoss: higherLoss
+      },
+      dataType: 'json',
+      success: function(data) {
+        console.log(data);
+        totalMargin = totalMargin - marginC;
+        balance = balance + higherLoss;
+        updateBalance();
+        //LLAMAR A MODAL MARGIN CALL
+      }
     });
   }
 
@@ -213,7 +255,7 @@ $("document").ready(function() {
   $(document).on('click', '.close-operation', function() {
     var ordenId = $(this).attr("data");
     var singleProfitLoss = parseFloat($(this).attr("profitLoss"));
-    console.log(singleProfitLoss);
+    console.log("SINGLE"+singleProfitLoss);
 
     $.ajax({
       type: 'POST',

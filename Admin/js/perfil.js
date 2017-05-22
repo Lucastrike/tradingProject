@@ -68,14 +68,14 @@ $("document").ready(function() {
           createLineChart();
         } else {
           for (var i = 0; i < data.length; i++) {
-            profitLoss.push(balance + parseFloat(data[i].profitLoss));
-            console.log(balance);
+            balance = balance + parseFloat(data[i].profitLoss);
+            balanceFixed = balance.toFixed(2);
+            profitLoss.push(balanceFixed);
           }
           for (var a = 0; a < profitLoss.length+4; a++) {
             labelsArray.push(a);
           }
         }
-        console.log(profitLoss);
         createLineChart();
     }
   });

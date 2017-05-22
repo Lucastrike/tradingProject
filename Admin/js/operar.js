@@ -128,8 +128,8 @@ $("document").ready(function() {
         if (patrimonio <= marginCall) {
           getHigherOp();
         }
-
-        $("#patrimonio").html("Patrimonio: " + patrimonio);
+        patrimonioFixed = patrimonio.toFixed(2);
+        $("#patrimonio").html("Patrimonio: " + patrimonioFixed);
         var margenLibre = patrimonio - totalMarginFixed;
         var margenLibreFixed = margenLibre.toFixed(2);
         $("#freeMargin").html("Margen libre: " + margenLibreFixed);
@@ -160,8 +160,7 @@ $("document").ready(function() {
       type: 'POST',
       url: 'php/closeHigherOp.php',
       data: {
-        higherId: higherId,
-        higherLoss: higherLoss
+        higherId: higherId
       },
       dataType: 'json',
       success: function(data) {
@@ -169,7 +168,7 @@ $("document").ready(function() {
         totalMargin = totalMargin - marginC;
         balance = balance + higherLoss;
         updateBalance();
-        //LLAMAR A MODAL MARGIN CALL
+        //LLAMAR A MODAL BANCA ROTA
       }
     });
   }
@@ -450,6 +449,7 @@ $("document").ready(function() {
   sliderLotes.on('change', function() {
     volume = sliderLotes.slider('getValue');
     $("#spanLotes").html(volume);
+    totalUpdate();
   });
 
   function totalUpdate() {
@@ -505,6 +505,8 @@ $("document").ready(function() {
       lanzar_operacion();
     }
   });
+
+  //COMPROBAR EL MARGEN ANTES DE LANZAR LA OPERACION
 
   function lanzar_operacion() {
 

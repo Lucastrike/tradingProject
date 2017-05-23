@@ -67,6 +67,8 @@ $("document").ready(function() {
   var higherLoss;
   var marginC;
 
+  var margenLibreFixed;
+
   terminal();
 
   function terminal() {
@@ -82,6 +84,7 @@ $("document").ready(function() {
     $.ajax({
       type: 'GET',
       url: 'php/getTerminal.php',
+      async: false,
       dataType: 'json',
       success: function(data) {
         console.log(data);
@@ -124,15 +127,15 @@ $("document").ready(function() {
         }
         $("#margin").html("Margen: " + totalMarginFixed);
         var patrimonio = balance + parseFloat(profitLossTotalFixed);
-        var marginCall = patrimonio * 0.25;
-        if (patrimonio <= marginCall) {
-          getHigherOp();
-        }
         patrimonioFixed = patrimonio.toFixed(2);
         $("#patrimonio").html("Patrimonio: " + patrimonioFixed);
         var margenLibre = patrimonio - totalMarginFixed;
-        var margenLibreFixed = margenLibre.toFixed(2);
+        margenLibreFixed = margenLibre.toFixed(2);
         $("#freeMargin").html("Margen libre: " + margenLibreFixed);
+        var marginCall = balance * 0.25;
+        if (balance < marginCall) {
+          getHigherOp();
+        }
         var nivelMargen = (patrimonio / totalMarginFixed) * 100;
         var nivelMargenFixed = nivelMargen.toFixed(2);
         $("#marginLevel").html("Nivel de margen: " + nivelMargenFixed + "%");
@@ -168,7 +171,7 @@ $("document").ready(function() {
         totalMargin = totalMargin - marginC;
         balance = balance + higherLoss;
         updateBalance();
-        //LLAMAR A MODAL BANCA ROTA
+        $('.marginCall').modal('show');
       }
     });
   }
@@ -178,6 +181,7 @@ $("document").ready(function() {
     $.ajax({
       type: 'GET',
       url: 'php/getTerminalBasic.php',
+      async: false,
       dataType: 'json',
       success: function(data) {
         if (!$.trim(data)) {
@@ -185,6 +189,8 @@ $("document").ready(function() {
         } else {
           balance = parseFloat(data[0].balance);
           apalancamiento = data[0].apalancamiento;
+          margenLibreFixed = balance;
+
 
           $("#balance").html("Balance: " + balance + " €");
           $("#patrimonio").html("Patrimonio: " + balance);
@@ -502,11 +508,15 @@ $("document").ready(function() {
     },
     submitHandler: function() {
       console.log("all ok");
-      lanzar_operacion();
+      console.log("margen: "+totalAsk);
+      console.log("margen libre: "+margenLibreFixed);
+      if (totalAsk <= margenLibreFixed || totalBid <= margenLibreFixed) {
+        lanzar_operacion();
+      } else {
+        $('.marginModal').modal('show');
+      }
     }
   });
-
-  //COMPROBAR EL MARGEN ANTES DE LANZAR LA OPERACION
 
   function lanzar_operacion() {
 

@@ -172,6 +172,30 @@ include ("php/check_active_session.php");
 
           </div>
 
+          <!-- Small modal -->
+          <div class="modal fade marginModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+              <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                      <div class="container-fluid">
+                          <h2 class="form-signin-heading text-center" style="color: #d73925;margin-bottom: 20px;">Margen libre insuficiente</h2>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Small modal -->
+          <div class="modal fade marginCall" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+              <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                      <div class="container-fluid">
+                          <h2 class="form-signin-heading text-center" style="color: #d73925;">Alerta!</h2>
+                          <h3 class="form-signin-heading text-center" style="color: #d73925;">Se ha lanzado el margin call</h3>
+                          <h4 class="form-signin-heading text-center" style="margin-bottom: 20px;color: orange;">Debido a que el margen libre esta por debajo del 25% de tu balance, se ha cerrado la operacion que más perdidas estaba reportando</h4>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
           <div class="col-xs-12 terminal">
 
             <div class="box">

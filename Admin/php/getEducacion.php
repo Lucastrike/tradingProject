@@ -9,7 +9,7 @@
 
   $arrayEdu = array();
 
-  $rowQuery = "SELECT educacion FROM usuarios WHERE id='$userID'";
+  $rowQuery = "SELECT educacion, local FROM usuarios WHERE id='$userID'";
 
   $query = mysqli_query($connection, $rowQuery);
   while ($row = mysqli_fetch_assoc($query)) {

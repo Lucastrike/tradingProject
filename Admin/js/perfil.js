@@ -26,30 +26,77 @@ $("document").ready(function() {
     console.log("hello world!");
   });
 
+  getSkills();
+  function getSkills(){
+    $.ajax({
+        type: 'GET',
+        url: 'php/getEducacion.php',
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+            $("#educacion").text(data[0].educacion);
+            $("#localizacion").text(data[0].local);
+        }
+    });
+  }
+
   $("#educacion").on('dblclick', function(){
-    var descEdu = $("#educacion").text();
-    var descEduTrim = descEdu.trim();
     $("#educacion").addClass(' hidden');
     $("#educacionText").removeClass('hidden');
-    $("#educacionText").text(descEduTrim);
+    $("#educacionText").text($("#educacion").text().trim());
     $("#educacionText").focus();
   });
   $("#educacionText").on('blur', function(){
+    var educUpdated = $("#educacionText").val();
+    if (educUpdated == "") {
+      educUpdated = "Donde estudiaste?";
+    }
+      $.ajax({
+          type: 'POST',
+          url: 'php/updateEducacion.php',
+          data: {
+            educUpdated: educUpdated
+          },
+          success: function(data) {
+              console.log(data);
+              getSkills();
+          }
+      });
+    $("#educacion").text(educUpdated);
     $("#educacionText").addClass(' hidden');
     $("#educacion").removeClass('hidden');
   });
 
   $("#localizacion").on('dblclick', function(){
-    var descLoc = $("#localizacion").text();
-    var descLocTrim = descLoc.trim();
     $("#localizacion").addClass(' hidden');
     $("#localizacionText").removeClass('hidden');
-    $("#localizacionText").text(descLocTrim);
+    $("#localizacionText").text($("#localizacion").text().trim());
     $("#localizacionText").focus();
   });
   $("#localizacionText").on('blur', function(){
+    var localUpdated = $("#localizacionText").val();
+    if (localUpdated == "") {
+      localUpdated = "Donde estás?";
+    }
+      $.ajax({
+          type: 'POST',
+          url: 'php/updateLocalizacion.php',
+          data: {
+            localUpdated: localUpdated
+          },
+          success: function(data) {
+              console.log(data);
+              getSkills();
+          }
+      });
+    $("#localizacion").text(localUpdated);
     $("#localizacionText").addClass(' hidden');
     $("#localizacion").removeClass('hidden');
+  });
+
+
+  $(".profile-user-img").on('click', function(){
+    $(".bs-example-modal-sm").modal('show');
   });
 
   var profitLoss = [];

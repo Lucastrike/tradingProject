@@ -36,8 +36,6 @@
         echo 0;
       }
     }
-
-  //echo " Bienvenido"." ".$nombre." ".$apellido.", logeate para empezar a operar!";
   //mkdir("clientes/$username", 0755);
   } else {
     echo " Usuario ya existente";

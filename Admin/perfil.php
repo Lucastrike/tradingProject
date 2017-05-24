@@ -92,11 +92,20 @@
 
                     <!-- <p class="text-muted text-center">Desarrollador web</p> -->
 
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target=""><b>Resetear cuenta</b></button>
+                    <button type="button" id="resetear" class="btn btn-danger btn-block" data-toggle="modal" data-target=".resetear"><b>Resetear cuenta</b></button>
                   </div>
                   <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
+
+                <div class="modal fade resetear" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                  <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content text-center" style="border-radius: 5px;padding: 20px;">
+                      <h2 style="color: #3c8dbc;">Capital inicial</h2>
+                      <input class="form-control" id='capital_inicial' type="text" name="capital">
+                    </div>
+                  </div>
+                </div>
 
                 <!-- Modal -->
                 <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -106,16 +115,16 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Nueva imagen</h4>
                       </div>
-                      <div class="modal-body">
-                        <img class="profile-user-img img-responsive img-circle" style="width: 200px;" src="dist/img/avatar.png" role="button" alt="User profile picture"></img>
-                        <h3 class="profile-username text-center"><?php echo $_SESSION['usuario']; ?></h3>
-                        <form action="practice11upload.php" method="post" enctype="multipart/form-data">
-                          <input type="file" name="picture" id="file" style="margin-left: 120px;"><br />
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Guardar</button>
-                      </div>
+                      <form action="uploadImage.php" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                          <img class="profile-user-img img-responsive img-circle" style="width: 200px;" src="dist/img/avatar.png" alt="User profile picture"></img>
+                          <h3 class="profile-username text-center"><?php echo $_SESSION['usuario']; ?></h3>
+                            <input type="file" name="picture" id="file" style="margin-left: 120px;"><br />
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary">Guardar</button>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>

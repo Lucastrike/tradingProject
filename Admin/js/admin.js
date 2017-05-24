@@ -5,6 +5,8 @@ $("document").ready(function() {
     var tabla = "Usuarios";
     console.log(tabla);
     tableCall();
+    getTipoOperacion();
+    getEstado();
 
     $(".tabla").on('click', function() {
         tabla = $(this).text();
@@ -23,23 +25,28 @@ $("document").ready(function() {
                 $(".fila1").remove();
                 for (var i = 0; i < data.length; i++) {
                   $("<tr class='fila1'>\
-                      <td>"+ data[i].id +"</td>\
-                      <td>"+ data[i].usuario +"</td>\
-                      <td>"+ data[i].nombre +"</td>\
-                      <td>"+ data[i].apellido +"</td>\
-                      <td>"+ data[i].email +"</td>\
-                      <td>"+ data[i].password +"</td>\
-                      <td>"+ data[i].cap_inicial +"</td>\
-                      <td>"+ data[i].balance +"</td>\
-                      <td>"+ data[i].apalancamiento +"</td>\
-                      <td>"+ data[i].admin +"</td>\
+                      <td class='text-center'>"+ data[i].id +"</td>\
+                      <td class='text-center'>"+ data[i].usuario +"</td>\
+                      <td class='text-center'>"+ data[i].nombre +"</td>\
+                      <td class='text-center'>"+ data[i].apellido +"</td>\
+                      <td class='text-center'>"+ data[i].email +"</td>\
+                      <td class='text-center'>"+ data[i].password +"</td>\
+                      <td class='text-center'>"+ data[i].cap_inicial +"</td>\
+                      <td class='text-center'>"+ data[i].balance +"</td>\
+                      <td class='text-center'>"+ data[i].apalancamiento +"</td>\
+                      <td class='text-center'>"+ data[i].admin +"</td>\
+                      <td class='text-center'>"+ data[i].educacion +"</td>\
+                      <td class='text-center'>"+ data[i].local +"</td>\
                       <td><i class='fa fa-fw fa-pencil text-yellow modificarUsuario' role='button' data='"+data[i].id+"'></i></td>\
                       <td><i class='fa fa-fw fa-remove text-red borrarUsuario' role='button' data='"+data[i].id+"'></i></td>\
                     </tr>").appendTo("#tableUsuarios");
+                    $("<option>"+ data[i].id +"</option>").appendTo("#inputIdUsuarioOp");
+                    $('.selectpicker').selectpicker('refresh');
                 }
+
             }
         });
-      } else {
+      } else if (tabla == "Operaciones") {
         $.ajax({
             type: 'GET',
             url: 'php/getoperaciones.php',
@@ -49,19 +56,20 @@ $("document").ready(function() {
                 $(".fila2").remove();
                 for (var i = 0; i < data.length; i++) {
                   $("<tr class='fila2'>\
-                      <td>"+ data[i].id +"</td>\
-                      <td>"+ data[i].id_usuario +"</td>\
-                      <td>"+ data[i].id_tipo_operacion +"</td>\
-                      <td>"+ data[i].volumen +"</td>\
-                      <td>"+ data[i].date +"</td>\
-                      <td>"+ data[i].simbolo +"</td>\
-                      <td>"+ data[i].precio +"</td>\
-                      <td>"+ data[i].stopLoss +"</td>\
-                      <td>"+ data[i].takeProfit +"</td>\
-                      <td>"+ data[i].comentario +"</td>\
-                      <td>"+ data[i].margin +"</td>\
-                      <td>"+ data[i].enEuros +"</td>\
-                      <td>"+ data[i].id_estado +"</td>\
+                      <td class='text-center'>"+ data[i].id +"</td>\
+                      <td class='text-center'>"+ data[i].id_usuario +"</td>\
+                      <td class='text-center'>"+ data[i].id_tipo_operacion +"</td>\
+                      <td class='text-center'>"+ data[i].volumen +"</td>\
+                      <td class='text-center'>"+ data[i].date +"</td>\
+                      <td class='text-center'>"+ data[i].simbolo +"</td>\
+                      <td class='text-center'>"+ data[i].precio +"</td>\
+                      <td class='text-center'>"+ data[i].stopLoss +"</td>\
+                      <td class='text-center'>"+ data[i].takeProfit +"</td>\
+                      <td class='text-center'>"+ data[i].comentario +"</td>\
+                      <td class='text-center'>"+ data[i].margin +"</td>\
+                      <td class='text-center'>"+ data[i].enEuros +"</td>\
+                      <td class='text-center'>"+ data[i].id_estado +"</td>\
+                      <td class='text-center'>"+ data[i].profitLoss +"</td>\
                       <td><i class='fa fa-fw fa-pencil text-yellow modificarOperacion' role='button' data='"+data[i].id+"'></i></td>\
                       <td><i class='fa fa-fw fa-remove text-red borrarOperacion' role='button' data='"+data[i].id+"'></i></td>\
                       <td></td>\
@@ -69,7 +77,50 @@ $("document").ready(function() {
                 }
             }
         });
+      } else if (tabla == "Tipo_operacion") {
+        getTipoOperacion();
+      } else {
+        getEstado();
       }
+    }
+
+    function getTipoOperacion(){
+      $.ajax({
+          type: 'GET',
+          url: 'php/getTipoOperacion.php',
+          dataType: 'json',
+          success: function(data) {
+              console.log(data);
+              $(".fila3").remove();
+              for (var i = 0; i < data.length; i++) {
+                $("<tr class='fila3'>\
+                    <td>"+ data[i].id +"</td>\
+                    <td>"+ data[i].operacion +"</td>\
+                  </tr>").appendTo("#tableTipoOperacion");
+                  $("<option>"+ data[i].id +"</option>").appendTo("#inputIdTipoOperacion");
+                  $('.selectpicker').selectpicker('refresh');
+              }
+          }
+      });
+    }
+    function getEstado(){
+      $.ajax({
+          type: 'GET',
+          url: 'php/getEstado.php',
+          dataType: 'json',
+          success: function(data) {
+              console.log(data);
+              $(".fila4").remove();
+              for (var i = 0; i < data.length; i++) {
+                $("<tr class='fila4'>\
+                    <td>"+ data[i].id +"</td>\
+                    <td>"+ data[i].estado +"</td>\
+                  </tr>").appendTo("#tableEstado");
+                  $("<option>"+ data[i].id +"</option>").appendTo("#inputIdEstado");
+                  $('.selectpicker').selectpicker('refresh');
+              }
+          }
+      });
     }
 
     $(document).on('click', '.modificarUsuario', function(){
@@ -92,6 +143,9 @@ $("document").ready(function() {
               $("#inputCap_inicial").val(data[0].cap_inicial);
               $("#inputBalanace").val(data[0].balance);
               $("#inputApalancamiento").val(data[0].apalancamiento);
+              $("#inputAdmin").val(data[0].admin);
+              $("#inputEducacion").val(data[0].educacion);
+              $("#inputLocalizacion").val(data[0].local);
           }
       });
     });
@@ -106,6 +160,9 @@ $("document").ready(function() {
       var cap_inicial = $("#inputCap_inicial").val();
       var balance = $("#inputBalanace").val();
       var apalancamiento = $("#inputApalancamiento").val();
+      var admin = $("#inputAdmin").val();
+      var educacion = $("#inputEducacion").val();
+      var localizacion = $("#inputLocalizacion").val();
       $.ajax({
           type: 'POST',
           url: 'php/modificarUsuario.php',
@@ -118,7 +175,10 @@ $("document").ready(function() {
             password: password,
             cap_inicial: cap_inicial,
             balance: balance,
-            apalancamiento: apalancamiento
+            apalancamiento: apalancamiento,
+            admin: admin,
+            educacion: educacion,
+            localizacion: localizacion
           },
           success: function(data) {
               console.log(data);
@@ -132,6 +192,9 @@ $("document").ready(function() {
               $("#inputCap_inicial").val("");
               $("#inputBalanace").val("");
               $("#inputApalancamiento").val("");
+              $("#inputAdmin").val("");
+              $("#inputEducacion").val("");
+              $("#inputLocalizacion").val("");
           }
       });
     });
@@ -175,6 +238,7 @@ $("document").ready(function() {
               $("#inputMargen").val(data[0].margin);
               $("#inputEnEuros").val(data[0].enEuros);
               $("#inputIdEstado").selectpicker('val', data[0].id_estado);
+              $("#inputProfitLoss").val(data[0].profitLoss);
           }
       });
     });
@@ -199,6 +263,7 @@ $("document").ready(function() {
               $("#inputCap_inicial").val(data[0].cap_inicial);
               $("#inputBalanace").val(data[0].balance);
               $("#inputApalancamiento").val(data[0].apalancamiento);
+              $("#inputProfitLoss").val(data[0].profitLoss);
           }
       });
     });
@@ -216,6 +281,7 @@ $("document").ready(function() {
       var margen = $("#inputMargen").val();
       var enEuros = $("#inputEnEuros").val();
       var idEstado = $("#inputIdEstado").selectpicker('val');
+      var profitLoss = $("#inputProfitLoss").val();
 
       $.ajax({
           type: 'POST',
@@ -232,7 +298,8 @@ $("document").ready(function() {
             comentario: comentario,
             margen: margen,
             enEuros: enEuros,
-            idEstado: idEstado
+            idEstado: idEstado,
+            profitLoss: profitLoss
           },
           success: function(data) {
               console.log(data);
@@ -241,6 +308,7 @@ $("document").ready(function() {
               $("#inputIdUsuarioOp").selectpicker('val', '');
               $("#inputIdTipoOperacion").selectpicker('val', '');
               $("#inputVolumen").val("");
+              $("#inputFecha").val("");
               $("#inputSimbolo").val("");
               $("#inputPrecio").val("");
               $("#inputStopLoss").val("");
@@ -251,6 +319,9 @@ $("document").ready(function() {
               $("#inputMargen").val("");
               $("#inputEnEuros").val("");
               $("#inputIdEstado").selectpicker('val', '');
+              $("#inputProfitLoss").val("");
+              idOp = null;
+              console.log(idOp);
           }
       });
     });

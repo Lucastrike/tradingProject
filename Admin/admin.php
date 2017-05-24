@@ -90,17 +90,20 @@ include ("php/check_active_admin.php");
               <div>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
-                  <li role="presentation" class="active"><a href="#usuarios" class="tabla" aria-controls="home" role="tab" data-toggle="tab">Usuarios</a></li>
-                  <li role="presentation"><a href="#operaciones" class="tabla" aria-controls="profile" role="tab" data-toggle="tab">Operaciones</a></li>
+                  <li role="presentation" class="active"><a href="#usuarios" class="tabla" role="tab" data-toggle="tab">Usuarios</a></li>
+                  <li role="presentation"><a href="#operaciones" class="tabla" role="tab" data-toggle="tab">Operaciones</a></li>
+                  <li role="presentation"><a href="#tipo_operacion" class="tabla" role="tab" data-toggle="tab">Tipo_operacion</a></li>
+                  <li role="presentation"><a href="#estado" class="tabla" role="tab" data-toggle="tab">Estado</a></li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
                   <div role="tabpanel" class="tab-pane active" id="usuarios">
+                    <div class="table-responsive">
                     <table class="table table-hover" id="tableUsuarios">
                     <thead>
                       <th>id</th>
-                      <th>usuarios</th>
+                      <th>usuario</th>
                       <th>nombre</th>
                       <th>apellido</th>
                       <th>email</th>
@@ -108,6 +111,9 @@ include ("php/check_active_admin.php");
                       <th>cap_inicial</th>
                       <th>balance</th>
                       <th>apalancamiento</th>
+                      <th>Admin</th>
+                      <th>Educación</th>
+                      <th>Localización</th>
                     </thead>
                     <tfoot>
                       <td><input type="text" id="inputId" name="id" class="form-control" placeholder="id" readonly></td>
@@ -119,10 +125,16 @@ include ("php/check_active_admin.php");
                       <td><input type="text" id="inputCap_inicial" name="cap_inicial" class="form-control" placeholder="cap_inicial"></td>
                       <td><input type="text" id="inputBalanace" name="balance" class="form-control" placeholder="balance"></td>
                       <td><input type="text" id="inputApalancamiento" name="apalancamiento" class="form-control" placeholder="apalancamiento"></td>
+                      <td><input type="text" id="inputAdmin" name="Admin" class="form-control" placeholder="Admin"></td>
+                      <td><input type="text" id="inputEducacion" name="Educación" class="form-control" placeholder="Educación"></td>
+                      <td><input type="text" id="inputLocalizacion" name="Localización" class="form-control" placeholder="Localización"></td>
                       <td style="padding-top: 14px;"><i class='fa fa-fw fa-check text-green checkUsuario' role='button'></i></td>
                     </tfoot>
-                  </table></div>
+                  </table>
+                  </div>
+                </div>
                   <div role="tabpanel" class="tab-pane" id="operaciones">
+                    <div class="table-responsive">
                     <table class="table table-hover" id="tableOperaciones">
                     <thead>
                       <th>id</th>
@@ -138,19 +150,12 @@ include ("php/check_active_admin.php");
                       <th>margen</th>
                       <th>en €</th>
                       <th>id_estado</th>
+                      <th>profitLoss</th>
                     </thead>
                     <tfoot>
                       <td><input type="text" id="inputIdOp" name="id" class="form-control" placeholder="id" readonly style="width: 50px;"></td>
-                      <td><select class="selectpicker show-tick" id="inputIdUsuarioOp" name="idUsuario" title="id_usuario" data-width="75px">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                      </select></td>
-                      <td><select class="selectpicker show-tick" id="inputIdTipoOperacion" name="IdTipoOperacion" title="id_tipo_operacion" data-width="115px">
-                        <option>1</option>
-                        <option>2</option>
-                      </select></td>
+                      <td><select class="selectpicker show-tick" id="inputIdUsuarioOp" name="idUsuario" title="id_usuario" data-width="75px"></select></td>
+                      <td><select class="selectpicker show-tick" id="inputIdTipoOperacion" name="IdTipoOperacion" title="id_tipo_operacion" data-width="115px"></select></td>
                       <td><input type="text" id="inputVolumen" name="Volumen" class="form-control" placeholder="Volumen"></td>
                       <td><input type="text" id="inputFecha" name="Fecha" class="form-control" placeholder="Fecha" readonly></td>
                       <td><input type="text" id="inputSimbolo" name="Simbolo" class="form-control" placeholder="Simbolo"></td>
@@ -160,13 +165,38 @@ include ("php/check_active_admin.php");
                       <td><input type="text" id="inputComentario" name="Comentario" class="form-control" placeholder="Comentario"></td>
                       <td><input type="text" id="inputMargen" name="Margen" class="form-control" placeholder="Margen"></td>
                       <td><input type="text" id="inputEnEuros" name="EnEuros" class="form-control" placeholder="EnEuros"></td>
-                      <td><select class="selectpicker show-tick" id="inputIdEstado" name="IdEstado" title="id_estado" data-width="90px">
-                        <option>1</option>
-                        <option>2</option>
-                      </select></td>
+                      <td>
+                        <select class="selectpicker show-tick" id="inputIdEstado" name="IdEstado" title="id_estado" data-width="90px"></select>
+                    </td>
+                    <td><input type="text" id="inputProfitLoss" name="profitloss" class="form-control" placeholder="ProfitLoss"></td>
                       <td style="padding-top: 14px;"><i class='fa fa-fw fa-check text-green checkOperacion' role='button'></i></td>
                     </tfoot>
-                  </table></div>
+                  </table>
+                  </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane active" id="tipo_operacion">
+                  <div class="table-responsive">
+                  <table class="table table-hover" id="tableTipoOperacion">
+                  <thead>
+                    <th>id</th>
+                    <th>operación</th>
+                  </thead>
+                </table>
+                </div>
+              </div>
+
+              <div role="tabpanel" class="tab-pane active" id="estado">
+                <div class="table-responsive">
+                <table class="table table-hover" id="tableEstado">
+                <thead>
+                  <th>id</th>
+                  <th>estado</th>
+                </thead>
+              </table>
+              </div>
+            </div>
+
                 </div>
               </div>
 

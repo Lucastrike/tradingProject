@@ -225,8 +225,8 @@ $("document").ready(function() {
     });
   }
 
-
-
+  $("#resetear").on('click', function(){
+  });
 
   $.ajaxSetup({
 

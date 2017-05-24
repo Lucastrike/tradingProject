@@ -35,8 +35,8 @@
       } else {
         echo 0;
       }
+    //mkdir("clientes/$username", 0755);
     }
-  //mkdir("clientes/$username", 0755);
   } else {
     echo " Usuario ya existente";
   }

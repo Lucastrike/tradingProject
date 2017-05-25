@@ -5,14 +5,16 @@
   include ("connection.php");
   session_start();
 
-  $idUsuario = $_POST["idUsuario"];
+  $userID = $_SESSION["userID"];
 
-  $rowQuery = "DELETE FROM operacion WHERE id_usuario='$idUsuario'";
+  $rowQuery = "DELETE FROM operacion WHERE id_usuario='$userID'";
 
   if ($query = mysqli_query($connection, $rowQuery)) {
-    $rowQuery2 = "DELETE FROM usuarios WHERE id='$idUsuario'";
+    $rowQuery2 = "DELETE FROM usuarios WHERE id='$userID'";
     if ($query2 = mysqli_query($connection, $rowQuery2)) {
-    echo 1;
+      session_destroy();
+      session_unset();
+      header('location: ../../index.html');
     }
   }
 

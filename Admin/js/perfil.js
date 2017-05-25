@@ -225,8 +225,35 @@ $("document").ready(function() {
     });
   }
 
-  $("#resetear").on('click', function(){
+  // $("#resetear").on('click', function(){
+  //   var capital_inicial = $("#capital_inicial").val();
+  //   if (capital_inicial != "") {
+  //
+  //   }
+  //   $.ajax({
+  //       type: 'POST',
+  //       url: 'php/',
+  //       data: {
+  //         capital_inicial: capital_inicial
+  //       },
+  //       success: function(data) {
+  //           console.log(data);
+  //       }
+  //   });
+  // });
+
+  $("#print").on('click', function(){
+    printData();
   });
+
+  function printData()
+{
+   var divToPrint=document.getElementById("tableOperaciones");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+}
 
   $.ajaxSetup({
 

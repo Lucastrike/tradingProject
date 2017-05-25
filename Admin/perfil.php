@@ -92,7 +92,10 @@
 
                     <!-- <p class="text-muted text-center">Desarrollador web</p> -->
 
-                    <button type="button" id="resetear" class="btn btn-danger btn-block" data-toggle="modal" data-target=".resetear"><b>Resetear cuenta</b></button>
+                    <button type="button" id="resetear" class="btn btn-warning btn-block" data-toggle="modal" data-target=".resetear"><b>Resetear cuenta</b></button>
+                    <form action="php/deleteSelfUser.php">
+                      <button type="submit" id="borrar" class="btn btn-danger btn-sm btn-block" style="margin-top: 5px;"><b>borrar cuenta</b></button>
+                    </form>
                   </div>
                   <!-- /.box-body -->
                 </div>
@@ -115,7 +118,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Nueva imagen</h4>
                       </div>
-                      <form action="uploadImage.php" method="post" enctype="multipart/form-data">
+                      <form action="" method="post" enctype="multipart/form-data">
                         <div class="modal-body">
                           <img class="profile-user-img img-responsive img-circle" style="width: 200px;" src="dist/img/avatar.png" alt="User profile picture"></img>
                           <h3 class="profile-username text-center"><?php echo $_SESSION['usuario']; ?></h3>
@@ -180,6 +183,8 @@
                         <th>comentario</th>
                       </thead>
                     </table>
+
+                    <button class="btn btn-default" id="print"><i class="fa fa-print"></i> Print</button>
 
                   </div>
                     <!-- /.tab-pane -->

@@ -69,6 +69,9 @@ $("document").ready(function() {
 
   var margenLibreFixed;
 
+  var idControl;
+  var marginit;
+
   terminal();
 
   function terminal() {
@@ -121,6 +124,38 @@ $("document").ready(function() {
           divisaC = simboloOperacion.substr(4, 6);
           enEuros = data[i].enEuros;
 
+          var stop = parseFloat(data[i].stopLoss);
+          var take = parseFloat(data[i].takeProfit);
+          idControl = parseInt(data[i].id);
+          $.ajax({
+            type: 'GET',
+            async: false,
+            beforeSend: function(request) {
+              request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+            },
+            url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=' + simboloOperacion + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+            dataType: 'json',
+            success: function(data) {
+              console.log(data);
+              var precioActualAsk = data.candles[1].closeAsk;
+              var precioActualBid = data.candles[1].closeBid;
+              if (tipoOperacion == "compra") {
+                if (precioActualAsk >= take  && take != 0.0000) {
+                  alert("Take profit");
+                } else if (precioActualAsk <= stop  && stop != 0.0000) {
+                  alert("Stop loss");
+                }
+              } else if (tipoOperacion == "venta") {
+                if (precioActualBid <= take  && take != 0.0000) {
+                  alert("Take profit");
+                } else if (precioActualBid >= stop  && stop != 0.0000) {
+                  alert("Stop loss");
+                }
+              }
+
+            }
+          });
+
           profitLossSecondCall();
           //evasrozinzki
 
@@ -133,7 +168,7 @@ $("document").ready(function() {
         margenLibreFixed = margenLibre.toFixed(2);
         $("#freeMargin").html("Margen libre: " + margenLibreFixed);
         var marginCall = balance * 0.25;
-        if (balance < marginCall) {
+        if (patrimonio < marginCall) {
           getHigherOp();
         }
         var nivelMargen = (patrimonio / totalMarginFixed) * 100;
@@ -141,6 +176,24 @@ $("document").ready(function() {
         $("#marginLevel").html("Nivel de margen: " + nivelMargenFixed + "%");
       }
     }
+    });
+  }
+
+  function closeit(){
+    $.ajax({
+      type: 'POST',
+      url: 'php/closeit.php',
+      data: {
+        idControl: idControl
+      },
+      dataType: 'json',
+      success: function(data) {
+        console.log(data);
+        // totalMargin = totalMargin - marginC;
+        // balance = balance + higherLoss;
+        // updateBalance();
+        // $('.marginCall').modal('show');
+      }
     });
   }
 
@@ -204,7 +257,6 @@ $("document").ready(function() {
     if (divisaC == null) {
       return false;
     } else {
-      console.log("AQUI");
     $.ajax({
       type: 'GET',
       async: false,
@@ -387,6 +439,7 @@ $("document").ready(function() {
 
         setTimeout(function() {
           forexQuotes();
+          terminal();
         }, 60000);
       },
       completed: function() {

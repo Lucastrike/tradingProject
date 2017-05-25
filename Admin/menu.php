@@ -68,13 +68,15 @@
     <section class="sidebar">
         <!-- Sidebar user panel -->
         <div class="user-panel">
-            <div class="pull-left image">
-                <img src="dist/img/avatar.png" class="img-circle" alt="User Image">
-            </div>
-            <div class="info" style="margin-top: 10px;">
-                <p><?php echo $_SESSION['usuario']; ?></p>
-                <!-- <a href="#"><i class="fa fa-trophy text-yellow"></i> Gold</a> -->
-            </div>
+            <a href="perfil.php">
+              <div class="pull-left image">
+                  <img src="dist/img/avatar.png" class="img-circle" alt="User Image" style="width: 40px;margin: 5px;margin-right: 20px;">
+              </div>
+              <div class="info" style="margin-top: 15px;">
+                  <p><?php echo $_SESSION['usuario']; ?></p>
+                  <!-- <a href="#"><i class="fa fa-trophy text-yellow"></i> Gold</a> -->
+              </div>
+            </a>
         </div>
 
         <!-- sidebar menu: : style can be found in sidebar.less -->

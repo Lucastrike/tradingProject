@@ -175,7 +175,7 @@ include ("php/check_active_admin.php");
                   </div>
                 </div>
 
-                <div role="tabpanel" class="tab-pane active" id="tipo_operacion">
+                <div role="tabpanel" class="tab-pane" id="tipo_operacion">
                   <div class="table-responsive">
                   <table class="table table-hover" id="tableTipoOperacion">
                   <thead>
@@ -186,7 +186,7 @@ include ("php/check_active_admin.php");
                 </div>
               </div>
 
-              <div role="tabpanel" class="tab-pane active" id="estado">
+              <div role="tabpanel" class="tab-pane" id="estado">
                 <div class="table-responsive">
                 <table class="table table-hover" id="tableEstado">
                 <thead>

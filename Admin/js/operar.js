@@ -124,37 +124,37 @@ $("document").ready(function() {
           divisaC = simboloOperacion.substr(4, 6);
           enEuros = data[i].enEuros;
 
-          var stop = parseFloat(data[i].stopLoss);
-          var take = parseFloat(data[i].takeProfit);
-          idControl = parseInt(data[i].id);
-          $.ajax({
-            type: 'GET',
-            async: false,
-            beforeSend: function(request) {
-              request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
-            },
-            url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=' + simboloOperacion + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
-            dataType: 'json',
-            success: function(data) {
-              console.log(data);
-              var precioActualAsk = data.candles[1].closeAsk;
-              var precioActualBid = data.candles[1].closeBid;
-              if (tipoOperacion == "compra") {
-                if (precioActualAsk >= take  && take != 0.0000) {
-                  alert("Take profit");
-                } else if (precioActualAsk <= stop  && stop != 0.0000) {
-                  alert("Stop loss");
-                }
-              } else if (tipoOperacion == "venta") {
-                if (precioActualBid <= take  && take != 0.0000) {
-                  alert("Take profit");
-                } else if (precioActualBid >= stop  && stop != 0.0000) {
-                  alert("Stop loss");
-                }
-              }
-
-            }
-          });
+          // var stop = parseFloat(data[i].stopLoss);
+          // var take = parseFloat(data[i].takeProfit);
+          // idControl = parseInt(data[i].id);
+          // $.ajax({
+          //   type: 'GET',
+          //   async: false,
+          //   beforeSend: function(request) {
+          //     request.setRequestHeader("Authorization", "Bearer 2c7d369cd43f6880268a2dcde5b4edf9-38812a173828c88f87f833a8868826eb");
+          //   },
+          //   url: 'https://api-fxtrade.oanda.com/v1/candles?instrument=' + simboloOperacion + '&count=2&dailyAlignment=0&alignmentTimezone=Europe%2FMadrid',
+          //   dataType: 'json',
+          //   success: function(data) {
+          //     console.log(data);
+          //     var precioActualAsk = data.candles[1].closeAsk;
+          //     var precioActualBid = data.candles[1].closeBid;
+          //     if (tipoOperacion == "compra") {
+          //       if (precioActualAsk >= take  && take != 0.0000) {
+          //         alert("Take profit");
+          //       } else if (precioActualAsk <= stop  && stop != 0.0000) {
+          //         alert("Stop loss");
+          //       }
+          //     } else if (tipoOperacion == "venta") {
+          //       if (precioActualBid <= take  && take != 0.0000) {
+          //         alert("Take profit");
+          //       } else if (precioActualBid >= stop  && stop != 0.0000) {
+          //         alert("Stop loss");
+          //       }
+          //     }
+          //
+          // }
+          //});
 
           profitLossSecondCall();
           //evasrozinzki

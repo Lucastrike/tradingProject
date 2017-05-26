@@ -58,6 +58,10 @@
     textarea {
       resize: none;
     }
+
+    .error {
+        color: rgb(255, 50, 50);
+    }
   </style>
 </head>
 
@@ -105,7 +109,9 @@
                   <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content text-center" style="border-radius: 5px;padding: 20px;">
                       <h2 style="color: #3c8dbc;">Capital inicial</h2>
-                      <input class="form-control" id='capital_inicial' type="text" name="capital">
+                      <form id="formCapIni">
+                        <input class="form-control" id='capital_inicial' type="text" name="capital">
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -358,6 +364,8 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
 
     <script type="text/javascript" src="js/gotooperar.js"></script>
+
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
 
     <script type="text/javascript" src="js/perfil.js"></script>
 

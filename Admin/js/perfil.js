@@ -1,26 +1,30 @@
 $("document").ready(function() {
 
-  $.ajax({
-      type: 'GET',
-      url: 'php/getSingleUserOperations.php',
-      dataType: 'json',
-      success: function(data) {
-          console.log(data);
-          for (var i = 0; i < data.length; i++) {
-            $("<tr>\
-                <td>"+ data[i].id +"</td>\
-                <td>"+ data[i].operacion +"</td>\
-                <td>"+ data[i].volumen +"</td>\
-                <td>"+ data[i].date +"</td>\
-                <td>"+ data[i].simbolo +"</td>\
-                <td>"+ data[i].precio +"</td>\
-                <td>"+ data[i].stopLoss +"</td>\
-                <td>"+ data[i].takeProfit +"</td>\
-                <td>"+ data[i].comentario +"</td>\
-              </tr>").appendTo("#tableOperaciones");
-          }
-      }
-  });
+  getOps();
+  function getOps(){
+    $.ajax({
+        type: 'GET',
+        url: 'php/getSingleUserOperations.php',
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+            $(".row1").remove();
+            for (var i = 0; i < data.length; i++) {
+              $("<tr class='row1'>\
+                  <td>"+ data[i].id +"</td>\
+                  <td>"+ data[i].operacion +"</td>\
+                  <td>"+ data[i].volumen +"</td>\
+                  <td>"+ data[i].date +"</td>\
+                  <td>"+ data[i].simbolo +"</td>\
+                  <td>"+ data[i].precio +"</td>\
+                  <td>"+ data[i].stopLoss +"</td>\
+                  <td>"+ data[i].takeProfit +"</td>\
+                  <td>"+ data[i].comentario +"</td>\
+                </tr>").appendTo("#tableOperaciones");
+            }
+        }
+    });
+  }
 
   $("#inputCap_inicial").on('blur', function(){
     console.log("hello world!");
@@ -76,7 +80,7 @@ $("document").ready(function() {
   $("#localizacionText").on('blur', function(){
     var localUpdated = $("#localizacionText").val();
     if (localUpdated == "") {
-      localUpdated = "Donde estás?";
+      localUpdated = "De donde eres?";
     }
       $.ajax({
           type: 'POST',
@@ -225,22 +229,43 @@ $("document").ready(function() {
     });
   }
 
-  // $("#resetear").on('click', function(){
-  //   var capital_inicial = $("#capital_inicial").val();
-  //   if (capital_inicial != "") {
-  //
-  //   }
-  //   $.ajax({
-  //       type: 'POST',
-  //       url: 'php/',
-  //       data: {
-  //         capital_inicial: capital_inicial
-  //       },
-  //       success: function(data) {
-  //           console.log(data);
-  //       }
-  //   });
-  // });
+
+  $("#formCapIni").validate({
+      rules: {
+          capital: {
+            required: true,
+            digits: true,
+            step: 10,
+            range: [10, 100000]
+          }
+      },
+      messages: {
+        capital: "Recuerda que solo puede introducir una cifra multiplo de 10, >= 10 y <= 100.000"
+      },
+      submitHandler: function() {
+        console.log("input ok");
+        $(".resetear").modal('hide');
+        updateAccount();
+      }
+  });
+
+  function updateAccount(){
+    var capital_inicial = $("#capital_inicial").val();
+    $.ajax({
+        type: 'POST',
+        url: 'php/updateAccount.php',
+        data: {
+          capital_inicial: capital_inicial
+        },
+        success: function(data) {
+            console.log(data);
+            if (data == 1) {
+              $(".resetear").modal('hide');
+              getOps();
+            }
+        }
+    });
+  }
 
   $("#print").on('click', function(){
     printData();

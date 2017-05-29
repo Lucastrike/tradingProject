@@ -44,7 +44,7 @@ $("document").ready(function() {
     });
   }
 
-  $("#educacion").on('dblclick', function(){
+  $("#educacion").on('click', function(){
     $("#educacion").addClass(' hidden');
     $("#educacionText").removeClass('hidden');
     $("#educacionText").text($("#educacion").text().trim());
@@ -71,7 +71,7 @@ $("document").ready(function() {
     $("#educacion").removeClass('hidden');
   });
 
-  $("#localizacion").on('dblclick', function(){
+  $("#localizacion").on('click', function(){
     $("#localizacion").addClass(' hidden');
     $("#localizacionText").removeClass('hidden');
     $("#localizacionText").text($("#localizacion").text().trim());

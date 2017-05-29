@@ -59,6 +59,10 @@ include ("php/check_active_session.php");
           .contenido {
             height: 520px;
           }
+          .instrucciones {
+            height: 200px;
+            background-color: green;
+          }
         </style>
     </head>
 
@@ -76,6 +80,10 @@ include ("php/check_active_session.php");
 
                 <!-- Main row -->
                 <div class="row">
+
+                  <div class="col-xs-12 instrucciones">
+
+                  </div>
 
                   <div class="col-xs-12 col-md-6 contenido">
                     <!-- TradingView Widget BEGIN -->

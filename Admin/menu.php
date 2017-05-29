@@ -70,9 +70,9 @@
         <div class="user-panel">
             <a href="perfil.php">
               <div class="pull-left image">
-                  <img src="dist/img/avatar.png" class="img-circle" alt="User Image" style="width: 40px;margin: 5px;margin-right: 20px;">
+                  <img src="dist/img/avatar.png" class="img-circle" alt="User Image" style="width: 40px;margin-top: 5px;">
               </div>
-              <div class="info" style="margin-top: 15px;">
+              <div class="info" style="display: inline-block;margin-left: 20px;margin-top: 15px;">
                   <p><?php echo $_SESSION['usuario']; ?></p>
                   <!-- <a href="#"><i class="fa fa-trophy text-yellow"></i> Gold</a> -->
               </div>
@@ -221,14 +221,10 @@
                 </a>
                 <ul class="treeview-menu">
                   <li>
-                      <a href="#"><i class="fa fa-circle-o"></i> Patrones
-                        <span class="pull-right-container">
-                          <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                      </a>
-                      <ul class="treeview-menu">
+                      <a href="documentacion.php"><i class="fa fa-book"></i> Más allá de las velas</a>
+                      <!-- <ul class="treeview-menu">
                           <li role="button"><i class="fa fa-circle-o"></i>blablabla</li>
-                      </ul>
+                      </ul> -->
                   </li>
                 </ul>
             </li>

@@ -87,6 +87,34 @@ include ("php/check_active_admin.php");
             <!-- Main row -->
             <div class="row">
 
+              <!-- Ajax setup -->
+              <div class="modal fade 500" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content text-center" style="border-radius: 5px;padding: 20px;">
+                    <h3><i class="fa fa-warning text-red"></i> Oops! Algo ha ido mal.</h3>
+                    <p>
+                      Hubo un problema con el servidor, estamos trabajando en ello.
+                      <br>
+                      Mientras tanto, puedes seguir subiendo copas en <span style="color: #049ddc;">ClashRoyal</span>!
+                    </p>
+                    <img src="dist/img/crown.png" alt="crown" style="width: 100px;" />
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade 400" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content text-center" style="border-radius: 5px;padding: 20px;">
+                    <h3><i class="fa fa-warning text-red"></i> Oops! Algo ha ido mal.</h3>
+                    <p>
+                      Parece que has vuelto a la edad de piedra.
+                      <br>
+                      Mientras tanto, puedes ir a buscar palos para encender un fuego!
+                    </p>
+                    <img src="dist/img/wood.png" alt="wood" style="width: 100px;" />
+                  </div>
+                </div>
+              </div>
+
               <div>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">

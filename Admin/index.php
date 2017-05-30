@@ -127,6 +127,35 @@ include ("php/check_active_session.php");
 
         <!-- Main row -->
         <div class="row">
+
+          <!-- Ajax setup -->
+          <div class="modal fade 500" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content text-center" style="border-radius: 5px;padding: 20px;">
+                <h3><i class="fa fa-warning text-red"></i> Oops! Algo ha ido mal.</h3>
+                <p>
+                  Hubo un problema con el servidor, estamos trabajando en ello.
+                  <br>
+                  Mientras tanto, puedes seguir subiendo copas en <span style="color: #049ddc;">ClashRoyal</span>!
+                </p>
+                <img src="dist/img/crown.png" alt="crown" style="width: 100px;" />
+              </div>
+            </div>
+          </div>
+          <div class="modal fade 400" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content text-center" style="border-radius: 5px;padding: 20px;">
+                <h3><i class="fa fa-warning text-red"></i> Oops! Algo ha ido mal.</h3>
+                <p>
+                  Parece que has vuelto a la edad de piedra.
+                  <br>
+                  Mientras tanto, puedes ir a buscar palos para encender un fuego!
+                </p>
+                <img src="dist/img/wood.png" alt="wood" style="width: 100px;" />
+              </div>
+            </div>
+          </div>
+
           <div class="col-xs-12 header-index">
             <!-- <iframe frameborder="0" scrolling="no" height="62" width="100%" allowtransparency="true" marginwidth="0" marginheight="0" src="https://ssltools.forexprostools.com/quotes_bar.php?force_lang=1&tab_1=1,2,3,4,6&tab_2=&tab_3=&curr-name-color=%230059B0&inner-text-color=%23666666&green-text-color=%23008000&red-text-color=%23FF0000"></iframe> -->
             <!-- TradingView Widget BEGIN -->

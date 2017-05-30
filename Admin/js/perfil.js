@@ -280,41 +280,47 @@ $("document").ready(function() {
    newWin.close();
 }
 
-  $.ajaxSetup({
+$.ajaxSetup({
 
-    error: function(jqXHR, textStatus, errorThrown) {
+  error: function(jqXHR, textStatus, errorThrown) {
 
-      if (jqXHR.status === 0) {
+    if (jqXHR.status === 0) {
 
-        alert('Not connect: Verify Network.');
+      //alert('Not connect: Verify Network.');
+      $(".400").modal('show');
 
-      } else if (jqXHR.status == 404) {
+    } else if (jqXHR.status == 404) {
 
-        alert('Requested page not found [404]');
+      alert('Algo has escrito mal en la url...');
 
-      } else if (jqXHR.status == 500) {
+    } else if (jqXHR.status == 500) {
 
-        alert('Internal Server Error [500].');
+      //alert('Internal Server Error [500].');
+      $(".500").modal('show');
 
-      } else if (textStatus === 'parsererror') {
+    } else if (textStatus === 'parsererror') {
 
-        alert('Requested JSON parse failed.');
+      //alert('Requested JSON parse failed.');
+      $(".500").modal('show');
 
-      } else if (textStatus === 'timeout') {
+    } else if (textStatus === 'timeout') {
 
-        alert('Time out error.');
+      //alert('Time out error.');
+      $(".500").modal('show');
 
-      } else if (textStatus === 'abort') {
+    } else if (textStatus === 'abort') {
 
-        alert('Ajax request aborted.');
+      //alert('Ajax request aborted.');
+      $(".500").modal('show');
 
-      } else {
+    } else {
 
-        alert('Uncaught Error: ' + jqXHR.responseText);
-
-      }
+      //alert('Uncaught Error: ' + jqXHR.responseText);
+      $(".500").modal('show');
 
     }
-  });
+
+  }
+});
 
 });

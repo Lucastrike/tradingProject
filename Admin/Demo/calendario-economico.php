@@ -6,6 +6,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Forex Trading</title>
+
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.6 -->
@@ -46,11 +47,24 @@
   <![endif]-->
 
         <style media="screen">
+          /*body {
+            font-family: 'Noto Sans', sans-serif;
+          }*/
           iframe {
             padding-bottom: 0px;
           }
           .contenido {
             height: 520px;
+            margin-top: 20px;
+          }
+          .instrucciones p {
+            padding: 5px;
+            text-align: center;
+            font-weight: 300;
+            color: black;
+          }
+          .instrucciones div p span {
+            padding-right: 10px;
           }
         </style>
     </head>
@@ -69,6 +83,31 @@
 
                 <!-- Main row -->
                 <div class="row">
+
+                  <div class="col-xs-12 instrucciones">
+                    <p>
+                      A la hora de leer el calendario económico tenga en consideración las siguientes tres pautas:
+  Las malas noticias tendrán más influencia que las buenas noticias, este es uno de los aspectos avanzados del comportamiento financiero moderno. Más que los números, lo importante es el consenso que tengan los economistas / analistas.
+                    </p>
+                    <p>
+                      De hecho, la teoría de la eficiencia del mercado afirma que lo que está por anunciarse se ha descontado ya del precio de la acción. Es lo que no se espera, por ejemplo, una diferencia significativa entre la previsión y la cifra prevista (una brecha que no fue prevista de antemano por los analistas), lo que tendrá un fuerte impacto en el mercado. Del mismo modo, la diferencia entre el valor reportado y el valor anterior guiará a los inversores. En todos los casos, los inversores analizan el gap, y no el valor en sí mismo.
+                    </p>
+                    <p>
+                      Los anuncios de noticias se clasifican de acuerdo a la volatilidad que puedan causar. Antes de la publicación de las mismas, hay una fase de estancamiento (baja volatilidad) para dar lugar a una fase de mayor o menor volatilidad durante el anuncio, de acuerdo con la discrepancia con el mercado. Algunos anuncios presentan mayor influencia que otros y el precio de los instrumentos involucrados se verá afectado con una mayor volatilidad: se clasifican con tres tipos de símbolos a la derecha de la bandera.
+                    </p>
+                    <div class="col-xs-3 col-xs-offset-4">
+                      <p style="text-align: left;">
+                        <img src="dist/img/yellow.png" alt="" />
+                        <span data-toggle="tooltip" data-placement="right" title="En este entorno no se suele generar volatilidad.">Noticia de bajo impacto.</span>
+                        <br>
+                        <img src="dist/img/orange.png" alt="" />
+                        <span data-toggle="tooltip" data-placement="right" title="En este entorno la volatilidad generada no es significativa. Mantener la precaución.">Noticia de medio impacto.</span>
+                        <br>
+                        <img src="dist/img/red.png" alt="" />
+                        <span data-toggle="tooltip" data-placement="right" title="En este entorno se aconseja a los inversores principiantes que salgan del mercado. La volatilidad generada es alta e impredecible.">Noticia de alto impacto.</span>
+                      </p>
+                    </div>
+                  </div>
 
                   <div class="col-xs-12 col-md-6 contenido">
                     <!-- TradingView Widget BEGIN -->

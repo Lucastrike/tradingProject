@@ -31,7 +31,7 @@
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="dist/img/avatar.png" class="img-circle" alt="User Image">
+                            <img src="dist/img/demo.jpeg" class="img-circle" alt="User Image">
 
                             <p>
                                 Amador Rivas
@@ -68,7 +68,7 @@
     <section class="sidebar">
         <!-- Sidebar user panel -->
         <div class="user-panel">
-            <a href="perfil.php">
+            <a href="../../">
               <div class="pull-left image">
                   <img src="dist/img/demo.jpeg" class="img-circle" alt="User Image" style="width: 40px;margin-top: 5px;">
               </div>
@@ -221,7 +221,7 @@
                 </a>
                 <ul class="treeview-menu">
                   <li>
-                      <a href="#" style="cursor:not-allowed;"><i class="fa fa-book"></i> Más allá de las velas</a>
+                      <a href="../../" style="cursor:not-allowed;"><i class="fa fa-book"></i> Más allá de las velas</a>
                       <!-- <ul class="treeview-menu">
                           <li role="button"><i class="fa fa-circle-o"></i>blablabla</li>
                       </ul> -->

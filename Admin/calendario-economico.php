@@ -108,7 +108,7 @@ include ("php/check_active_session.php");
                         <span data-toggle="tooltip" data-placement="right" title="En este entorno no se suele generar volatilidad.">Noticia de bajo impacto.</span>
                         <br>
                         <img src="dist/img/orange.png" alt="" />
-                        <span data-toggle="tooltip" data-placement="right" title="En este entorno la volatilidad generada es significativa. Mantener la precaución.">Noticia de medio impacto.</span>
+                        <span data-toggle="tooltip" data-placement="right" title="En este entorno la volatilidad generada no es significativa. Mantener la precaución.">Noticia de medio impacto.</span>
                         <br>
                         <img src="dist/img/red.png" alt="" />
                         <span data-toggle="tooltip" data-placement="right" title="En este entorno se aconseja a los inversores principiantes que salgan del mercado. La volatilidad generada es alta e impredecible.">Noticia de alto impacto.</span>

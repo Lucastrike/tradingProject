@@ -176,7 +176,7 @@ include ("php/check_active_session.php");
                 <input type="text" id="inputNombre" name="activo" class="form-control" placeholder="activo" value="EURUSD" readonly>
 
                 <div class="text-center volumen">
-                  <p>Volumen: <span id="spanLotes"></span></p>
+                  <p data-toggle="tooltip" data-placement="top" title="El volumen es la cantidad de lotes que vas a operar. 1 lote equivale a 100.000 unidades de la divisa base">Volumen: <span id="spanLotes"></span></p>
                   <input id="lotes" name="volumen" data-slider-min="0.01" data-slider-max="1" data-slider-step="0.01" data-slider-value="0.01" style="display: none;" data-value="0.01" value="0.01">
                 </div>
 
@@ -192,7 +192,7 @@ include ("php/check_active_session.php");
                 <p class="col-xs-5 text-center pull-right" style="width: 40%; color: #dd4b39;">BID</p>
 
                 <input type="text" id="inputPriceAsk" name="priceAsk" class="form-control col-xs-5" placeholder="Ask" style="width: 40%;" readonly>
-                <span class="spread col-xs-2 text-center"></span>
+                <span class="spread col-xs-2 text-center" data-toggle="tooltip" data-placement="top" title="El spread es la comisión del broker. Esta cifra corresponde a la diferencia del cuarto decimal entre Ask y Bid"></span>
                 <input type="text" id="inputPriceBid" name="priceBid" class="form-control col-xs-5 pull-right" placeholder="Bid" style="width: 40%;" readonly>
 
                 <button class="btn btn-lg btn-success btn-comprar" type="button" style="width: 48%;">Comprar</button>
@@ -250,11 +250,11 @@ include ("php/check_active_session.php");
                 </table>
                 <table class="table table-hover">
                   <tr id="terminal-footer">
-                    <th id="balance"></th>
-                    <th id="patrimonio"></th>
-                    <th id="margin"></th>
-                    <th id="freeMargin"></th>
-                    <th id="marginLevel"></th>
+                    <th id="balance" data-toggle="tooltip" data-placement="bottom" title="El balance es el capital libre del que dispones"></th>
+                    <th id="patrimonio" data-toggle="tooltip" data-placement="bottom" title="El patrimonio es el balance + las ganacias/perdidas flotantes"></th>
+                    <th id="margin" data-toggle="tooltip" data-placement="bottom" title="El margen es la garantía retenida por el broker"></th>
+                    <th id="freeMargin" data-toggle="tooltip" data-placement="bottom" title="El margen libre es el patrimonio - margen retenido"></th>
+                    <th id="marginLevel" data-toggle="tooltip" data-placement="bottom" title="El nivel de margen muestra el estado de la cuenta. Es la diferencia entre el patrimonio y el margen"></th>
                     <th id="profit" style="padding-right: 18px;"></th>
                   </tr>
                 </table>

@@ -42,7 +42,6 @@ $("document").ready(function() {
       "hideideas": true
     });
     $("#inputNombre").val(activo);
-    forexQuotes();
   });
 
 });

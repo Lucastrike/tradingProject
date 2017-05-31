@@ -52,7 +52,7 @@ $("document").ready(function() {
   });
   $("#educacionText").on('blur', function(){
     var educUpdated = $("#educacionText").val();
-    if (educUpdated == "") {
+    if (educUpdated.trim() == "") {
       educUpdated = "Donde estudiaste?";
     }
       $.ajax({

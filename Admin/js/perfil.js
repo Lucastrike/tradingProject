@@ -38,6 +38,7 @@ $("document").ready(function() {
         dataType: 'json',
         success: function(data) {
             console.log(data);
+
             $("#educacion").text(data[0].educacion);
             $("#localizacion").text(data[0].local);
         }
@@ -47,11 +48,11 @@ $("document").ready(function() {
   $("#educacion").on('click', function(){
     $("#educacion").addClass(' hidden');
     $("#educacionText").removeClass('hidden');
-    $("#educacionText").text($("#educacion").text().trim());
+    $("#educacionText").val($("#educacion").text().trim());
     $("#educacionText").focus();
   });
   $("#educacionText").on('blur', function(){
-    var educUpdated = $("#educacionText").val();
+    var educUpdated = $("#educacionText").val().trim();
     if (educUpdated.trim() == "") {
       educUpdated = "Donde estudiaste?";
     }
@@ -74,11 +75,12 @@ $("document").ready(function() {
   $("#localizacion").on('click', function(){
     $("#localizacion").addClass(' hidden');
     $("#localizacionText").removeClass('hidden');
-    $("#localizacionText").text($("#localizacion").text().trim());
+    $("#localizacionText").val($("#localizacion").text().trim());
     $("#localizacionText").focus();
   });
   $("#localizacionText").on('blur', function(){
-    var localUpdated = $("#localizacionText").val();
+    var localUpdated = $("#localizacionText").val().trim();
+    //$("#localizacionText").val('');
     if (localUpdated == "") {
       localUpdated = "De donde eres?";
     }

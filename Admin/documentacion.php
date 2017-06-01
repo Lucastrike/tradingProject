@@ -58,16 +58,12 @@ include ("php/check_active_session.php");
           }
           iframe {
             width: 100%;
-            height: 480px;
+            height: 570px;
           }
           .content {
             padding-top: 0px;
             padding-left: 0px;
             padding-bottom: 0px;
-          }
-          .banner {
-            background-color: green;
-            height: 90px;
           }
         </style>
     </head>
@@ -91,12 +87,6 @@ include ("php/check_active_session.php");
               <iframe src="http://www.sentimientomercado.com/manualcandlestick.pdf"></iframe>
 
             </div>
-            <div class="row">
-              <div class="banner">
-
-              </div>
-            </div>
-            <!-- /.row (main row) -->
 
           </section>
           <!-- /.content -->
